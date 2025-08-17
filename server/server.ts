@@ -1,9 +1,11 @@
 let counter = 0;
 
 function getCounts() {
-  setTimeout(() => {
-    counter++;
-    console.log(counter);
+  setInterval(() => {
+    if (counter < 5) {
+      counter++;
+      console.log(counter);
+    }
   }, 1000);
 }
 
