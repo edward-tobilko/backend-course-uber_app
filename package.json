@@ -1,11 +1,33 @@
 {
   "scripts": {
-    "dev": "ts watch server/server.ts",
+    "dev": "nodemon --watch server --ext ts --exec ts-node server/server.ts",
     "start": "ts server/server.ts"
   },
   "devDependencies": {
     "@types/node": "^24.3.0",
     "tsx": "^4.20.4",
     "typescript": "^5.9.2"
-  }
+  },
+  "name": "backend_curse",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "esbuild": "^0.25.9",
+    "get-tsconfig": "^4.10.1",
+    "resolve-pkg-maps": "^1.0.0",
+    "undici-types": "^7.10.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/edward-tobilko/backend-course.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/edward-tobilko/backend-course/issues"
+  },
+  "homepage": "https://github.com/edward-tobilko/backend-course#readme"
 }
