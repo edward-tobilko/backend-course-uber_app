@@ -17,7 +17,7 @@ const readFile = async (
   response: http.ServerResponse,
   filePath: string,
   contentType: string,
-  status = 200,
+  status: number,
 ): Promise<void> => {
   if (response.headersSent) return;
 
@@ -77,7 +77,7 @@ const server = http.createServer(async (request, response) => {
     case "/orders": {
       const file = path.join(PAGES_DIR, "orders.html");
 
-      await readFile(response, file, "text/html; charset=utf-8");
+      await readFile(response, file, "text/html; charset=utf-8", 200);
 
       return; // важливо, щоб не пішло далі
     }
@@ -85,8 +85,8 @@ const server = http.createServer(async (request, response) => {
     case "/items": {
       const file = path.join(PAGES_DIR, "items.html");
 
-      await delay(5000);
-      await readFile(response, file, "text/html; charset=utf-8");
+      await delay(3000);
+      await readFile(response, file, "text/html; charset=utf-8", 200);
 
       return; // важливо, щоб не пішло далі
     }
@@ -109,7 +109,7 @@ server.listen(3007, () =>
 );
 
 // ! ПОЯСНЕННЯ
-// ? Content-Type - у відповіді потрібен для того, щоб сказати браузеру чи клієнту, який саме формат даних ти йому відправляєш ( див. в network ).
+// ? Content-Type - це метадані, який ми відправляємо, щоб сказати браузеру чи клієнту, який саме формат даних ти йому відправляєш ( див. в network ).
 // ? fs — File System module у Node.js - дозволяє працювати з файлами: читати, записувати, створювати папки, перевіряти існування тощо.
 // ? buffer — це "сирі байти" файлу (наприклад, картинки або іконки), потім ми передаємо цей buffer прямо у res.end(buffer) і браузер отримує правильний файл.
 // ? npx autocannon -c 3 -d 5 http://localhost:3007/items - для перевірки асинхронності відкриття вкладок в браузері ( Тут -n 3 = 3 запити, -c 3 = одночасно. Всі три мають завершитися за ~5 сек. ). Тестується в терміналі!
