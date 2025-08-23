@@ -11,6 +11,6 @@
     "skipLibCheck": true,
     "types": ["node"] // підказки для Node API
   },
-  "include": ["server/**/*.ts", "theory/**/*.ts"], // ← важливо
+  "include": ["server/**/*.ts", "src/**/*.ts", "theory/**/*.ts"], // ← важливо
   "exclude": ["node_modules", "dist"]
 }
