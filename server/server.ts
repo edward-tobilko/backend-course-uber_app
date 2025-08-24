@@ -4,7 +4,13 @@ const app = express();
 const port = 3007;
 
 app.get("/", (req, res) => {
-  res.send("Orders");
+  let a = 5;
+
+  if (a > 7) {
+    res.send("Orders");
+  } else {
+    res.send("Items");
+  }
 });
 
 app.get("/items", (req, res) => {
