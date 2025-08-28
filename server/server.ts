@@ -4,7 +4,7 @@ const app = express();
 const port = 3007;
 
 app.get("/", (req, res) => {
-  let a = 10;
+  let a = 5;
   let b = 10;
 
   if (a > 7) {
