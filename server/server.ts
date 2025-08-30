@@ -7,7 +7,7 @@ app.get("/", (req, res) => {
   let a = 5;
   let b = 10;
 
-  if (a > 7) {
+  if (b > 7) {
     res.send("Orders");
   } else {
     res.send("Items");
