@@ -2,20 +2,24 @@
   "name": "backend_course",
   "version": "1.0.0",
   "description": "",
-  "main": "server.ts",
   "type": "commonjs",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
-    "dev": "nodemon --watch server --ext ts,tsx --exec \"tsx server/server.ts\"",
-    "debug": "nodemon --watch server --ext ts,tsx --exec \"node --inspect=127.0.0.1:9229 --import tsx server/server.ts\"",
-    "build": "rimraf dist && tsc -p tsconfig.json",
-    "start": "node dist/server/server.js"
+    "dev": "NODE_OPTIONS=--enable-source-maps nodemon --watch src --ext ts --exec \"tsx src/server.ts\"",
+    "build": "rimraf dist && tsc -p tsconfig.build.json",
+    "start": "NODE_ENV=production node dist/server.js",
+    "debug:build": "NODE_OPTIONS='--enable-source-maps --inspect=9229' node dist/server.js"
   },
   "dependencies": {
+    "dotenv": "^17.2.2",
     "esbuild": "^0.25.9",
     "express": "^5.1.0",
     "get-tsconfig": "^4.10.1",
     "resolve-pkg-maps": "^1.0.0",
-    "undici-types": "^7.10.0"
+    "undici-types": "^7.10.0",
+    "zod": "^4.1.5"
   },
   "devDependencies": {
     "@types/express": "^5.0.3",
