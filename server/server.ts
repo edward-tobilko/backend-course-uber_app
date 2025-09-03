@@ -17,7 +17,7 @@ const readFile = async (
   response: http.ServerResponse,
   filePath: string,
   contentType: string,
-  status: number,
+  status: number
 ): Promise<void> => {
   if (response.headersSent) return;
 
@@ -105,7 +105,7 @@ const server = http.createServer(async (request, response) => {
 });
 
 server.listen(3007, () =>
-  console.log("Server running on http://localhost:3007"),
+  console.log("Server running on http://localhost:3007")
 );
 
 // ! ПОЯСНЕННЯ
