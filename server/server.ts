@@ -8,7 +8,7 @@ let requestsCount = 0;
 const COUNTABLE = new Set(["/", "/orders", "/items"]); // що рахуємо
 
 // *Базові теки
-const ROOT = path.join(__dirname, "..");
+const ROOT = process.cwd();
 const PUBLIC_DIR = path.join(ROOT, "public");
 const PAGES_DIR = path.join(ROOT, "src", "pages");
 
