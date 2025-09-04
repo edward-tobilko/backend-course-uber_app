@@ -57,7 +57,7 @@ npm start
   "scripts": {
     "build": "rimraf dist && tsc -p tsconfig.json",
     "start": "node dist/server/server.js",
-    "dev": "nodemon --watch server --ext ts,tsx --exec \"tsx server/server.ts\""
+    "dev": "tsx watch server/server.ts"
   }
 }
 ```
