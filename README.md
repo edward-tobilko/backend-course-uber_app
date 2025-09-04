@@ -1,33 +1,30 @@
 # Backend Course – Express + TypeScript Setup
 
-## 🚀 Запуск у режимі розробки - yarn dev:
+## 🚀 Launch in development mode - yarn dev:
+Uses nodemon + tsx.
+Automatic restart when .ts files change.
+TypeScript is executed directly without building into dist/.
 
-Використовується nodemon + tsx.
-Автоматичний рестарт при зміні .ts файлів.
-TypeScript виконується напряму без збірки у dist/.
+## 🐞 Run with debugger – yarn debug:
+Starts the server with --inspect (port 9229).
+You can connect Chrome DevTools (chrome://inspect) or VS Code.
+Breakpoints work directly in .ts files.
 
-## 🐞 Запуск з дебагером - yarn debug:
+## 📦 Production mode - yarn build and yarn start:
 
-Запускає сервер з --inspect (порт 9229).
-Можна підключати Chrome DevTools (chrome://inspect) або VS Code.
-Breakpoints працюють напряму у .ts.
+**build** – compiles TypeScript into dist/.
+**start** – runs the compiled JS through Node.
+Used only in production, without nodemon and without debugger.а.
 
-## 📦 Продакшн-режим - yarn build and yarn start:
-
-**build** - компілює TypeScript у dist/.
-**start** - запускає готовий JS через Node.
-Використовується тільки у продакшн, без nodemon і без дебага.
-
-## 🛠 Структура:
+## 🛠 Structure:
 
 ```typescript
 backend_course/
- ├── server/        # вихідні .ts файли (точка входу: server.ts)
- ├── src/           # додаткові модулі/сторінки
- ├── dist/          # згенерований JS (створюється після build)
- ├── package.json   # скрипти та залежності
- └── tsconfig.json  # налаштування TypeScript
-
+ ├── server/        # source .ts files (entry point: server.ts)
+ ├── src/           # additional modules/pages
+ ├── dist/          # generated JS (created after build)
+ ├── package.json   # scripts and dependencies
+ └── tsconfig.json  # TypeScript configuration
 ```
 
-- **rimraf** - видаля старий dist та пушить відразу новий, за доп. yarn build.
+- **rimraf** - deletes the old dist and generates a new one when running yarn build.
