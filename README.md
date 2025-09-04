@@ -12,8 +12,9 @@ Breakpoints work directly in .ts files.
 
 ## 📦 Production mode - yarn build and yarn start:
 
-**build** – compiles TypeScript into dist/.
-**start** – runs the compiled JS through Node.
+- **build** – compiles TypeScript into dist/.
+- **start** – runs the compiled JS through Node.
+
 Used only in production, without nodemon and without debugger.а.
 
 ## 🛠 Structure:
