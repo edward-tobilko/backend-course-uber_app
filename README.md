@@ -13,4 +13,6 @@ yarn install
 ```
 
 ### Режим розробки
-```bash yarn dev ```
+```bash 
+yarn dev
+```
