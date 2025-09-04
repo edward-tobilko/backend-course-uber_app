@@ -25,6 +25,7 @@ yarn debug
 ### Збірка та продакшн
 ```bash
 yarn build
+yarn start
 ```
 
 #### Сервер запускається за замовчуванням на http://localhost:3007/courses.
