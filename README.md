@@ -1,66 +1,66 @@
 # 📘 Backend Course – Express REST API
 
-Навчальний проєкт на **Node.js + Express + TypeScript**, який демонструє, як побудувати REST API з CRUD-операціями.  
-Ідеально підходить як стартова база для власних бекенд-проєктів.
+A ***Node.js + Express + TypeScript*** learning project that demonstrates how to build a REST API with CRUD operations.
+It is ideal as a starting point for your own backend projects.
 
 ---
 
-## 📦 Встановлення та запуск
+## 📦 Installation and launch
 ```bash
 git clone https://github.com/edward-tobilko/backend-course.git
 cd backend-course
 yarn install
 ```
 
-### Режим розробки
+### Development mode
 ```bash
 yarn dev
 ```
 
-### Debug-режим
+### Debug-mode
 ```bash
 yarn debug
 ```
 
-### Збірка та продакшн
+### Compilation and production
 ```bash
 yarn build
 yarn start
 ```
 
-#### Сервер запускається за замовчуванням на http://localhost:3007/courses.
+#### The server starts by default on http://localhost:3007/courses.
 
-## 📌 API Маршрути
+## 📌 API Routes
 Courses
-- GET /courses – отримати всі курси (фільтрація за ?name=)
-- GET /courses/:id – отримати курс за ID
-- POST /courses – створити новий курс ({ "name": "front-end" })
-- PUT /courses/:id – повне оновлення курсу
-- PATCH /courses/:id – часткове оновлення курсу (поле name)
-- DELETE /courses/:id – видалити курс
+- GET /courses – get all courses (filtering by ?name=)
+- GET /courses/:id – get a course by ID
+- POST /courses – create a new course ({ "name": "front-end" })
+- PUT /courses/:id – complete course update
+- PATCH /courses/:id – partially update a course (name field)
+- DELETE /courses/:id – delete a course
 
 ### 📂 Структура проєкту
 ```typescript
 backend_course/
- ├── server.ts          # Головний файл сервера
- ├── package.json       # Скрипти та залежності
- ├── tsconfig.json      # Конфіг TypeScript
- ├── yarn.lock          # Версії залежностей
- ├── dist/              # Зібрані файли (після build)
- └── node_modules/      # Залежності
+ ├── server.ts          # Main server file
+ ├── package.json       # Scripts and dependencies
+ ├── tsconfig.json      # TypeScript config
+ ├── yarn.lock          # Dependency versions
+ ├── dist/              # Built files (after build)
+ └── node_modules/      # Dependencies
 ```
 
-### ⚙️ Технології
-- express@5.1.0 – веб-фреймворк
-- typescript@5.9.2 – типізація
-- nodemon + tsx – гарячий перезапуск у dev
-- rimraf – очищення dist перед збіркою
+### ⚙️ Technologies
+- express@5.1.0 – web framework
+- typescript@5.9.2 – typification
+- nodemon + tsx – hot restart at dev
+- rimraf – cleaning dist before assembly
 
-### 📖 Примітки
-- Код написаний у стилі модульного API з CRUD.
-- Використовується статична in-memory база (dataBase), замість справжньої БД.
-- Можна легко адаптувати під PostgreSQL/MongoDB.
+### 📖 Notes
+- The code is written in the style of a modular API with CRUD.
+- A static in-memory database (dataBase) is used instead of a real database.
+- It can be easily adapted to PostgreSQL/MongoDB.
 
-### 📖 Автор
+### 📖 Author
 eduard.tobilko
 #### 🔗 [GitHub] - https://github.com/edward-tobilko
