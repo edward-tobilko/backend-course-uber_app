@@ -19,12 +19,13 @@ yarn dev
 
 ### Debug-режим
 ```bash
-yarn debug
+yarn debug:build
 ```
 
 ### Збірка та продакшн
 ```bash
 yarn build
+yarn start
 ```
 
 #### Сервер запускається за замовчуванням на http://localhost:3007/courses.
