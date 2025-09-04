@@ -62,4 +62,4 @@ backend_course/
 
 ### 📖 Автор
 eduard.tobilko
-🔗 [GitHub] https://edward-tobilko.github.io
+#### 🔗 [GitHub] - https://github.com/edward-tobilko
