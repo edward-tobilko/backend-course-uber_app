@@ -1,107 +1,107 @@
 # 📘 Backend Course – Express REST API
 
-Навчальний проєкт на **Node.js + Express + TypeScript**, який демонструє, як побудувати REST API з CRUD-операціями.  
-Ідеально підходить як стартова база для власних бекенд-проєктів.
+A training project on **Node.js + Express + TypeScript** that demonstrates how to build a REST API with CRUD operations.
+It is ideal as a starting point for your own backend projects.
 
 ---
 
-## 📦 Встановлення та запуск
+## 📦 Installation and launch
 ```bash
 git clone https://github.com/edward-tobilko/backend-course.git
 cd backend-course
 yarn install
 ```
 
-### Режим розробки
+### Development mode
 ```bash
 yarn dev
 ```
 
-### Debug-режим
+### Debug-mode
 ```bash
 yarn debug:build
 ```
 
-### Збірка та продакшн
+### Compilation and production
 ```bash
 yarn build
 yarn start
 ```
 
-#### Сервер запускається за замовчуванням на http://localhost:3007/courses.
+#### The server starts by default on http://localhost:3007/courses.
 
-## 📌 API Маршрути
+## 📌 API routes
 Courses
-- GET /courses – отримати всі курси (фільтрація за ?name=)
-- GET /courses/:id – отримати курс за ID
-- POST /courses – створити новий курс ({ "name": "front-end" })
-- PUT /courses/:id – повне оновлення курсу
-- PATCH /courses/:id – часткове оновлення курсу (поле name)
-- DELETE /courses/:id – видалити курс
+- GET /courses – get all courses (filtering by ?name=)
+- GET /courses/:id – get a course by ID
+- POST /courses – create a new course ({ "name": "front-end" })
+- PUT /courses/:id – complete course update
+- PATCH /courses/:id – partially update a course (name field)
+- DELETE /courses/:id – delete a course
 
-### 📂 Структура проєкту
+### 📂 Project structure
 ```typescript
 src/
- ├── __tests__/               # E2E та юніт-тести
+ ├── __tests__/               # E2E and unit-tests
  │   └── courses.e2e.test.ts
  │
- ├── config/                  # Налаштування середовища
+ ├── config/                  # Environment settings
  │   └── env.ts
  │
- ├── controllers/             # Контролери (приймають HTTP-запити)
+ ├── controllers/             # Controllers (accept HTTP requests)
  │   └── courses.controller.ts
  │
- ├── db/                      # In-memory база або підключення до БД
+ ├── db/                      # In-memory db or connection to a db
  │   └── courses.db.ts
  │
- ├── middlewares/             # Middleware (валидація, логування, помилки)
+ ├── middlewares/             # Middleware (validation, logging, errors)
  │   └── courses.middleware.ts
  │
- ├── repositories/            # Репозиторії (робота з даними)
+ ├── repositories/            # Repositories (working with data)
  │   └── courses.repo.ts
  │
- ├── routes/                  # Роутери (шляхи API)
+ ├── routes/                  # Routers (routes API)
  │   └── courses.route.ts
  │
- ├── services/                # Бізнес-логіка
+ ├── services/                # Business logic (BLL)
  │   └── courses.service.ts
  │
- ├── types/                   # Типи TypeScript
+ ├── types/                   # TypeScript
  │   ├── course.types.ts
  │   └── index.d.ts
  │
- ├── utils/                   # Утиліти
+ ├── utils/                   # Utils
  │   ├── http-codes.ts
  │   ├── logger.ts
  │   └── normalize.ts
  │
- ├── validators/              # Валідація даних
+ ├── validators/              # Data validation
  │   └── courses.schema.ts
  │
- ├── app.ts                   # Ініціалізація застосунку Express
- └── server.ts                # Точка входу (start server)
+ ├── app.ts                   # Initialization of the Express application
+ └── server.ts                # Entry point (start server)
 
-theory/                       # Навчальні матеріали/чернетки
-.env.example                  # Приклад змінних середовища
-.gitignore                    # Ігноровані файли
-eslint.config.js              # Налаштування ESLint
-package.json                  # Залежності та скрипти
-tsconfig.json                 # Конфіг TypeScript
-tsconfig.build.json           # Конфіг для збірки
-yarn.lock                     # Версії залежностей
+theory/                       # Learning materials/drafts
+.env.example                  # Example environment variables
+.gitignore                    # Ignored files
+eslint.config.js              # ESLint settings
+package.json                  # Dependencies and scripts
+tsconfig.json                 # TypeScript config
+tsconfig.build.json           # Build config
+yarn.lock                     # Dependency versions
 ```
 
-### ⚙️ Технології
-- express@5.1.0 – веб-фреймворк
-- typescript@5.9.2 – типізація
-- nodemon + tsx – гарячий перезапуск у dev
-- rimraf – очищення dist перед збіркою
+### ⚙️ Technologies
+- express@5.1.0 – web framework
+- typescript@5.9.2 – typing
+- nodemon + tsx – hot restart in dev
+- rimraf – cleaning dist before building
 
-### 📖 Примітки
-- Код написаний у стилі модульного API з CRUD.
-- Використовується статична in-memory база (dataBase), замість справжньої БД.
-- Можна легко адаптувати під PostgreSQL/MongoDB.
+### 📖 Notes
+- The code is written in the style of a modular API with CRUD.
+- A static in-memory database (dataBase) is used instead of a real database.
+- It can be easily adapted to PostgreSQL/MongoDB.
 
-### 📖 Автор
+### 📖 Author
 eduard.tobilko
 #### 🔗 [GitHub] - https://github.com/edward-tobilko
