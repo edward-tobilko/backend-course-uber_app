@@ -15,7 +15,7 @@ Breakpoints work directly in .ts files.
 - **build** – compiles TypeScript into dist/.
 - **start** – runs the compiled JS through Node.
 
-Used only in production, without nodemon and without debugger.а.
+Used only in production, without nodemon and without debugger.
 
 ## 🛠 Structure:
 
