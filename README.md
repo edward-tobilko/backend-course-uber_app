@@ -16,3 +16,15 @@ yarn install
 ```bash 
 yarn dev
 ```
+
+### Debug-режим
+```bash
+yarn debug
+```
+
+### Збірка та продакшн
+```bash
+yarn build
+```
+
+#### Сервер запускається за замовчуванням на http://localhost:3007.
