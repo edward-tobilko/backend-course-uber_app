@@ -14,10 +14,5 @@
     "forceConsistentCasingInFileNames": true,
     "paths": { "@/*": ["./*"] }
   },
-<<<<<<< HEAD
-  "include": ["server/**/*.ts", "src/**/*.ts", "theory/**/*.ts"], // ← важливо
-  "exclude": ["node_modules", "dist"]
-=======
   "include": ["src"] // ← важливо
->>>>>>> express-rest_api-lesson-3.2
 }

@@ -1,18 +1,4 @@
 {
-<<<<<<< HEAD
-  "scripts": {
-    "build": "rimraf dist && tsc -p tsconfig.json",
-    "start": "node dist server/server.ts",
-    "dev": "nodemon --watch server --ext ts,tsx --exec \"tsx server/server.ts\""
-  },
-  "devDependencies": {
-    "@types/node": "^24.3.0",
-    "rimraf": "^6.0.1",
-    "tsx": "^4.20.4",
-    "typescript": "^5.9.2"
-  },
-=======
->>>>>>> express-rest_api-lesson-3.2
   "name": "backend_course",
   "version": "1.0.0",
   "description": "",

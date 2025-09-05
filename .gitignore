@@ -18,10 +18,6 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 *.log
-<<<<<<< HEAD
-coverage
-.vscode
-=======
 
 # Environment variables
 .env
@@ -57,4 +53,3 @@ coverage/
 # coverage/ — результати тестів (Jest, Mocha тощо).
 # .log, *.tmp, *.swp — тимчасові та дебаг-файли.
 # .src/pages/orders.html - якщо ми хочемо, щоб якийсь файл не відстежувався та не потрапляв на github.
->>>>>>> express-rest_api-lesson-3.2
