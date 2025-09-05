@@ -25,59 +25,9 @@ yarn build
 yarn start
 ```
 
-#### The server starts by default on http://localhost:3007/courses or https://backend-course-0wnd.onrender.com/
-
-### 📂 Project structure
-```typescript
-src/
- ├── __tests__/               # E2E and unit-tests
- │   └── courses.e2e.test.ts
- │
- ├── config/                  # Environment settings
- │   └── env.ts
- │
- ├── controllers/             # Controllers (accept HTTP requests)
- │   └── courses.controller.ts
- │
- ├── db/                      # In-memory db or connection to a db
- │   └── courses.db.ts
- │
- ├── middlewares/             # Middleware (validation, logging, errors)
- │   └── courses.middleware.ts
- │
- ├── repositories/            # Repositories (working with data)
- │   └── courses.repo.ts
- │
- ├── routes/                  # Routers (routes API)
- │   └── courses.route.ts
- │
- ├── services/                # Business logic (BLL)
- │   └── courses.service.ts
- │
- ├── types/                   # TypeScript
- │   ├── course.types.ts
- │   └── index.d.ts
- │
- ├── utils/                   # Utils
- │   ├── http-codes.ts
- │   ├── logger.ts
- │   └── normalize.ts
- │
- ├── validators/              # Data validation
- │   └── courses.schema.ts
- │
- ├── app.ts                   # Initialization of the Express application
- └── server.ts                # Entry point (start server)
-
-theory/                       # Learning materials/drafts
-.env.example                  # Example environment variables
-.gitignore                    # Ignored files
-eslint.config.js              # ESLint settings
-package.json                  # Dependencies and scripts
-tsconfig.json                 # TypeScript config
-tsconfig.build.json           # Build config
-yarn.lock                     # Dependency versions
-```
+#### The server starts by default -> http://localhost:3007
+or 
+#### Render hosting -> https://backend-course-0wnd.onrender.com
 
 ### ⚙️ Tech Stack
 - Express
@@ -86,6 +36,8 @@ yarn.lock                     # Dependency versions
 - cross-env + TSX
 - rimraf
 - dotenv
+- zod
+- rimraf
 
 ### 📖 Author
 eduard.tobilko
