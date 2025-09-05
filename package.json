@@ -3,31 +3,26 @@
   "version": "1.0.0",
   "description": "",
   "type": "commonjs",
-  "engines": {
-    "node": ">=20"
-  },
+  "engines": { "node": ">=20" },
   "scripts": {
-    "dev": "NODE_OPTIONS=--enable-source-maps nodemon --watch src --ext ts --exec \"tsx src/server.ts\"",
+    "dev": "cross-env NODE_OPTIONS=--enable-source-maps tsx watch src/server.ts",
     "build": "rimraf dist && tsc -p tsconfig.build.json",
-    "start": "NODE_ENV=production node dist/server.js",
-    "debug:build": "NODE_OPTIONS='--enable-source-maps --inspect=9229' node dist/server.js"
+    "start": "cross-env NODE_ENV=production node dist/server.js",
+    "debug:build": "yarn build && cross-env NODE_OPTIONS='--enable-source-maps --inspect=9229' node dist/server.js"
   },
   "dependencies": {
-    "dotenv": "^17.2.2",
-    "esbuild": "^0.25.9",
     "express": "^5.1.0",
-    "get-tsconfig": "^4.10.1",
-    "resolve-pkg-maps": "^1.0.0",
-    "undici-types": "^7.10.0",
-    "zod": "^4.1.5"
+    "zod": "^4.1.5",
+    "dotenv": "^16.4.5"
   },
   "devDependencies": {
     "@types/express": "^5.0.3",
     "@types/node": "^24.3.0",
-    "nodemon": "^3.1.0",
+    "cross-env": "^10.0.0",
     "rimraf": "^6.0.1",
     "tsx": "^4.20.4",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.2",
+    "nodemon": "^3.1.0"
   },
   "repository": {
     "type": "git",
@@ -36,8 +31,6 @@
   "keywords": [],
   "author": "eduard.tobilko",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/edward-tobilko/backend-course/issues"
-  },
+  "bugs": { "url": "https://github.com/edward-tobilko/backend-course/issues" },
   "homepage": "https://github.com/edward-tobilko/backend-course#readme"
 }
