@@ -25,6 +25,7 @@ pnpm-debug.log*
 .env.development.local
 .env.test.local
 .env.production.local
+.env.*.local
 
 # IDE / OS
 .vscode/
@@ -39,6 +40,9 @@ coverage/
 *.tmp
 *.swp
 *.swo
+
+# Comments
+package.comment.md
 
 # If needed
 ### .yarn.lock
