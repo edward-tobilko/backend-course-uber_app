@@ -14,7 +14,7 @@ const server = createServer(app);
 
 // ? method GET
 app.get(
-  "/courses",
+  ["/", "/courses"],
   (req: Request<{}, {}, {}, { name: string }>, res: Response) => {
     let filteredCourses = dataBase.courses;
 
