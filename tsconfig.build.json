@@ -1,10 +1,12 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
+    "rootDir": "src",
     "outDir": "dist",
     "module": "CommonJS",
-    "moduleResolution": "Node",
-    "sourceMap": true
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "inlineSources": true
   },
-  "exclude": ["**/__tests__/**"]
+  "exclude": ["**/__tests__/**", "dist", "node_modules"]
 }
