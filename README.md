@@ -1,7 +1,4 @@
-# 📘 Backend Course – Express REST API
-
-A training project on **Node.js + Express + TypeScript** that demonstrates how to build a REST API with CRUD operations.
-It is ideal as a starting point for your own backend projects.
+# 📘 Backend Course
 
 ---
 
@@ -28,16 +25,7 @@ yarn build
 yarn start
 ```
 
-#### The server starts by default on http://localhost:3007/courses.
-
-## 📌 API routes
-Courses
-- GET /courses – get all courses (filtering by ?name=)
-- GET /courses/:id – get a course by ID
-- POST /courses – create a new course ({ "name": "front-end" })
-- PUT /courses/:id – complete course update
-- PATCH /courses/:id – partially update a course (name field)
-- DELETE /courses/:id – delete a course
+#### The server starts by default on http://localhost:3007/courses or https://backend-course-0wnd.onrender.com/
 
 ### 📂 Project structure
 ```typescript
@@ -91,17 +79,15 @@ tsconfig.build.json           # Build config
 yarn.lock                     # Dependency versions
 ```
 
-### ⚙️ Technologies
-- express@5.1.0 – web framework
-- typescript@5.9.2 – typing
-- nodemon + tsx – hot restart in dev
-- rimraf – cleaning dist before building
-
-### 📖 Notes
-- The code is written in the style of a modular API with CRUD.
-- A static in-memory database (dataBase) is used instead of a real database.
-- It can be easily adapted to PostgreSQL/MongoDB.
+### ⚙️ Tech Stack
+- Express
+- Node >= 20v
+- TypeScript
+- cross-env + TSX
+- rimraf
+- dotenv
 
 ### 📖 Author
 eduard.tobilko
+
 #### 🔗 [GitHub] - https://github.com/edward-tobilko
