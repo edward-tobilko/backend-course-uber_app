@@ -27,7 +27,7 @@ yarn start
 
 #### The server starts by default -> http://localhost:3007
 or 
-#### Render hosting -> https://backend-course-0wnd.onrender.com
+#### "Render" hosting -> https://backend-course-0wnd.onrender.com
 
 ### ⚙️ Tech Stack
 - Express
@@ -37,7 +37,6 @@ or
 - rimraf
 - dotenv
 - zod
-- rimraf
 
 ### 📖 Author
 eduard.tobilko
