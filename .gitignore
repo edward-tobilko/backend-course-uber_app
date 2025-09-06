@@ -40,6 +40,8 @@ coverage/
 *.swp
 *.swo
 
+package.comment.md
+
 # If needed
 ### .yarn.lock
 ### .package-lock.json
