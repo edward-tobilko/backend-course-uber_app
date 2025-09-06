@@ -162,7 +162,7 @@ app.patch(
   }
 );
 
-server.listen(env.PORT, () => {
+server.listen(env.PORT, env.HOST, () => {
   console.log(`Server running on http://localhost:${env.PORT}`);
 });
 
