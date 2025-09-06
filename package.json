@@ -7,10 +7,9 @@
     "node": ">=20"
   },
   "scripts": {
-    "dev": "cross-env NODE_OPTIONS=--enable-source-maps tsx watch src/server.ts",
     "build": "rimraf dist && tsc -p tsconfig.build.json",
     "start": "cross-env NODE_ENV=production node dist/server.js",
-    "debug:build": "yarn build && cross-env NODE_OPTIONS='--enable-source-maps --inspect=9229' node dist/server.js"
+    "dev": "nodemon --watch src --ext ts,tsx --exec \"node --inspect=9229 --import tsx src/server.ts\""
   },
   "dependencies": {
     "express": "^5.1.0",
