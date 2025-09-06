@@ -5,7 +5,13 @@ const schema = z.object({
   NODE_ENV: z
     .enum(["development", "test", "production"])
     .default("development"),
-  PORT: z.coerce.number().default(3007),
+  PORT: z.coerce.number().default(3007), // Render задає PORT як строку -> перетворюємо в число. Якщо немає — 3007
+  HOST: z.string().default("0.0.0.0"), // Хост для прослуховування: на хостингу обов'язково 0.0.0.0
+  SWAGGER: z // опційно: прапорець для Swagger у проді
+    .string()
+    .optional()
+    .transform((v) => v === "true")
+    .default(false),
 });
 
 export const env = schema.parse(process.env);
@@ -18,3 +24,10 @@ export const env = schema.parse(process.env);
 // * 2. Гарантувати типи: з однієї схеми отримуєш і рантайм-валідацію, і TS-тип через z.infer.
 
 // * Документація: https://zod.dev
+
+// * swagger (зараз його офіційна назва OpenAPI) - це інструмент і специфікація для опису REST API у стандартизованому форматі.
+// * Swagger сторінка виглядатиме десь так:
+// * - GET /courses
+// * - POST /courses
+// * - PUT /courses/{id}
+// * - DELETE /courses/{id}
