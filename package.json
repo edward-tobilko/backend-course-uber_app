@@ -1,9 +1,11 @@
 {
   "name": "backend_course",
   "version": "1.0.0",
-  "description": "",
+  "description": "Express REST API backend course pet-project",
   "type": "commonjs",
-  "engines": { "node": ">=20" },
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "dev": "cross-env NODE_OPTIONS=--enable-source-maps tsx watch src/server.ts",
     "build": "rimraf dist && tsc -p tsconfig.build.json",
@@ -31,6 +33,8 @@
   "keywords": [],
   "author": "eduard.tobilko",
   "license": "ISC",
-  "bugs": { "url": "https://github.com/edward-tobilko/backend-course/issues" },
+  "bugs": {
+    "url": "https://github.com/edward-tobilko/backend-course/issues"
+  },
   "homepage": "https://github.com/edward-tobilko/backend-course#readme"
 }
