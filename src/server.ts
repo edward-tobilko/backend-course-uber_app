@@ -28,21 +28,24 @@ app.get(
   }
 );
 
-app.get(`/courses/:id`, (req: Request<{ id: number }>, res: Response) => {
-  const foundCourse = dataBase.courses.find(
-    (course) => course.courseId === +req.params.id
-  );
+app.get(
+  `/courses/:courseId`,
+  (req: Request<{ courseId: number }>, res: Response) => {
+    const foundCourse = dataBase.courses.find(
+      (course) => course.courseId === +req.params.courseId
+    );
 
-  if (!foundCourse) {
-    return res.sendStatus(HTTP_CODES.NOT_FOUND_404);
+    if (!foundCourse) {
+      return res.sendStatus(HTTP_CODES.NOT_FOUND_404);
+    }
+
+    res.status(HTTP_CODES.OK_200).json(foundCourse);
   }
-
-  res.status(HTTP_CODES.OK_200).json(foundCourse);
-});
+);
 
 // ? method POST
 app.post(`/courses`, (req: Request<{ name: string }>, res: Response) => {
-  const { name } = req.body ?? {};
+  const { name } = req.body ?? {}; // короткий і безпечний спосіб дістати name з тіла запиту, навіть якщо клієнт не передав body
 
   if (!name) return res.sendStatus(HTTP_CODES.BAD_REQUEST_400);
 
@@ -58,35 +61,32 @@ app.post(`/courses`, (req: Request<{ name: string }>, res: Response) => {
 
   dataBase.courses.push(newCourse);
 
-  log(newCourse);
+  log(newCourse); // див в термінал
 
   res.status(HTTP_CODES.CREATED_201).json(newCourse);
 });
 
 // ? method DELETE
 app.delete("/courses/:id", (req: Request<{ id: number }>, res: Response) => {
-  const id = +req.params.id;
-
   // знаходимо індекс курсу, якого ми хочемо видалити
-  const index = dataBase.courses.findIndex((index) => index.courseId === id);
+  for (let index = 0; index < dataBase.courses.length; index++) {
+    let course = dataBase.courses[index];
 
-  // перевіряємо, якщо курс не знайдено
-  if (index === -1) {
-    return res
-      .status(HTTP_CODES.NOT_FOUND_404)
-      .json({ message: `Course with id=${id} not found` });
+    if (course.courseId === +req.params.id) {
+      // видаляємо один елемент
+      const [deletedCourse] = dataBase.courses.splice(index, 1);
+
+      // повертаємо підтвердження
+      return res.status(HTTP_CODES.OK_200).json({
+        Message: `Course id=${+req.params.id} deleted successfully`,
+        deleted: deletedCourse,
+      });
+    }
   }
 
-  // видаляємо один елемент
-  const [deletedCourse] = dataBase.courses.splice(index, 1);
-
-  // повертаємо підтвердження
-  res
-    .status(HTTP_CODES.OK_200) // ok
-    .json({
-      message: `Course id=${id} deleted successfully`,
-      deleted: deletedCourse,
-    });
+  return res
+    .status(HTTP_CODES.NOT_FOUND_404)
+    .json({ message: `Course with id=${+req.params.id} not found` });
 });
 
 // ? method UPDATE
@@ -97,8 +97,6 @@ app.put(
 
     // знаходимо індекс курсу, якого ми хочемо обновити
     const index = dataBase.courses.findIndex((index) => index.courseId === id);
-
-    log(index);
 
     // перевіряємо, якщо курс не знайдено
     if (index === -1) {
