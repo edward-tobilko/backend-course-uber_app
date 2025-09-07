@@ -133,15 +133,13 @@ app.patch(
     // знаходимо обʼєкт (курс), який ми будемо оновляти
     const course = dataBase.courses.find((course) => course.courseId === id);
 
-    log(course);
-
     // перевіряємо, якщо обʼєкт не знайдено
     if (!course)
       return res
         .status(HTTP_CODES.NOT_FOUND_404)
         .json({ message: `Course with id=${id} not found` });
 
-    // отримуємо нову строку
+    // отримуємо нову строку з валідацією
     const raw = normalizeCourseName(req.body.name);
 
     // перевіряємо на валідність нову строку
