@@ -24,10 +24,3 @@ export const env = schema.parse(process.env);
 // * 2. Гарантувати типи: з однієї схеми отримуєш і рантайм-валідацію, і TS-тип через z.infer.
 
 // * Документація: https://zod.dev
-
-// * swagger (зараз його офіційна назва OpenAPI) - це інструмент і специфікація для опису REST API у стандартизованому форматі.
-// * Swagger сторінка виглядатиме десь так:
-// * - GET /courses
-// * - POST /courses
-// * - PUT /courses/{id}
-// * - DELETE /courses/{id}
