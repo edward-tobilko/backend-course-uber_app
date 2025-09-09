@@ -7,7 +7,7 @@ import { createApp } from "./app";
 import { HTTP_CODES } from "./utils/http-codes";
 import { normalizeDriverName } from "./utils/normalize";
 import { dataBase } from "./db/drivers.db";
-import { Driver, DriversName } from "./types/drivers.types";
+import { Driver, DriversName, DriverStatus } from "./types/drivers.types";
 
 const app = createApp();
 const server = createServer(app);
@@ -45,7 +45,7 @@ app.get(
 );
 
 // ? method POST
-app.post(`/drivers`, (req: Request<{ name: string }>, res: Response) => {
+app.post(`/drivers`, (req: Request<{}>, res: Response) => {
   // const { name } = req.body ?? {}; // короткий і безпечний спосіб дістати name з тіла запиту, навіть якщо клієнт не передав body
 
   // if (!name) return res.sendStatus(HTTP_CODES.BAD_REQUEST_400);
@@ -60,8 +60,8 @@ app.post(`/drivers`, (req: Request<{ name: string }>, res: Response) => {
     driverId: dataBase.drivers.length
       ? dataBase.drivers[dataBase.drivers.length - 1].driverId + 1
       : 1,
-    status: "online",
-    createdAt: +new Date(),
+    status: DriverStatus.Online,
+    createdAt: new Date(),
     ...req.body,
   };
 
