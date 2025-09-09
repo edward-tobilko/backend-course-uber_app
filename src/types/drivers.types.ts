@@ -7,8 +7,8 @@ export type DriversName = "" | "" | "" | "";
 
 export interface Driver {
   driverId: number;
-  status: string;
-  createdAt: number;
+  status: DriverStatus;
+  createdAt: Date;
 }
 
 export interface DataBase {
