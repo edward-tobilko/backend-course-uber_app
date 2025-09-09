@@ -1,3 +1,8 @@
+export enum DriverStatus {
+  Online = "online",
+  Offline = "offline",
+}
+
 export type DriversName = "" | "" | "" | "";
 
 export interface Driver {
