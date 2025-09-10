@@ -4,7 +4,6 @@ import { log } from 'node:console';
 import { dataBase } from './db/mock-drivers.db';
 import { Driver } from '@/types/drivers.types';
 import { HTTP_STATUS_CODES } from './utils/http-codes';
-import { vehicleInputDtoValidation } from './config/driverValidation';
 // import { driverSchema } from './config/driver.schema';
 
 export const setupApp = (app: Express) => {
