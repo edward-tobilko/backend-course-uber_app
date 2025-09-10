@@ -2,9 +2,9 @@ import express, { Express, Request, Response } from 'express';
 import { log } from 'node:console';
 
 import { dataBase } from './db/mock-drivers.db';
-import { Driver } from '@/types/drivers.types';
+import { Driver } from '@/types/driver.types';
 import { HTTP_STATUS_CODES } from './utils/http-codes';
-// import { driverSchema } from './config/driver.schema';
+import { driverCreateSchema, type DriverDTO } from './validation/driver.schema';
 
 export const setupApp = (app: Express) => {
   app.use(express.json()); // * middleware для парсинга JSON в теле запроса
@@ -37,44 +37,32 @@ export const setupApp = (app: Express) => {
   // ? method POST
   app.post(`/drivers`, (req: Request<{}>, res: Response) => {
     // * проверяем приходящие данные на валидность
+    const parsed = driverCreateSchema.safeParse(req.body);
 
-    // // Защита от undefined/null/не-объекта
-    // if (!req.body || typeof req.body !== 'object') {
-    //   return res
-    //     .status(HTTP_STATUS_CODES.BAD_REQUEST_400)
-    //     .json({ message: 'Request body must be a JSON object' });
-    // }
+    if (!parsed.success) {
+      return res
+        .status(HTTP_STATUS_CODES.BAD_REQUEST_400)
+        .json({ errors: parsed.error.format() });
+    }
+
+    log(parsed); // смотрим на нашь обьект
+
+    // * проверяем есть ли хоть один элемент в массиве и если массив не пустой ? берем последний елемент, смотрим его driverId  и добавляем + 1 : а иначе возвращаем 1 (будет первый id).
+    const nextId = dataBase.drivers.length
+      ? dataBase.drivers[dataBase.drivers.length - 1].id + 1
+      : 1;
 
     // * создаем нового водителя
-    const newDriver: Driver = {
-      // * проверяем есть ли хоть один элемент в массиве и если массив не пустой ? берем последний елемент, смотрим его driverId  и добавляем + 1 : а иначе возвращаем 1 (будет первый id).
-      id: dataBase.drivers.length
-        ? dataBase.drivers[dataBase.drivers.length - 1].id + 1
-        : 1,
-      name: req.body.name,
-      phoneNumber: req.body.phoneNumber,
-      email: req.body.email,
-      vehicleMake: req.body.vehicleMake,
-      vehicleModel: req.body.vehicleModel,
-      vehicleYear: req.body.vehicleYear,
-      vehicleLicensePlate: req.body.vehicleLicensePlate,
-      vehicleDescription: req.body.vehicleDescription,
-      vehicleFeatures: req.body.vehicleFeatures,
+    const newDriver: DriverDTO = {
+      id: nextId,
+      ...parsed.data,
       createdAt: new Date(),
     };
 
     // * добавляем newDriver в БД
     dataBase.drivers.push(newDriver);
 
-    log(newDriver);
-
     res.status(HTTP_STATUS_CODES.CREATED_201).json(newDriver);
-  });
-
-  app.delete('/testing/all-data', (req: Request, res: Response) => {
-    dataBase.drivers = [];
-
-    res.sendStatus(HTTP_STATUS_CODES.NO_CONTENT_204);
   });
 
   // ? method DELETE
