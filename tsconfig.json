@@ -7,12 +7,13 @@
     "types": ["jest", "node"],
     "strict": true,
     "skipLibCheck": true,
-    "sourceMap": true, // для коректної роботи з відкладкою ( debugger in devtools )
-    "inlineSources": true, // для коректної роботи з відкладкою ( debugger in devtools )
+    "sourceMap": true, // для коректной работы с отладчиком ( debugger in devtools )
+    "inlineSources": true, // для коректной работы с отладчиком ( debugger in devtools )
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true,
-    "paths": { "@/*": ["./*"] }
+    "baseUrl": ".", // модуль для использования алиасов: удобного импорта (вместо ../../../ -> @/src/app)
+    "paths": { "@/*": ["src/*"] } // модуль для использования алиасов: удобного импорта (вместо ../../../ -> @/src/app)
   },
-  "include": ["src"] // ← важливо
+  "include": ["src"] // ← важно!
 }
