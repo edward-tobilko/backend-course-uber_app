@@ -1,9 +1,161 @@
-import express from "express";
+import express, { Express, Request, Response } from 'express';
+import { log } from 'node:console';
 
-export const createApp = () => {
-  const app = express();
+import { dataBase } from './db/mock-drivers.db';
+import { Driver } from '@/types/driver.types';
+import { HTTP_STATUS_CODES } from './utils/http-codes';
+import { driverCreateSchema, type DriverDTO } from './validation/driver.schema';
 
-  app.use(express.json());
+export const setupApp = (app: Express) => {
+  app.use(express.json()); // * middleware для парсинга JSON в теле запроса
+
+  // * Routes
+  // ? method GET
+  app.get(['/', '/drivers'], (req: Request<{}>, res: Response) => {
+    res.status(HTTP_STATUS_CODES.OK_200).send(dataBase.drivers);
+  });
+
+  app.get(
+    `/drivers/:driverId`,
+    (
+      req: Request<{ driverId: string }, Driver, {}, {}>,
+      res: Response<Driver | null>,
+    ) => {
+      // * ищем водителя в бд по id
+      const foundDriver = dataBase.drivers.find(
+        (driver) => driver.id === +req.params.driverId,
+      );
+
+      if (!foundDriver) {
+        return res.sendStatus(HTTP_STATUS_CODES.NOT_FOUND_404);
+      }
+
+      res.status(HTTP_STATUS_CODES.OK_200).json(foundDriver);
+    },
+  );
+
+  // ? method POST
+  app.post(`/drivers`, (req: Request<{}>, res: Response) => {
+    // * проверяем приходящие данные на валидность
+    const parsed = driverCreateSchema.safeParse(req.body);
+
+    if (!parsed.success) {
+      return res
+        .status(HTTP_STATUS_CODES.BAD_REQUEST_400)
+        .json({ errors: parsed.error.format() });
+    }
+
+    log(parsed); // смотрим на нашь обьект
+
+    // * проверяем есть ли хоть один элемент в массиве и если массив не пустой ? берем последний елемент, смотрим его driverId  и добавляем + 1 : а иначе возвращаем 1 (будет первый id).
+    const nextId = dataBase.drivers.length
+      ? dataBase.drivers[dataBase.drivers.length - 1].id + 1
+      : 1;
+
+    // * создаем нового водителя
+    const newDriver: DriverDTO = {
+      id: nextId,
+      ...parsed.data,
+      createdAt: new Date(),
+    };
+
+    // * добавляем newDriver в БД
+    dataBase.drivers.push(newDriver);
+
+    res.status(HTTP_STATUS_CODES.CREATED_201).json(newDriver);
+  });
+
+  // ? method DELETE
+  // app.delete("/drivers/:id", (req: Request<{ id: number }>, res: Response) => {
+  //   // знаходимо індекс водія, якого ми хочемо видалити
+  //   for (let index = 0; index < dataBase.drivers.length; index++) {
+  //     let driver = dataBase.drivers[index];
+
+  //     if (driver.driverId === +req.params.id) {
+  //       // видаляємо один елемент
+  //       const [deletedDriver] = dataBase.drivers.splice(index, 1);
+
+  //       // повертаємо підтвердження
+  //       return res.status(HTTP_CODES.OK_200).json({
+  //         Message: `Driver id=${+req.params.id} deleted successfully`,
+  //         deleted: deletedDriver,
+  //       });
+  //     }
+  //   }
+
+  //   return res
+  //     .status(HTTP_CODES.NOT_FOUND_404)
+  //     .json({ message: `Driver with id=${+req.params.id} not found` });
+  // });
+
+  // // ? method UPDATE
+  // app.put(
+  //   "/drivers/:id",
+  //   (req: Request<{ id: number }, { name: string }>, res: Response) => {
+  //     const id = +req.params.id;
+
+  //     // знаходимо індекс водія, якого ми хочемо обновити
+  //     const index = dataBase.drivers.findIndex((index) => index.driverId === id);
+
+  //     // перевіряємо, якщо водія не знайдено
+  //     if (index === -1) {
+  //       return res
+  //         .status(HTTP_CODES.NOT_FOUND_404)
+  //         .json({ message: `Driver with id=${id} not found` });
+  //     }
+
+  //     // отримуємо нову строку
+  //     const raw = normalizeDriverName(req.body.name);
+
+  //     log(raw);
+
+  //     // перевіряємо на валідність нову строку
+  //     if (!raw)
+  //       return res
+  //         .status(HTTP_CODES.BAD_REQUEST_400)
+  //         .json({ message: "Name cannot be empty or spaces only" });
+
+  //     dataBase.drivers[index].name = raw as DriversName;
+
+  //     res.status(HTTP_CODES.OK_200).json({
+  //       message: `Driver id=${id} updated successfully`,
+  //       updatedDriver: dataBase.drivers[index],
+  //     });
+  //   }
+  // );
+
+  // app.patch(
+  //   "/drivers/:id",
+  //   (req: Request<{ id: number }, { name: string }>, res: Response) => {
+  //     const id = +req.params.id;
+
+  //     // знаходимо обʼєкт (водія), який ми будемо оновляти
+  //     const driver = dataBase.drivers.find((driver) => driver.driverId === id);
+
+  //     // перевіряємо, якщо обʼєкт не знайдено
+  //     if (!driver)
+  //       return res
+  //         .status(HTTP_CODES.NOT_FOUND_404)
+  //         .json({ message: `Driver with id=${id} not found` });
+
+  //     // отримуємо нову строку з валідацією
+  //     const raw = normalizeDriverName(req.body.name);
+
+  //     // перевіряємо на валідність нову строку
+  //     if (!raw)
+  //       return res
+  //         .status(HTTP_CODES.BAD_REQUEST_400)
+  //         .json({ message: "Name cannot be empty or spaces only" });
+
+  //     // оновлюємо лише те, що передали
+  //     driver.name = raw as DriversName;
+
+  //     res.status(HTTP_CODES.OK_200).json({
+  //       message: `Driver id=${id} updated successfully`,
+  //       updatedCourse: driver,
+  //     });
+  //   }
+  // );
 
   return app;
 };
