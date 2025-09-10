@@ -1,27 +1,27 @@
-const { createDefaultPreset } = require("ts-jest");
+const { createDefaultPreset } = require('ts-jest');
 
 const tsJestTransformCfg = createDefaultPreset().transform;
 
 /** @type {import("jest").Config} **/
 const config = {
-  preset: "ts-jest",
-  testEnvironment: "node",
-  roots: ["<rootDir>/src"],
-  moduleFileExtensions: ["ts", "tsx", "js", "json", "node"],
+  preset: 'ts-jest',
+  testEnvironment: 'node',
+  roots: ['<rootDir>/src'],
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'json', 'node'],
 
   // модуль для использования алиасов: удобного импорта (вместо ../../../ -> @/src/app)
   moduleNameMapper: {
-    "^@/(.*)$": "<rootDir>/src/$1",
+    '^@/(.*)$': '<rootDir>/src/$1',
   },
 
   // ищем unit and e2e:
   testMatch: [
-    "**/?(*.)+(spec|test).ts",
-    "<rootDir>/src/__tests__/e2e/**/*.(spec|test).ts",
+    '**/?(*.)+(spec|test).ts',
+    '<rootDir>/src/__tests__/e2e/**/*.(spec|test).ts',
   ],
 
   clearMocks: true,
-  coverageDirectory: "coverage",
+  coverageDirectory: 'coverage',
 
   transform: {
     ...tsJestTransformCfg,

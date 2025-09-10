@@ -1,16 +1,16 @@
-import "dotenv/config";
-import { z } from "zod";
+import 'dotenv/config';
+import { z } from 'zod';
 
 const schema = z.object({
   NODE_ENV: z
-    .enum(["development", "test", "production"])
-    .default("development"),
+    .enum(['development', 'test', 'production'])
+    .default('development'),
   PORT: z.coerce.number().default(5001), // Render задає PORT як строку -> перетворюємо в число. Якщо немає — 3007
-  HOST: z.string().default("0.0.0.0"), // Хост для прослуховування: на хостингу обов'язково 0.0.0.0
+  HOST: z.string().default('0.0.0.0'), // Хост для прослуховування: на хостингу обов'язково 0.0.0.0
   SWAGGER: z // опційно: прапорець для Swagger у проді
     .string()
     .optional()
-    .transform((v) => v === "true")
+    .transform((v) => v === 'true')
     .default(false),
 });
 
