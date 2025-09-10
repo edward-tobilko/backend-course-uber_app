@@ -1,4 +1,4 @@
-import { Driver, VehicleFeature } from '@/types/drivers.types';
+import { Driver, VehicleFeature } from '@/types/driver.types';
 
 export const dataBase = {
   drivers: <Driver[]>[
