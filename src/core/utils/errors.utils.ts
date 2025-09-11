@@ -1,10 +1,10 @@
-type ValidationError = {
+export type DriverValidationError = {
   field: string;
   message: string;
 };
 
 export const createErrorMessages = (
-  errors: ValidationError[],
-): { errorMessages: ValidationError[] } => {
+  errors: DriverValidationError[],
+): { errorMessages: DriverValidationError[] } => {
   return { errorMessages: errors };
 };
