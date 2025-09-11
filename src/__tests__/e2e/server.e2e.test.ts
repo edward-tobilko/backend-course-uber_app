@@ -1,7 +1,7 @@
 import express from 'express';
 import request from 'supertest';
 
-import { setupApp } from '@/app';
+import { setupApp } from 'src/app';
 
 describe('E2E: Drivers API', () => {
   const app = express();

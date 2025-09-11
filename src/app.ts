@@ -2,12 +2,11 @@ import express, { Express, Request, Response } from 'express';
 import { log } from 'node:console';
 
 import { dataBase } from './db/mock-drivers.db';
-import { Driver } from '@/types/driver.types';
-import { HTTP_STATUS_CODES } from './utils/http-codes';
-import { driverCreateSchema, type DriverDTO } from './validation/driver.schema';
+import { HTTP_STATUS_CODES } from './core/types/http-statuses';
+import { Driver } from './drivers/types/driver.types';
 
 export const setupApp = (app: Express) => {
-  app.use(express.json()); // * middleware для парсинга JSON в теле запроса
+  app.use(express.json()); // * middleware для парсинга JSON в теле (body) запроса
 
   // * Routes
   // ? method GET
@@ -37,15 +36,8 @@ export const setupApp = (app: Express) => {
   // ? method POST
   app.post(`/drivers`, (req: Request<{}>, res: Response) => {
     // * проверяем приходящие данные на валидность
-    const parsed = driverCreateSchema.safeParse(req.body);
 
-    if (!parsed.success) {
-      return res
-        .status(HTTP_STATUS_CODES.BAD_REQUEST_400)
-        .json({ errors: parsed.error.format() });
-    }
-
-    log(parsed); // смотрим на нашь обьект
+    log(); // смотрим на нашь обьект
 
     // * проверяем есть ли хоть один элемент в массиве и если массив не пустой ? берем последний елемент, смотрим его driverId  и добавляем + 1 : а иначе возвращаем 1 (будет первый id).
     const nextId = dataBase.drivers.length
@@ -53,9 +45,17 @@ export const setupApp = (app: Express) => {
       : 1;
 
     // * создаем нового водителя
-    const newDriver: DriverDTO = {
+    const newDriver: Driver = {
       id: nextId,
-      ...parsed.data,
+      name: req.body.name,
+      phoneNumber: req.body.phoneNumber,
+      email: req.body.email,
+      vehicleMake: req.body.vehicleMake,
+      vehicleModel: req.body.vehicleModel,
+      vehicleYear: req.body.vehicleYear,
+      vehicleLicensePlate: req.body.vehicleLicensePlate,
+      vehicleDescription: req.body.vehicleDescription,
+      vehicleFeatures: req.body.vehicleFeatures,
       createdAt: new Date(),
     };
 

@@ -14,10 +14,7 @@
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true,
 
-    "baseUrl": ".", // * модуль для использования алиасов: удобного импорта (вместо ../../../ -> @/src/app)
-    "paths": {
-      "@/*": ["src/*"] // * модуль для использования алиасов: удобного импорта (вместо ../../../ -> @/src/app)
-    }
+    "paths": { "*": ["./*"] }
   },
   "include": ["src"], // * ← важно!
   "exclude": ["dist", "node_modules"]

@@ -1,4 +1,4 @@
-import { setupApp } from '@/app';
+import { setupApp } from './app';
 import express from 'express';
 
 import { env } from './config/env';
