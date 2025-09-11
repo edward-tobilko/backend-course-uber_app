@@ -5,7 +5,7 @@ const schema = z.object({
   NODE_ENV: z
     .enum(['development', 'test', 'production'])
     .default('development'),
-  PORT: z.coerce.number().default(5001), // Render задає PORT як строку -> перетворюємо в число. Якщо немає — 3007
+  PORT: z.coerce.number().default(5001), // Render задає PORT як строку -> перетворюємо в число. Якщо немає — 5001
   HOST: z.string().default('0.0.0.0'), // Хост для прослуховування: на хостингу обов'язково 0.0.0.0
   SWAGGER: z // опційно: прапорець для Swagger у проді
     .string()
