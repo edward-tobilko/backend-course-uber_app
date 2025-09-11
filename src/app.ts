@@ -4,6 +4,8 @@ import { log } from 'node:console';
 import { dataBase } from './db/mock-drivers.db';
 import { HTTP_STATUS_CODES } from './core/types/http-statuses';
 import { Driver } from './drivers/types/driver.types';
+import { driverInputDtoValidation } from './drivers/validation/driver-validation';
+import { createErrorMessages } from './core/utils/errors.utils';
 
 export const setupApp = (app: Express) => {
   app.use(express.json()); // * middleware для парсинга JSON в теле (body) запроса
@@ -16,17 +18,18 @@ export const setupApp = (app: Express) => {
 
   app.get(
     `/drivers/:driverId`,
-    (
-      req: Request<{ driverId: string }, Driver, {}, {}>,
-      res: Response<Driver | null>,
-    ) => {
+    (req: Request<{ driverId: string }>, res: Response) => {
       // * ищем водителя в бд по id
       const foundDriver = dataBase.drivers.find(
         (driver) => driver.id === +req.params.driverId,
       );
 
       if (!foundDriver) {
-        return res.sendStatus(HTTP_STATUS_CODES.NOT_FOUND_404);
+        return res
+          .status(HTTP_STATUS_CODES.NOT_FOUND_404)
+          .send(
+            createErrorMessages([{ field: 'id', message: 'Driver not found' }]),
+          );
       }
 
       res.status(HTTP_STATUS_CODES.OK_200).json(foundDriver);
@@ -36,8 +39,14 @@ export const setupApp = (app: Express) => {
   // ? method POST
   app.post(`/drivers`, (req: Request<{}>, res: Response) => {
     // * проверяем приходящие данные на валидность
+    const errors = driverInputDtoValidation(req.body);
 
-    log(); // смотрим на нашь обьект
+    // * если есть хоть одна ошибка -> выдаем status 400
+    if (errors.length > 0) {
+      return res
+        .status(HTTP_STATUS_CODES.BAD_REQUEST_400)
+        .send(createErrorMessages(errors));
+    }
 
     // * проверяем есть ли хоть один элемент в массиве и если массив не пустой ? берем последний елемент, смотрим его driverId  и добавляем + 1 : а иначе возвращаем 1 (будет первый id).
     const nextId = dataBase.drivers.length
