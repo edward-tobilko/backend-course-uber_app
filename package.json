@@ -1,5 +1,5 @@
 {
-  "name": "backend_course",
+  "name": "backend_course-uber_app",
   "version": "1.0.0",
   "description": "Express REST API backend course pet-project",
   "type": "commonjs",
@@ -18,7 +18,7 @@
   "dependencies": {
     "dotenv": "^16.4.5",
     "express": "^5.1.0",
-    "zod": "^4.1.5"
+    "zod": "^4.1.8"
   },
   "devDependencies": {
     "@types/express": "^5.0.3",
