@@ -5,15 +5,20 @@
     "moduleResolution": "Bundler",
     "rootDir": "src",
     "types": ["jest", "node"],
+
     "strict": true,
     "skipLibCheck": true,
-    "sourceMap": true, // для коректной работы с отладчиком ( debugger in devtools )
-    "inlineSources": true, // для коректной работы с отладчиком ( debugger in devtools )
+    "sourceMap": true, // * для коректной работы с отладчиком ( debugger in devtools )
+    "inlineSources": true, // * для коректной работы с отладчиком ( debugger in devtools )
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true,
-    "baseUrl": ".", // модуль для использования алиасов: удобного импорта (вместо ../../../ -> @/src/app)
-    "paths": { "@/*": ["src/*"] } // модуль для использования алиасов: удобного импорта (вместо ../../../ -> @/src/app)
+
+    "baseUrl": ".", // * модуль для использования алиасов: удобного импорта (вместо ../../../ -> @/src/app)
+    "paths": {
+      "@/*": ["src/*"] // * модуль для использования алиасов: удобного импорта (вместо ../../../ -> @/src/app)
+    }
   },
-  "include": ["src"] // ← важно!
+  "include": ["src"], // * ← важно!
+  "exclude": ["dist", "node_modules"]
 }

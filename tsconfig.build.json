@@ -3,10 +3,18 @@
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "dist",
+
     "module": "CommonJS",
     "moduleResolution": "node",
+
     "sourceMap": true,
-    "inlineSources": true
+    "inlineSources": true,
+
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
+  "include": ["src"],
   "exclude": ["**/__tests__/**", "dist", "node_modules"]
 }
