@@ -7,9 +7,9 @@
     "node": ">=20"
   },
   "scripts": {
-    "build": "rimraf dist && tsc -p tsconfig.build.json",
+    "build": "rimraf dist && tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
     "start": "cross-env NODE_ENV=production node dist/server.js",
-    "dev": "nodemon --watch src --ext ts,tsx --exec \"node --inspect=9229 --import tsx src/server.ts\"",
+    "dev": "nodemon --watch src --ext ts,tsx --exec \"node -r tsconfig-paths/register --import tsx src/server.ts\"",
     "test": "jest",
     "test:e2e": "jest src/__tests__/e2e",
     "lint": "eslint --fix .",
@@ -37,6 +37,8 @@
     "rimraf": "^6.0.1",
     "supertest": "^7.1.4",
     "ts-jest": "^29.4.1",
+    "tsc-alias": "^1.8.16",
+    "tsconfig-paths": "^4.2.0",
     "tsx": "^4.20.4",
     "typescript": "^5.9.2"
   },
