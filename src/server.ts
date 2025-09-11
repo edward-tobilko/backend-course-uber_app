@@ -6,7 +6,7 @@ import { env } from './config/env';
 const app = express();
 setupApp(app); // * навешиваем middleware and routes
 
-app.listen(env.PORT, env.HOST || '0.0.0.0', () => {
+app.listen(env.PORT, env.HOST, () => {
   console.log(`Server running on http://localhost:${env.PORT}`);
 });
 

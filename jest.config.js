@@ -9,11 +9,6 @@ const config = {
   roots: ['<rootDir>/src'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json', 'node'],
 
-  // модуль для использования алиасов: удобного импорта (вместо ../../../ -> @/src/app)
-  moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/$1',
-  },
-
   // ищем unit and e2e:
   testMatch: [
     '**/?(*.)+(spec|test).ts',
