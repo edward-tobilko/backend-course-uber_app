@@ -1,7 +1,7 @@
 {
-  "name": "backend_course",
+  "name": "uber-app",
   "version": "1.0.0",
-  "description": "Express REST API backend course pet-project",
+  "description": "Express REST API backend course pet-project uber-app",
   "type": "commonjs",
   "engines": {
     "node": ">=20"
