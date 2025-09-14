@@ -107,6 +107,7 @@ export const driverInputDtoValidation = (
           field: 'features',
           message: 'Invalid vehicleFeature:' + feature,
         });
+
         break;
       }
     }
