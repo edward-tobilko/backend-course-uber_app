@@ -75,6 +75,11 @@ export const setupApp = (app: Express) => {
   });
 
   // ? method DELETE
+  app.delete('/testing/all-data', (req, res) => {
+    dataBase.drivers = [];
+
+    res.sendStatus(HTTP_STATUS_CODES.NO_CONTENT_204);
+  });
   // app.delete("/drivers/:id", (req: Request<{ id: number }>, res: Response) => {
   //   // знаходимо індекс водія, якого ми хочемо видалити
   //   for (let index = 0; index < dataBase.drivers.length; index++) {
