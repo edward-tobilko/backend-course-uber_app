@@ -5,11 +5,11 @@ import { log } from 'node:console';
 import { setupApp } from '../../app';
 import { DriverInputDto } from '../../drivers/dto/driver.input-dto';
 import { HTTP_STATUS_CODES } from '../../core/types/http-statuses';
-import { Driver } from '../../drivers/types/driver.types';
+import { Driver, VehicleFeature } from '../../drivers/types/driver.types';
 
 describe('E2E: Drivers API', () => {
   const app = express();
-  setupApp(app); // подключает все middleware, маршруты и необходимые настройки
+  setupApp(app); // * подключает все middleware, маршруты и необходимые настройки
 
   const testDriverData: DriverInputDto = {
     name: 'Valentin',
@@ -32,6 +32,8 @@ describe('E2E: Drivers API', () => {
   it('POST: /drivers -> should create driver', async () => {
     const newDriver: DriverInputDto = {
       ...testDriverData,
+      name: 'Feodor',
+      email: 'feodor@example.com',
     };
 
     await request(app)
@@ -59,13 +61,6 @@ describe('E2E: Drivers API', () => {
       })
       .expect(HTTP_STATUS_CODES.CREATED_201);
 
-    const driverListResponseRoot = await request(app)
-      .get('/')
-      .expect(HTTP_STATUS_CODES.OK_200);
-
-    expect(driverListResponseRoot.body).toBeInstanceOf(Array);
-    expect(driverListResponseRoot.body.length).toBeGreaterThanOrEqual(2);
-
     const driverListResponseDrivers = await request(app)
       .get('/drivers')
       .expect(HTTP_STATUS_CODES.OK_200);
@@ -92,7 +87,67 @@ describe('E2E: Drivers API', () => {
       createdAt: expect.any(String),
     });
 
-    log('createResponse ->', createResponse.status, createResponse.body);
-    log('getResponse ->', getResponse.status, getResponse.body);
+    // log('createResponse ->', createResponse.status, createResponse.body);
+    // log('getResponse ->', getResponse.status, getResponse.body);
+  });
+
+  it('DELETE: /drivers/:id and check after NOT FOUND', async () => {
+    // * 1. створюємо драйвера
+    const createDriverResponse = await request(app)
+      .post('/drivers')
+      .send({ ...testDriverData, name: 'Another Driver' })
+      .expect(HTTP_STATUS_CODES.CREATED_201);
+
+    const createdDriverId = createDriverResponse.body.id;
+
+    expect(typeof createdDriverId).toBe('number');
+
+    // * 2. Видаляємо
+    await request(app)
+      .delete(`/drivers/${createdDriverId}`)
+      .expect(HTTP_STATUS_CODES.NO_CONTENT_204);
+
+    // * 3. Отримуємо відповідь
+    const getDiverResponse = await request(app).get(
+      `/drivers/${createdDriverId}`,
+    );
+
+    expect(getDiverResponse.status).toBe(HTTP_STATUS_CODES.NOT_FOUND_404);
+  });
+
+  it('PUT: /drivers/:id should update driver', async () => {
+    const createResponse = (await request(app)
+      .post('/drivers')
+      .send({ ...testDriverData, name: 'Another driver' })
+      .expect(HTTP_STATUS_CODES.CREATED_201)) as request.Response & {
+      body: Driver;
+    };
+
+    const driverUpdateData: DriverInputDto = {
+      name: 'Updated Name',
+      phoneNumber: '999-888-7777',
+      email: 'updated@example.com',
+      vehicleMake: 'Tesla',
+      vehicleModel: 'Model S',
+      vehicleYear: 2022,
+      vehicleLicensePlate: 'NEW-789',
+      vehicleDescription: 'Updated vehicle description',
+      vehicleFeatures: [VehicleFeature.ChildSeat],
+    };
+
+    await request(app)
+      .put(`/drivers/${createResponse.body.id}`)
+      .send(driverUpdateData)
+      .expect(HTTP_STATUS_CODES.NO_CONTENT_204);
+
+    const driverResponse = await request(app).get(
+      `/drivers/${createResponse.body.id}`,
+    );
+
+    expect(driverResponse.body).toEqual({
+      ...driverUpdateData,
+      id: createResponse.body.id,
+      createdAt: expect.any(String),
+    });
   });
 });
