@@ -24,6 +24,7 @@ describe('E2E: Drivers API', () => {
   };
 
   beforeAll(async () => {
+    // * request(app).delete('') - це типу клієнт робить запит на наший енд поінт delete по цьому урлу '/testing/all-data'
     await request(app)
       .delete('/testing/all-data')
       .expect(HTTP_STATUS_CODES.NO_CONTENT_204);
