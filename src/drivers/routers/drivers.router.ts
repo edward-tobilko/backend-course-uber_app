@@ -58,8 +58,8 @@ driversRouter.post(
 
     // * создаем нового водителя
     const newDriver: Driver = {
-      id: nextId,
-      name: req.body.name,
+      id: nextId, // самі генеруємо
+      name: req.body.name, // ті значення які до нас прийшли
       phoneNumber: req.body.phoneNumber,
       email: req.body.email,
       vehicleMake: req.body.vehicleMake,
