@@ -2,6 +2,7 @@ export enum VehicleFeature {
   WiFi = 'wi-fi',
   ChildSeat = 'child-seat',
   PetFriendly = 'pet-friendly',
+  Water = 'water',
 }
 
 export type Driver = {
