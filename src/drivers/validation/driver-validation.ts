@@ -88,7 +88,7 @@ export const driverInputDtoValidation = (
       field: 'vehicleFeatures',
       message: 'vehicleFeatures must be array',
     });
-  } else if (data.vehicleFeatures) {
+  } else if (data.vehicleFeatures.length) {
     const existingValuesVehicleFeature = Object.values(VehicleFeature);
 
     if (
