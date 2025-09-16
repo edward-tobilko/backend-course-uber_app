@@ -1,5 +1,5 @@
+import { DriverInputDto } from './drivers/dto/driver.input-dto';
 import express, { Express, Request, Response } from 'express';
-import { log } from 'node:console';
 
 import { dataBase } from './db/mock-drivers.db';
 import { HTTP_STATUS_CODES } from './core/types/http-statuses';
@@ -37,42 +37,45 @@ export const setupApp = (app: Express) => {
   );
 
   // ? method POST
-  app.post(`/drivers`, (req: Request<{}>, res: Response) => {
-    // * проверяем приходящие данные на валидность
-    const errors = driverInputDtoValidation(req.body);
+  app.post(
+    `/drivers`,
+    (req: Request<{}, {}, DriverInputDto>, res: Response) => {
+      // * проверяем приходящие данные на валидность
+      const errors = driverInputDtoValidation(req.body);
 
-    // * если есть хоть одна ошибка -> выдаем status 400
-    if (errors.length > 0) {
-      return res
-        .status(HTTP_STATUS_CODES.BAD_REQUEST_400)
-        .send(createErrorMessages(errors));
-    }
+      // * если есть хоть одна ошибка -> выдаем status 400
+      if (errors.length > 0) {
+        return res
+          .status(HTTP_STATUS_CODES.BAD_REQUEST_400)
+          .send(createErrorMessages(errors));
+      }
 
-    // * проверяем есть ли хоть один элемент в массиве и если массив не пустой ? берем последний елемент, смотрим его driverId  и добавляем + 1 : а иначе возвращаем 1 (будет первый id).
-    const nextId = dataBase.drivers.length
-      ? dataBase.drivers[dataBase.drivers.length - 1].id + 1
-      : 1;
+      // * проверяем есть ли хоть один элемент в массиве и если массив не пустой ? берем последний елемент, смотрим его driverId  и добавляем + 1 : а иначе возвращаем 1 (будет первый id).
+      const nextId = dataBase.drivers.length
+        ? dataBase.drivers[dataBase.drivers.length - 1].id + 1
+        : 1;
 
-    // * создаем нового водителя
-    const newDriver: Driver = {
-      id: nextId,
-      name: req.body.name,
-      phoneNumber: req.body.phoneNumber,
-      email: req.body.email,
-      vehicleMake: req.body.vehicleMake,
-      vehicleModel: req.body.vehicleModel,
-      vehicleYear: req.body.vehicleYear,
-      vehicleLicensePlate: req.body.vehicleLicensePlate,
-      vehicleDescription: req.body.vehicleDescription,
-      vehicleFeatures: req.body.vehicleFeatures,
-      createdAt: new Date(),
-    };
+      // * создаем нового водителя
+      const newDriver: Driver = {
+        id: nextId,
+        name: req.body.name,
+        phoneNumber: req.body.phoneNumber,
+        email: req.body.email,
+        vehicleMake: req.body.vehicleMake,
+        vehicleModel: req.body.vehicleModel,
+        vehicleYear: req.body.vehicleYear,
+        vehicleLicensePlate: req.body.vehicleLicensePlate,
+        vehicleDescription: req.body.vehicleDescription,
+        vehicleFeatures: req.body.vehicleFeatures,
+        createdAt: new Date(),
+      };
 
-    // * добавляем newDriver в БД
-    dataBase.drivers.push(newDriver);
+      // * добавляем newDriver в БД
+      dataBase.drivers.push(newDriver);
 
-    res.status(HTTP_STATUS_CODES.CREATED_201).json(newDriver);
-  });
+      res.status(HTTP_STATUS_CODES.CREATED_201).json(newDriver);
+    },
+  );
 
   // ? method DELETE
   app.delete('/testing/all-data', (req, res) => {
