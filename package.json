@@ -8,8 +8,7 @@
   },
   "scripts": {
     "build": "rimraf dist && tsc -p tsconfig.build.json",
-    "start": "cross-env NODE_ENV=production node dist/server.js",
-    "build:start": "yarn build && yarn start",
+    "start": "node dist/server.js",
     "dev": "nodemon --watch src --ext ts,tsx --exec \"node --inspect=9229 --enable-source-maps --import tsx src/server.ts\"",
     "test": "jest",
     "test:e2e": "jest src/__tests__/e2e",
