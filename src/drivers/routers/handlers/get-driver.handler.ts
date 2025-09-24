@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
 
-import { HTTP_STATUS_CODES } from '../../../core/types/http-statuses';
-import { createErrorMessages } from '../../../core/utils/errors.utils';
+import { HTTP_STATUS_CODES } from '../../../core/utils/http-statuses';
+import { createErrorMessages } from '../../../core/utils/error-messages.utils';
 import { driversRepository } from '../../repositories/drivers.repository';
 
 export function getDriverHandler(
-  req: Request<{ driverId: number }>,
+  req: Request<{ driverId: string }>,
   res: Response,
 ) {
   const driver = driversRepository.findDriverById(+req.params.driverId);
