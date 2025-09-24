@@ -2,8 +2,6 @@ import { Request, Response } from 'express';
 
 import { DriverInputDto } from '../../dto/driver.input-dto';
 import { HTTP_STATUS_CODES } from '../../../core/types/http-statuses';
-import { createErrorMessages } from '../../../core/utils/errors.utils';
-import { driverInputDtoValidation } from '../../validation/driver-validation';
 import { driversRepository } from '../../repositories/drivers.repository';
 
 export function updateDriverPutHandler(
@@ -11,20 +9,6 @@ export function updateDriverPutHandler(
   res: Response,
 ) {
   const id = +req.params.id;
-
-  if (!Number.isInteger(id)) {
-    return res
-      .status(HTTP_STATUS_CODES.BAD_REQUEST_400)
-      .send(createErrorMessages([{ field: 'id', message: 'Invalid id' }]));
-  }
-
-  const errors = driverInputDtoValidation(req.body);
-
-  if (errors.length > 0) {
-    return res
-      .status(HTTP_STATUS_CODES.BAD_REQUEST_400)
-      .send(createErrorMessages(errors));
-  }
 
   const driver = driversRepository.findDriverById(id);
 
