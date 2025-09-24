@@ -2,9 +2,9 @@ import express from 'express';
 import request from 'supertest';
 
 import { setupApp } from '../../app';
-import { DriverInputDto } from '../../drivers/dto/driver.input-dto';
+import { DriverInputDto } from '../../drivers/dto/driver-input-dto.type';
 import { VehicleFeature } from '../../drivers/types/driver.types';
-import { HTTP_STATUS_CODES } from '../../core/types/http-statuses';
+import { HTTP_STATUS_CODES } from '../../core/utils/http-statuses';
 
 describe('Driver API body validation check', () => {
   const app = express();

@@ -3,8 +3,8 @@ import request from 'supertest';
 import { log } from 'node:console';
 
 import { setupApp } from '../../app';
-import { DriverInputDto } from '../../drivers/dto/driver.input-dto';
-import { HTTP_STATUS_CODES } from '../../core/types/http-statuses';
+import { DriverInputDto } from '../../drivers/dto/driver-input-dto.type';
+import { HTTP_STATUS_CODES } from '../../core/utils/http-statuses';
 import { Driver, VehicleFeature } from '../../drivers/types/driver.types';
 
 describe('E2E: Drivers API', () => {
