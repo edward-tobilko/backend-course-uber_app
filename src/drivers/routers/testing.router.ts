@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
 import { dataBase } from '../../db/mock-drivers.db';
-import { HTTP_STATUS_CODES } from '../../core/types/http-statuses';
+import { HTTP_STATUS_CODES } from '../../core/utils/http-statuses';
 
 export const testingRouter = Router();
 
