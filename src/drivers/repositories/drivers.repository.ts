@@ -1,7 +1,7 @@
 import { log } from 'node:console';
 
 import { dataBase } from '../../db/mock-drivers.db';
-import { DriverInputDto } from '../dto/driver.input-dto';
+import { DriverInputDto } from '../dto/driver-input-dto.type';
 import { Driver } from '../types/driver.types';
 
 export const driversRepository = {

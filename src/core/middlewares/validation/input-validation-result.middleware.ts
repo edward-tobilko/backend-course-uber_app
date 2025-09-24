@@ -5,7 +5,7 @@ import {
   validationResult,
 } from 'express-validator';
 
-import { HTTP_STATUS_CODES } from '../../types/http-statuses';
+import { HTTP_STATUS_CODES } from '../../utils/http-statuses';
 
 const formatErrors = (error: ValidationError) => {
   const expressError = error as unknown as FieldValidationError;
@@ -21,9 +21,11 @@ export const inputValidationResultMiddleware = (
   res: Response,
   next: NextFunction,
 ) => {
-  const errors = validationResult(req).formatWith(formatErrors).array();
+  const errors = validationResult(req)
+    .formatWith(formatErrors)
+    .array({ onlyFirstError: true });
 
-  if (errors.length) {
+  if (errors.length > 0) {
     return res
       .status(HTTP_STATUS_CODES.BAD_REQUEST_400)
       .json({ errorMessages: errors });
@@ -31,3 +33,6 @@ export const inputValidationResultMiddleware = (
 
   next(); // Если ошибок нет, передаём управление дальше
 };
+
+// ? Explanation:
+// * { onlyFirstError: true } - покажет нам первую ошибку филда, а не все сразу

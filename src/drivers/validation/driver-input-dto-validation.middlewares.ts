@@ -79,7 +79,7 @@ const vehicleFeaturesValidation = body('vehicleFeatures')
     return true;
   });
 
-export const driverInputDtoValidation = [
+export const driverInputBodyDtoValidation = [
   nameValidation,
   phoneNumberValidation,
   emailValidation,
