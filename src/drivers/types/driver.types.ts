@@ -18,3 +18,8 @@ export type Driver = {
   vehicleFeatures: VehicleFeature[];
   createdAt: Date;
 };
+
+export type DriverValidationError = {
+  field: string;
+  message: string;
+};
