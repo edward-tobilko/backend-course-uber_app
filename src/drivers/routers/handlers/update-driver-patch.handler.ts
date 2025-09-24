@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
 
-import { HTTP_STATUS_CODES } from '../../../core/utils/http-statuses';
-import { normalizeDriverName } from '../../../core/utils/driver-name.normalize';
+import { HTTP_STATUS_CODES } from '../../../core/types/http-statuses';
+import { normalizeDriverName } from '../../../core/utils/normalize';
 import { driversRepository } from '../../repositories/drivers.repository';
 
 export function updateDriverPatchHandler(
-  req: Request<{ id: string }, {}, { name: string }>,
+  req: Request<{ id: number }, {}, { name: string }>,
   res: Response,
 ) {
   const id = +req.params.id;

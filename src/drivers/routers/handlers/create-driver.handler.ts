@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 
-import { DriverInputDto } from '../../dto/driver-input-dto.type';
-import { HTTP_STATUS_CODES } from '../../../core/utils/http-statuses';
+import { DriverInputDto } from '../../dto/driver.input-dto';
+import { HTTP_STATUS_CODES } from '../../../core/types/http-statuses';
 import { dataBase } from '../../../db/mock-drivers.db';
 import { Driver } from '../../types/driver.types';
 import { driversRepository } from '../../repositories/drivers.repository';

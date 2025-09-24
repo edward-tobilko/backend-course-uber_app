@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import { HTTP_STATUS_CODES } from '../../../core/utils/http-statuses';
+import { HTTP_STATUS_CODES } from '../../../core/types/http-statuses';
 import { driversRepository } from '../../repositories/drivers.repository';
 
 export function deleteDriverHandler(req: Request, res: Response) {
