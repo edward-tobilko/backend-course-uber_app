@@ -1,6 +1,6 @@
 import { param } from 'express-validator';
 
-export const idParamValidation = param('driverId')
+export const idParamValidation = param('id')
   .exists()
   .withMessage('ID is required')
   .isString()
@@ -17,7 +17,7 @@ export const idParamValidation = param('driverId')
 // * не пустое (isLength({ min: 1 })),
 // * состоит только из цифр (isNumeric()).
 
-// export const idParamValidation = param('driverId')
+// export const idParamValidation = param('id')
 //   .exists().withMessage('ID is required')
 //   .isInt({ min: 1 }).withMessage('ID must be a positive integer')
 //   .toInt();

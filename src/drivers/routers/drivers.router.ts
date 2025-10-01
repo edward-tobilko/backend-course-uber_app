@@ -19,7 +19,7 @@ export const driversRouter = Router({});
 // ? method GET
 driversRouter.get('', getDriverListHandler);
 driversRouter.get(
-  `/:driverId`,
+  `/:id`,
   idParamValidation,
   inputValidationResultMiddleware,
   getDriverHandler,

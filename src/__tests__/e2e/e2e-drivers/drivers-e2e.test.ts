@@ -39,7 +39,7 @@ describe('E2E: Drivers API', () => {
       .expect(HTTP_STATUS_CODES.CREATED_201);
   });
 
-  it("GET: '/' and DRIVERS_PATH -> should return drivers list", async () => {
+  it('GET: /drivers -> should return drivers list', async () => {
     await request(app)
       .post(DRIVERS_PATH)
       .set('Authorization', adminToken)
@@ -68,7 +68,7 @@ describe('E2E: Drivers API', () => {
     expect(driverListResponseDrivers.body.length).toBeGreaterThanOrEqual(2);
   });
 
-  it('GET: /drivers/:driverId should return driver by id', async () => {
+  it('GET: /drivers/:id should return driver by id', async () => {
     const createResponse = (await request(app)
       .post(DRIVERS_PATH)
       .set('Authorization', adminToken)

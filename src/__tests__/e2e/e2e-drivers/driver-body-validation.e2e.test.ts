@@ -53,6 +53,7 @@ describe('Driver API body validation check', () => {
 
     const invalidDataSet3 = await request(app)
       .post(DRIVERS_PATH)
+      .set('Authorization', adminToken)
       .send({
         ...correctTestDriverData,
         name: 'A', // too short
