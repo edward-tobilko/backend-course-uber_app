@@ -5,7 +5,7 @@ export enum VehicleFeature {
   Water = 'water',
 }
 
-export type Driver = {
+export type DriverType = {
   id: number;
   name: string;
   phoneNumber: string;

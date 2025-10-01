@@ -2,8 +2,8 @@ import { Request, Response } from 'express';
 
 import { DriverInputDto } from '../../dto/driver-input-dto.type';
 import { HTTP_STATUS_CODES } from '../../../core/utils/http-statuses';
-import { dataBase } from '../../../db/mock-drivers.db';
-import { Driver } from '../../types/driver.types';
+import { dataBase } from '../../../db/mock-db';
+import { DriverType } from '../../types/driver.types';
 import { driversRepository } from '../../repositories/drivers.repository';
 
 export function createDriverHandler(
@@ -16,7 +16,7 @@ export function createDriverHandler(
     : 1;
 
   // * создаем нового водителя
-  const newDriver: Driver = {
+  const newDriver: DriverType = {
     id: nextId, // самі генеруємо
     name: req.body.name, // ті значення, які до нас прийшли від клієнта
     phoneNumber: req.body.phoneNumber,
