@@ -1,23 +1,23 @@
 import { log } from 'node:console';
 
-import { dataBase } from '../../db/mock-drivers.db';
+import { dataBase } from '../../db/mock-db';
 import { DriverInputDto } from '../dto/driver-input-dto.type';
-import { Driver } from '../types/driver.types';
+import { DriverType } from '../types/driver.types';
 
 export const driversRepository = {
   // * Найти всех водителей
-  findAll(): Driver[] {
+  findAll(): DriverType[] {
     return dataBase.drivers;
   },
 
   // * Найти водителя по ID
-  findDriverById(driverId: number): Driver | null {
+  findDriverById(driverId: number): DriverType | null {
     // * ищем водителя в бд по id
     return dataBase.drivers.find((driver) => driver.id === driverId) ?? null; // Если результат поиска равно null или undefined, то вернем null.
   },
 
   // * Создать нового водителя
-  create(newDriver: Driver): Driver {
+  create(newDriver: DriverType): DriverType {
     // * добавляем newDriver в БД
     dataBase.drivers.push(newDriver);
 
@@ -65,7 +65,10 @@ export const driversRepository = {
   },
 
   // * Обновить данные водителя (отправляем только то поле обьекта, которую изменили)
-  updatePatch(id: number, dto: Partial<Pick<DriverInputDto, 'name'>>): Driver {
+  updatePatch(
+    id: number,
+    dto: Partial<Pick<DriverInputDto, 'name'>>,
+  ): DriverType {
     // * знаходимо нам потрібного драйвера
     const driver = dataBase.drivers.find((driver) => driver.id === id);
 

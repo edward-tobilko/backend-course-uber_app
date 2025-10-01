@@ -5,7 +5,8 @@ export const idParamValidation = param('driverId')
   .withMessage('ID is required')
   .isString()
   .withMessage('ID must be a string')
-  .isLength({ min: 1 })
+  .trim()
+  .notEmpty()
   .withMessage('ID must not be empty')
   .isNumeric()
   .withMessage('ID must be a numeric string');
@@ -15,3 +16,8 @@ export const idParamValidation = param('driverId')
 // * является строкой (isString()),
 // * не пустое (isLength({ min: 1 })),
 // * состоит только из цифр (isNumeric()).
+
+// export const idParamValidation = param('driverId')
+//   .exists().withMessage('ID is required')
+//   .isInt({ min: 1 }).withMessage('ID must be a positive integer')
+//   .toInt();
