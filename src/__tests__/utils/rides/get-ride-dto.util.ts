@@ -1,7 +1,7 @@
 import { RideInputDtoType } from '../../../rides/dto/ride-input-dto.types';
 import { Currency } from '../../../rides/types/ride.types';
 
-export function getRideDto(driverId: number): RideInputDtoType {
+export function getRideDtoUtil(driverId: number): RideInputDtoType {
   return {
     driverId,
     clientName: 'Bob',
