@@ -1,7 +1,7 @@
 import { DriverInputDto } from '../../../drivers/dto/driver-input-dto.type';
 import { VehicleFeature } from '../../../drivers/types/driver.types';
 
-export const getDriverDto = (): DriverInputDto => {
+export const getDriverDtoUtil = (): DriverInputDto => {
   return {
     name: 'Valentin',
     phoneNumber: '123-456-7890',
