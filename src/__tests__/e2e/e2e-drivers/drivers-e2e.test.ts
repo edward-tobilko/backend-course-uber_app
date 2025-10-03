@@ -11,6 +11,8 @@ import { clearDB } from '../../utils/clear-db.util';
 import { generateBasicAuthToken } from '../../utils/generate-admin-auth-token';
 import { createDriverUtil } from '../../utils/drivers/create-driver.util';
 import { getDriverByIdUtil } from '../../utils/drivers/get-driver-by-id.util';
+import { runDB } from '../../../db/mongo.db';
+import { SETTINGS_MONGO_DB } from '../../../core/settings-mongoDB/settings-mongo.db';
 
 describe('E2E: Drivers API', () => {
   const app = express();
@@ -21,6 +23,7 @@ describe('E2E: Drivers API', () => {
   const correctTestDriverData: DriverInputDto = getDriverDtoUtil();
 
   beforeAll(async () => {
+    await runDB(SETTINGS_MONGO_DB.MONGO_URL);
     await clearDB(app);
   });
 

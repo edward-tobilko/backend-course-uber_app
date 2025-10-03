@@ -1,13 +1,24 @@
 import express from 'express';
 
 import { setupApp } from './app';
-import { env } from './config/env';
+import { SETTINGS_MONGO_DB } from './core/settings-mongoDB/settings-mongo.db';
+import { runDB } from './db/mongo.db';
 
-const app = express();
-setupApp(app); // * навешиваем middleware and routes
+const bootstrap = async () => {
+  const app = express();
+  setupApp(app); // * навешиваем middleware and routes
 
-app.listen(env.PORT, () => {
-  console.log(`Server running on http://localhost:${env.PORT}`);
-});
+  const PORT = SETTINGS_MONGO_DB.PORT;
 
-console.log('ENTRY:', __filename);
+  await runDB(SETTINGS_MONGO_DB.MONGO_URL);
+
+  app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+  });
+
+  console.log('ENTRY:', __filename);
+
+  return app;
+};
+
+bootstrap();

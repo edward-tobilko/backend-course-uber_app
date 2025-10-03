@@ -1,89 +1,99 @@
-import { log } from 'node:console';
+import { ObjectId, WithId } from 'mongodb';
 
-import { dataBase } from '../../db/mock-db';
+import { driverCollection } from '../../db/mongo.db';
 import { DriverInputDto } from '../dto/driver-input-dto.type';
 import { DriverType } from '../types/driver.types';
 
 export const driversRepository = {
   // * Найти всех водителей
-  findAll(): DriverType[] {
-    return dataBase.drivers;
+  async findAll(): Promise<WithId<DriverType[]>> {
+    return driverCollection.find().toArray();
   },
 
   // * Найти водителя по ID
-  findDriverById(driverId: number): DriverType | null {
+  async findDriverById(driverId: string): Promise<WithId<DriverType> | null> {
     // * ищем водителя в бд по id
-    return dataBase.drivers.find((driver) => driver.id === driverId) ?? null; // Если результат поиска равно null или undefined, то вернем null.
+    return driverCollection.findOne({ _id: new ObjectId(driverId) }); // Если результат поиска равно null или undefined, то вернем null.
   },
 
   // * Создать нового водителя
-  create(newDriver: DriverType): DriverType {
+  async create(newDriver: DriverType): Promise<WithId<DriverType>> {
     // * добавляем newDriver в БД
-    dataBase.drivers.push(newDriver);
+    const insertResult = await driverCollection.insertOne(newDriver);
 
-    return newDriver;
+    return { ...newDriver, _id: insertResult.insertedId };
   },
 
   // * Удалить водителя
-  delete(id: number): void {
-    // * знаходимо індекс водія, якого ми хочемо видалити
-    for (let index = 0; index < dataBase.drivers.length; index++) {
-      let driver = dataBase.drivers[index];
+  async delete(id: string): Promise<void> {
+    const deleteResult = await driverCollection.deleteOne({
+      _id: new ObjectId(id),
+    });
 
-      if (driver.id === id) {
-        // * видаляємо один елемент
-        dataBase.drivers.splice(index, 1);
-        return;
-      }
-    }
-  },
-
-  // * Обновить данные водителя (отправляем весь обьект)
-  updatePut(id: number, dto: DriverInputDto): void {
-    // * знаходимо нам потрібного драйвера
-    const driver = dataBase.drivers.find((driver) => driver.id === id);
-
-    // * перевіряємо, якщо водія не знайдено, то викидуємо помилку
-    if (!driver) {
+    if (deleteResult.deletedCount < 1) {
       throw new Error('Driver not exist');
     }
 
-    log('driver ->', driver);
+    return;
+  },
 
-    // * змінюємо поля, які нам потрібні, але обʼєкт потрібно надсилати весь
-    driver.name = dto.name;
-    driver.phoneNumber = dto.phoneNumber;
-    driver.email = dto.email;
-    driver.vehicleMake = dto.vehicleMake;
-    driver.vehicleModel = dto.vehicleModel;
-    driver.vehicleYear = dto.vehicleYear;
-    driver.vehicleLicensePlate = dto.vehicleLicensePlate;
-    driver.vehicleDescription = dto.vehicleDescription;
-    driver.vehicleFeatures = dto.vehicleFeatures;
+  // * Обновить данные водителя (отправляем весь обьект)
+  async updatePut(id: string, dto: DriverInputDto): Promise<void> {
+    const updateResult = await driverCollection.updateOne(
+      { _id: new ObjectId(id) },
+
+      // * змінюємо поля, які нам потрібні, але обʼєкт потрібно надсилати весь
+      {
+        $set: {
+          name: dto.name,
+          phoneNumber: dto.phoneNumber,
+          email: dto.email,
+          vehicle: {
+            make: dto.vehicleMake,
+            model: dto.vehicleModel,
+            year: dto.vehicleYear,
+            licensePlate: dto.vehicleLicensePlate,
+            description: dto.vehicleDescription,
+            features: dto.vehicleFeatures,
+          },
+        },
+      },
+    );
+
+    // * перевіряємо, якщо водія не знайдено, то викидуємо помилку
+    if ((await updateResult).matchedCount < 1) {
+      throw new Error('Driver not exist');
+    }
 
     return;
   },
 
   // * Обновить данные водителя (отправляем только то поле обьекта, которую изменили)
-  updatePatch(
-    id: number,
+  async updatePatch(
+    id: string,
     dto: Partial<Pick<DriverInputDto, 'name'>>,
-  ): DriverType {
-    // * знаходимо нам потрібного драйвера
-    const driver = dataBase.drivers.find((driver) => driver.id === id);
+  ): Promise<DriverType> {
+    const updateResult = await driverCollection.updateOne(
+      { _id: new ObjectId(id) },
+
+      // * змінюємо поля, які нам потрібні, але обʼєкт потрібно надсилати весь
+      {
+        $set: {
+          name: dto.name,
+        },
+      },
+    );
 
     // * перевіряємо, якщо водія не знайдено, то викидуємо помилку
-    if (!driver) {
+    if (updateResult.matchedCount < 1) {
       throw new Error('Driver not exist');
     }
 
-    log('driver ->', driver);
-
     if (typeof dto.name === 'string') {
-      driver.name = dto.name;
+      updateResult = dto.name;
     }
 
-    return driver;
+    return updateResult;
   },
 };
 

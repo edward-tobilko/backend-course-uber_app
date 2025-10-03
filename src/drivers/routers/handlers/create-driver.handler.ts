@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 
 import { DriverInputDto } from '../../dto/driver-input-dto.type';
 import { HTTP_STATUS_CODES } from '../../../core/utils/http-statuses';
-import { dataBase } from '../../../db/mock-db';
+import { dataBase } from '../../../db/mongo.db';
 import { DriverType } from '../../types/driver.types';
 import { driversRepository } from '../../repositories/drivers.repository';
 

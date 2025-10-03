@@ -1,4 +1,4 @@
-import { dataBase } from '../../db/mock-db';
+import { dataBase } from '../../db/mongo.db';
 import { RideType } from '../types/ride.types';
 
 export const ridesRepository = {

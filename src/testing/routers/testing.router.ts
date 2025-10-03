@@ -1,6 +1,6 @@
 import { Request, Response, Router } from 'express';
 
-import { dataBase } from '../../db/mock-db';
+import { dataBase } from '../../db/mongo.db';
 import { HTTP_STATUS_CODES } from '../../core/utils/http-statuses';
 
 export const testingRouter = Router({});

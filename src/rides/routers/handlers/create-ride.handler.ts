@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { ridesRepository } from '../../repositories/rides.repository';
 import { RideType } from '../../types/ride.types';
 import { HTTP_STATUS_CODES } from '../../../core/utils/http-statuses';
-import { dataBase } from '../../../db/mock-db';
+import { dataBase } from '../../../db/mongo.db';
 import { RideInputDtoType } from '../../dto/ride-input-dto.types';
 import { driversRepository } from '../../../drivers/repositories/drivers.repository';
 import { createErrorMessages } from '../../../core/utils/error-messages.utils';
