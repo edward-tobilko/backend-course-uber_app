@@ -9,7 +9,7 @@ const config = {
   roots: ['<rootDir>/src'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json', 'node'],
 
-  // ищем unit and e2e:
+  // * ищем unit and e2e:
   testMatch: [
     '**/?(*.)+(spec|test).ts',
     '<rootDir>/src/__tests__/e2e/**/*.(spec|test).ts',
