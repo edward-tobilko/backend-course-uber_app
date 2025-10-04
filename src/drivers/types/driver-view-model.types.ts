@@ -1,6 +1,6 @@
 import { VehicleFeature } from './driver.types';
 
-export type DriverViewModel = {
+export type DriverViewModelType = {
   id: string;
   name: string;
   phoneNumber: string;
@@ -15,3 +15,6 @@ export type DriverViewModel = {
   };
   createdAt: Date;
 };
+
+// ? Пояснення:
+// * DriverViewModelType - це структура, яку ми відправляємо клієнту (“frontend-level” модель (що бачить клієнт у Postman чи браузері)).

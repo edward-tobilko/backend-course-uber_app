@@ -24,3 +24,18 @@ export const setupApp = (app: Express) => {
 
   return app;
 };
+
+// ? Пояснення:
+// * 1 - Резюме потоку даних (repository -> mapper -> handler -> router):
+// * - Клієнт надсилає запит → GET /drivers
+// * - Контролер (getDriverListHandler) викликає driversRepository.findAll()
+// * - Repository дістає документи з MongoDB (driverCollection.find().toArray())
+// * - Mapper (mapToDriverViewModelUtil) конвертує _id → id і прибирає технічні поля
+// * - Контролер повертає JSON клієнту
+
+// * 2- Потік даних виглядає так (DriverInputDto -> validation -> DriverType -> DriverViewModelType):
+// * - Клієнт шле тіло запиту у форматі DriverInputDto.
+// * - Контролер приймає цей DTO, робить валідацію.
+// * - Repository/Service перетворює DTO → DriverType (наприклад, групує vehicle-поля в один об’єкт).
+// * - Зберігає у MongoDB як DriverType.
+// * - Коли віддає назад клієнту → мапить DriverType → DriverViewModelType (щоб _id став id).

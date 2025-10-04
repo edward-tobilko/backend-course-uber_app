@@ -1,9 +1,7 @@
-export enum Currency {
-  USD = 'usd',
-  EUR = 'eur',
-}
+import { Currency } from './ride.types';
 
-export type RideType = {
+export type RideViewModelType = {
+  id: string;
   clientName: string;
   driver: {
     id: string;
@@ -15,8 +13,6 @@ export type RideType = {
   };
   price: number;
   currency: Currency;
-  createdAt: Date;
-  updatedAt: Date | null;
   startedAt: Date | null;
   finishedAt: Date | null;
   addresses: {
@@ -26,4 +22,4 @@ export type RideType = {
 };
 
 // ? Пояснення:
-// * RideType — це структура документа в базі (“backend-level” модель (як зберігається у MongoDB))
+// * RideViewModelType - це структура, яку ми відправляємо клієнту (“frontend-level” модель (що бачить клієнт у Postman чи браузері)).

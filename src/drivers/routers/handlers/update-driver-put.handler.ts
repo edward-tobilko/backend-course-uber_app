@@ -4,20 +4,23 @@ import { DriverInputDto } from '../../dto/driver-input-dto.type';
 import { HTTP_STATUS_CODES } from '../../../core/utils/http-statuses';
 import { driversRepository } from '../../repositories/drivers.repository';
 
-export function updateDriverPutHandler(
+export async function updateDriverHandler(
   req: Request<{ id: string }, {}, DriverInputDto>,
   res: Response,
 ) {
-  const id = +req.params.id;
+  try {
+    const driver = driversRepository.findDriverById(req.params.id);
 
-  const driver = driversRepository.findDriverById(id);
+    if (!driver) {
+      res
+        .status(HTTP_STATUS_CODES.NOT_FOUND_404)
+        .json({ message: `Driver with id=${req.params.id} not found` });
+    }
 
-  if (!driver) {
-    res
-      .status(HTTP_STATUS_CODES.NOT_FOUND_404)
-      .json({ message: `Driver with id=${id} not found` });
+    await driversRepository.update(req.params.id, req.body);
+
+    res.sendStatus(HTTP_STATUS_CODES.NO_CONTENT_204);
+  } catch (error: unknown) {
+    res.sendStatus(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR_500);
   }
-
-  driversRepository.updatePut(id, req.body);
-  res.sendStatus(HTTP_STATUS_CODES.NO_CONTENT_204);
 }

@@ -6,7 +6,7 @@ import { DriverType } from '../types/driver.types';
 
 export const driversRepository = {
   // * Найти всех водителей
-  async findAll(): Promise<WithId<DriverType[]>> {
+  async findAll(): Promise<WithId<DriverType>[]> {
     return driverCollection.find().toArray();
   },
 
@@ -21,7 +21,7 @@ export const driversRepository = {
     // * добавляем newDriver в БД
     const insertResult = await driverCollection.insertOne(newDriver);
 
-    return { ...newDriver, _id: insertResult.insertedId };
+    return { ...newDriver, _id: insertResult.insertedId }; //ObjectId ('66efeaadeb3dafea3c3971fb')
   },
 
   // * Удалить водителя
@@ -38,7 +38,7 @@ export const driversRepository = {
   },
 
   // * Обновить данные водителя (отправляем весь обьект)
-  async updatePut(id: string, dto: DriverInputDto): Promise<void> {
+  async update(id: string, dto: DriverInputDto): Promise<void> {
     const updateResult = await driverCollection.updateOne(
       { _id: new ObjectId(id) },
 
@@ -61,42 +61,17 @@ export const driversRepository = {
     );
 
     // * перевіряємо, якщо водія не знайдено, то викидуємо помилку
-    if ((await updateResult).matchedCount < 1) {
+    if (updateResult.matchedCount < 1) {
       throw new Error('Driver not exist');
     }
 
     return;
   },
-
-  // * Обновить данные водителя (отправляем только то поле обьекта, которую изменили)
-  async updatePatch(
-    id: string,
-    dto: Partial<Pick<DriverInputDto, 'name'>>,
-  ): Promise<DriverType> {
-    const updateResult = await driverCollection.updateOne(
-      { _id: new ObjectId(id) },
-
-      // * змінюємо поля, які нам потрібні, але обʼєкт потрібно надсилати весь
-      {
-        $set: {
-          name: dto.name,
-        },
-      },
-    );
-
-    // * перевіряємо, якщо водія не знайдено, то викидуємо помилку
-    if (updateResult.matchedCount < 1) {
-      throw new Error('Driver not exist');
-    }
-
-    if (typeof dto.name === 'string') {
-      updateResult = dto.name;
-    }
-
-    return updateResult;
-  },
 };
 
-// ? Пояснення для updatePatch:
-// * Pick - бере тільки вибрані поля з типу. Тут ми кажемо: «візьми тільки поле name з DriverInputDto.
-// * Partial<...> - Partial робить усі поля необов’язковими (додає ?).
+// ? Що тут відбувається:
+// * driverCollection — це посилання на MongoDB колекцію (наприклад, db.collection('drivers')).
+// * .find() — це метод MongoDB, який повертає всі документи в колекції.
+// * .toArray() — перетворює курсор (MongoDB Cursor) у масив об’єктів.
+// * WithId<DriverType> — це тип з бібліотеки mongodb, який означає, що кожен об’єкт має обов’язкове поле _id (додається MongoDB автоматично).
+// * Тобто findAll() дістає всіх водіїв із бази і повертає їх як масив документів із _id.

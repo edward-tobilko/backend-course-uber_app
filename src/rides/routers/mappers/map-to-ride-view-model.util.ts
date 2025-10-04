@@ -1,20 +1,23 @@
 import { WithId } from 'mongodb';
 
-import { DriverType } from '../../types/driver.types';
-import { DriverViewModelType } from '../../types/driver-view-model.types';
+import { RideType } from '../../types/ride.types';
+import { RideViewModelType } from '../../types/ride-view-model.types';
 
-export const mapToDriverViewModelUtil = (
-  driver: WithId<DriverType>,
-): DriverViewModelType => {
+export function mapToRideViewModelUtil(
+  ride: WithId<RideType>,
+): RideViewModelType {
   return {
-    id: driver._id.toString(),
-    name: driver.name,
-    phoneNumber: driver.phoneNumber,
-    email: driver.email,
-    vehicle: driver.vehicle,
-    createdAt: driver.createdAt,
+    id: ride._id.toString(),
+    clientName: ride.clientName,
+    driver: ride.driver,
+    vehicle: ride.vehicle,
+    price: ride.price,
+    currency: ride.currency,
+    startedAt: ride.startedAt,
+    finishedAt: ride.finishedAt,
+    addresses: ride.addresses,
   };
-};
+}
 
 // ? Навіщо це потрібно:
 // * MongoDB створює поле _id (типу ObjectId), яке фронтенду краще бачити як id: string.
