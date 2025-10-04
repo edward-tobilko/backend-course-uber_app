@@ -14,10 +14,7 @@ export const clientNameValidation = body('clientName')
 
 export const driverIdValidation = body('driverId')
   .exists()
-  .withMessage('Driver ID is required')
-  .bail()
-  .isInt({ gt: 0 })
-  .withMessage('Driver ID must be a number');
+  .withMessage('Driver ID is required');
 
 export const priceValidation = body('price')
   .exists()

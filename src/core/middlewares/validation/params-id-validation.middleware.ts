@@ -8,16 +8,11 @@ export const idParamValidation = param('id')
   .trim()
   .notEmpty()
   .withMessage('ID must not be empty')
-  .isNumeric()
-  .withMessage('ID must be a numeric string');
+  .isMongoId()
+  .withMessage('Incorrect format of ObjectId');
 
 // ? Пояснення: Этот middleware проверяет, что id:
 // * существует в запросе (exists()),
 // * является строкой (isString()),
 // * не пустое (isLength({ min: 1 })),
 // * состоит только из цифр (isNumeric()).
-
-// export const idParamValidation = param('id')
-//   .exists().withMessage('ID is required')
-//   .isInt({ min: 1 }).withMessage('ID must be a positive integer')
-//   .toInt();

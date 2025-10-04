@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { log } from 'node:console';
 
 import { ridesRepository } from '../../repositories/rides.repository';
 import { HTTP_STATUS_CODES } from '../../../core/utils/http-statuses';
@@ -10,18 +11,22 @@ export async function getRideHandler(
   res: Response,
 ) {
   try {
-    const ride = await ridesRepository.findRideById(req.params.id);
+    const ride = await ridesRepository.findRideById(req.params.id); // отримуємо  id  як строку від фронтів, потім віддаємо її в наш репозиторій, щоп пропарсити { _id: new Object(id) } її для нашої mongoDB
 
     if (!ride) {
-      return res.status(HTTP_STATUS_CODES.NOT_FOUND_404).json(
+      res.status(HTTP_STATUS_CODES.NOT_FOUND_404).json(
         createErrorMessages([
           {
             field: 'id',
-            message: `Ride with id=${+req.params.id} is not found`,
+            message: `Ride with id=${req.params.id} is not found`,
           },
         ]),
       );
+
+      return;
     }
+
+    log(ride?._id);
 
     const transformedToMapRideModel = mapToRideViewModelUtil(ride);
 

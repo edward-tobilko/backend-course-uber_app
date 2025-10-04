@@ -4,8 +4,7 @@ import { getDriverListHandler } from './handlers/get-driver-list.handler';
 import { getDriverHandler } from './handlers/get-driver.handler';
 import { createDriverHandler } from './handlers/create-driver.handler';
 import { deleteDriverHandler } from './handlers/delete-driver.handler';
-import { updateDriverPutHandler } from './handlers/update-driver-put.handler';
-import { updateDriverPatchHandler } from './handlers/update-driver-patch.handler';
+import { updateDriverHandler } from './handlers/update-driver.handler';
 import { idParamValidation } from '../../core/middlewares/validation/params-id-validation.middleware';
 import { driverInputBodyDtoValidation } from '../validation/driver-input-dto-validation.middlewares';
 import { inputValidationResultMiddleware } from '../../core/middlewares/validation/input-validation-result.middleware';
@@ -50,12 +49,5 @@ driversRouter.put(
   idParamValidation,
   driverInputBodyDtoValidation,
   inputValidationResultMiddleware,
-  updateDriverPutHandler,
-);
-driversRouter.patch(
-  '/:id',
-  adminGuardMiddlewareAuth,
-  idParamValidation,
-  inputValidationResultMiddleware,
-  updateDriverPatchHandler,
+  updateDriverHandler,
 );

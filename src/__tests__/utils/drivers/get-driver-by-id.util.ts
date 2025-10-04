@@ -3,12 +3,12 @@ import { Express } from 'express';
 
 import { DRIVERS_PATH } from '../../../core/paths/paths';
 import { HTTP_STATUS_CODES } from '../../../core/utils/http-statuses';
-import { DriverType } from '../../../drivers/types/driver.types';
+import { DriverViewModelType } from '../../../drivers/types/driver-view-model.types';
 
 export async function getDriverByIdUtil(
   app: Express,
-  driverId: number,
-): Promise<DriverType> {
+  driverId: string,
+): Promise<DriverViewModelType> {
   const fetchedDriverByIdResponse = await request(app)
     .get(`${DRIVERS_PATH}/${driverId}`)
     .expect(HTTP_STATUS_CODES.OK_200);

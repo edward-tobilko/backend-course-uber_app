@@ -1,17 +1,18 @@
 import request from 'supertest';
 import { Express } from 'express';
+import { WithId } from 'mongodb';
 
 import { DriverInputDto } from '../../../drivers/dto/driver-input-dto.type';
 import { getDriverDtoUtil } from './get-driver-dto.util';
 import { DRIVERS_PATH } from '../../../core/paths/paths';
 import { generateBasicAuthToken } from '../generate-admin-auth-token';
 import { HTTP_STATUS_CODES } from '../../../core/utils/http-statuses';
-import { DriverType } from '../../../drivers/types/driver.types';
+import { DriverViewModelType } from '../../../drivers/types/driver-view-model.types';
 
 export async function createDriverUtil(
   app: Express,
   driverDto?: Partial<DriverInputDto>,
-): Promise<DriverType> {
+): Promise<WithId<DriverViewModelType>> {
   const defaultDriverDataDto: DriverInputDto = getDriverDtoUtil();
   const driverDataDto = { ...defaultDriverDataDto, ...driverDto };
 
