@@ -7,7 +7,7 @@ import { RIDES_PATH } from '../../../core/paths/paths';
 import { HTTP_STATUS_CODES } from '../../../core/utils/http-statuses';
 import { generateBasicAuthToken } from '../../utils/generate-admin-auth-token';
 import { Currency } from '../../../rides/types/ride.types';
-import { runDB } from '../../../db/mongo.db';
+import { runDB, stopDB } from '../../../db/mongo.db';
 import { SETTINGS_MONGO_DB } from '../../../core/settings-mongoDB/settings-mongo.db';
 
 describe('Ride API body validation check', () => {
@@ -20,6 +20,10 @@ describe('Ride API body validation check', () => {
   beforeAll(async () => {
     await runDB(SETTINGS_MONGO_DB.MONGO_URL);
     await clearDB(app);
+  });
+
+  afterAll(async () => {
+    await stopDB();
   });
 
   it('POST: /rides -> should not create driver when incorrect body passed - 401 and 400', async () => {

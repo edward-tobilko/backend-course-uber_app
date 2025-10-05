@@ -27,6 +27,10 @@ describe('E2E: Drivers API', () => {
     await clearDB(app);
   });
 
+  afterAll(async () => {
+    await stopDB();
+  });
+
   it('POST: /drivers -> should create new driver - 201', async () => {
     const newDriver: DriverInputDto = {
       ...correctTestDriverData,
