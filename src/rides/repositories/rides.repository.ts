@@ -33,8 +33,10 @@ export const ridesRepository = {
         _id: new ObjectId(rideId),
       },
       {
-        finishedAt,
-        updatedAt: new Date(),
+        $set: {
+          finishedAt,
+          updatedAt: new Date(),
+        },
       },
     );
 

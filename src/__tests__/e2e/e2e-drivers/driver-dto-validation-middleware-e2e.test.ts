@@ -11,7 +11,7 @@ import { generateBasicAuthToken } from '../../utils/generate-admin-auth-token';
 import { createDriverUtil } from '../../utils/drivers/create-driver.util';
 import { getDriverByIdUtil } from '../../utils/drivers/get-driver-by-id.util';
 import { getDriverDtoUtil } from '../../utils/drivers/get-driver-dto.util';
-import { runDB } from '../../../db/mongo.db';
+import { runDB, stopDB } from '../../../db/mongo.db';
 import { SETTINGS_MONGO_DB } from '../../../core/settings-mongoDB/settings-mongo.db';
 
 describe('Driver API body validation check', () => {
@@ -25,6 +25,10 @@ describe('Driver API body validation check', () => {
   beforeAll(async () => {
     await runDB(SETTINGS_MONGO_DB.MONGO_URL);
     await clearDB(app);
+  });
+
+  afterAll(async () => {
+    await stopDB();
   });
 
   it('POST: /drivers -> should not create driver when incorrect body passed - 401 and 400', async () => {
@@ -67,12 +71,12 @@ describe('Driver API body validation check', () => {
     expect(invalidDataSet3.body.errorMessages).toHaveLength(1);
 
     // * проверяем никто ли не создался
-    const driverListResponse = await request(app).get('/drivers');
+    const driverListResponse = await request(app).get(DRIVERS_PATH);
 
     expect(driverListResponse.body).toHaveLength(0);
   });
 
-  it('PUT: /drivers/:id should not update driver when incorrect data passed', async () => {
+  it('PUT: /drivers/:id should not update driver when incorrect data passed - 401 and 400', async () => {
     const createDriverResponse = await createDriverUtil(
       app,
       correctTestDriverData,
@@ -118,12 +122,10 @@ describe('Driver API body validation check', () => {
 
     expect(invalidDataSet3.body.errorMessages).toHaveLength(1);
 
-    const driverResponse = await request(app).get(`${DRIVERS_PATH}/${id}`);
+    const driverResponse = await getDriverByIdUtil(app, id);
 
-    expect(driverResponse.body).toEqual({
-      ...correctTestDriverData,
-      id,
-      createdAt: expect.any(String),
+    expect(driverResponse).toEqual({
+      ...createDriverResponse,
     });
   });
 
@@ -152,9 +154,7 @@ describe('Driver API body validation check', () => {
     );
 
     expect(getDriverByIdResponse).toEqual({
-      ...correctTestDriverData,
-      id: createDriverResponse.id,
-      createdAt: expect.any(String),
+      ...createDriverResponse,
     });
   });
 });

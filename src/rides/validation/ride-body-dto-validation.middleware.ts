@@ -1,4 +1,5 @@
 import { body } from 'express-validator';
+import { ObjectId } from 'mongodb';
 
 import { Currency } from '../types/ride.types';
 
@@ -14,7 +15,13 @@ export const clientNameValidation = body('clientName')
 
 export const driverIdValidation = body('driverId')
   .exists()
-  .withMessage('Driver ID is required');
+  .withMessage('Driver ID is required')
+  .bail()
+  .isString()
+  .withMessage('Driver ID must be a string')
+  .bail()
+  .custom((value) => ObjectId.isValid(value))
+  .withMessage('Driver ID must be a valid Mongo ObjectId');
 
 export const priceValidation = body('price')
   .exists()

@@ -35,7 +35,7 @@ export async function runDB(url: string): Promise<void> {
 }
 
 // * для тестов
-export async function stopDb() {
+export async function stopDB() {
   if (!client) {
     throw new Error(`❌ No active client`);
   }

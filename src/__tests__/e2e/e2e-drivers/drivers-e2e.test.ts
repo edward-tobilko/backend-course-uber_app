@@ -11,7 +11,7 @@ import { clearDB } from '../../utils/clear-db.util';
 import { generateBasicAuthToken } from '../../utils/generate-admin-auth-token';
 import { createDriverUtil } from '../../utils/drivers/create-driver.util';
 import { getDriverByIdUtil } from '../../utils/drivers/get-driver-by-id.util';
-import { runDB } from '../../../db/mongo.db';
+import { runDB, stopDB } from '../../../db/mongo.db';
 import { SETTINGS_MONGO_DB } from '../../../core/settings-mongoDB/settings-mongo.db';
 
 describe('E2E: Drivers API', () => {
@@ -67,7 +67,7 @@ describe('E2E: Drivers API', () => {
 
     expect(getDriverByIdResponse).toEqual({
       ...createdDriver,
-      id: expect.any(Number),
+      id: expect.any(String),
       createdAt: expect.any(String),
     });
 
@@ -79,7 +79,7 @@ describe('E2E: Drivers API', () => {
     // * 1. створюємо драйвера
     const createdDriver = await createDriverUtil(app);
 
-    expect(typeof createdDriver.id).toBe('number');
+    expect(typeof createdDriver.id).toBe('string');
 
     // * 2. Видаляємо
     await request(app)
@@ -122,8 +122,18 @@ describe('E2E: Drivers API', () => {
     );
 
     expect(getDriverByIdResponse).toEqual({
-      ...driverUpdateData,
       id: createdDriver.id,
+      name: driverUpdateData.name,
+      phoneNumber: driverUpdateData.phoneNumber,
+      email: driverUpdateData.email,
+      vehicle: {
+        description: driverUpdateData.vehicleDescription,
+        features: driverUpdateData.vehicleFeatures,
+        licensePlate: driverUpdateData.vehicleLicensePlate,
+        make: driverUpdateData.vehicleMake,
+        model: driverUpdateData.vehicleModel,
+        year: driverUpdateData.vehicleYear,
+      },
       createdAt: expect.any(String),
     });
   });
