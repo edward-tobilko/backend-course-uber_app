@@ -9,9 +9,9 @@ export async function getRideByIdUtil(
   app: Express,
   rideId: string,
 ): Promise<RideViewModelType> {
-  const createdRideResponse = await request(app)
+  const fetchedRideById = await request(app)
     .get(`${RIDES_PATH}/${rideId}`)
     .expect(HTTP_STATUS_CODES.OK_200);
 
-  return createdRideResponse.body;
+  return fetchedRideById.body;
 }
