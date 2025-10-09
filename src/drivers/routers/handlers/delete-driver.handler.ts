@@ -27,7 +27,7 @@ export async function deleteDriverHandler(
         .status(HTTP_STATUS_CODES.BAD_REQUEST_400)
         .send(
           createErrorMessages([
-            { field: 'status', message: 'The driver is currently on a job' },
+            { message: 'The driver is currently on a job', field: 'status' },
           ]),
         );
       return;

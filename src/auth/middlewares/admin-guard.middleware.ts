@@ -1,9 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 
 import { HTTP_STATUS_CODES } from '../../core/utils/http-statuses';
-
-const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'admin';
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'qwerty';
+import { SETTINGS_MONGO_DB } from '../../core/settings-mongoDB/settings-mongo.db';
 
 export const adminGuardMiddlewareAuth = (
   req: Request,
@@ -16,20 +14,28 @@ export const adminGuardMiddlewareAuth = (
     return res.sendStatus(HTTP_STATUS_CODES.UNAUTHORIZED_401);
   }
 
-  const [authType, token] = auth.split(' '); // admin:qwerty - разбиваем строку по пробелу, получая тип авторизации (Basic) и сам токен.
+  try {
+    const [authType, token] = auth.split(' '); // admin:qwerty - разбиваем строку по пробелу, получая тип авторизации (Basic) и сам токен.
 
-  if (authType !== 'Basic')
-    return res.sendStatus(HTTP_STATUS_CODES.UNAUTHORIZED_401);
+    if (authType !== 'Basic')
+      return res.sendStatus(HTTP_STATUS_CODES.UNAUTHORIZED_401);
 
-  const credentials = Buffer.from(token, 'base64').toString('utf-8'); // dbcadkcnasdk - Расшифровываем токен из base64 в обычную строку.
+    const credentials = Buffer.from(token, 'base64').toString('utf-8'); // dbcadkcnasdk - Расшифровываем токен из base64 в обычную строку.
 
-  const [username, password] = credentials.split(':'); // разделяем её на логин и пароль.
+    const [username, password] = credentials.split(':'); // разделяем её на логин и пароль.
 
-  if (username !== ADMIN_USERNAME || password !== ADMIN_PASSWORD) {
+    if (
+      username !== SETTINGS_MONGO_DB.ADMIN_USERNAME ||
+      password !== SETTINGS_MONGO_DB.ADMIN_PASSWORD
+    ) {
+      return res.sendStatus(HTTP_STATUS_CODES.UNAUTHORIZED_401);
+    }
+
+    next(); // Успешная авторизация, продолжаем.
+  } catch (error) {
+    console.error('Auth decode error:', error);
     return res.sendStatus(HTTP_STATUS_CODES.UNAUTHORIZED_401);
   }
-
-  next(); // Успешная авторизация, продолжаем.
 };
 
 // ? Explanation:

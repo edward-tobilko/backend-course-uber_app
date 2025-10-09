@@ -16,7 +16,7 @@ export async function getDriverHandler(
       return res
         .status(HTTP_STATUS_CODES.NOT_FOUND_404)
         .send(
-          createErrorMessages([{ field: 'id', message: 'Driver not found' }]),
+          createErrorMessages([{ message: 'Driver not found', field: 'id' }]),
         );
     }
 

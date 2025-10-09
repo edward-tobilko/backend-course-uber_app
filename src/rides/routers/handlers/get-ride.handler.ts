@@ -17,8 +17,8 @@ export async function getRideHandler(
       res.status(HTTP_STATUS_CODES.NOT_FOUND_404).json(
         createErrorMessages([
           {
-            field: 'id',
             message: `Ride with id=${req.params.id} is not found`,
+            field: 'id',
           },
         ]),
       );

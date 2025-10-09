@@ -20,7 +20,7 @@ export async function createRideHandler(
         .status(HTTP_STATUS_CODES.BAD_REQUEST_400)
         .json(
           createErrorMessages([
-            { field: 'id', message: 'Driver is not found' },
+            { message: 'Driver is not found', field: 'id' },
           ]),
         );
     }
@@ -35,7 +35,7 @@ export async function createRideHandler(
         .status(HTTP_STATUS_CODES.BAD_REQUEST_400)
         .send(
           createErrorMessages([
-            { field: 'status', message: 'The driver is currently on a job' },
+            { message: 'The driver is currently on a job', field: 'status' },
           ]),
         );
       return;

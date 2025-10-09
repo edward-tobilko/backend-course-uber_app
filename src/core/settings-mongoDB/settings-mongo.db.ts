@@ -1,7 +1,22 @@
+import dotenv from 'dotenv';
+
+if (process.env.NODE_ENV !== 'production') {
+  dotenv.config({ path: '.env.development.local' });
+}
+
+const env = process.env.NODE_ENV ?? 'development';
+
+const defaultDbName =
+  env === 'production'
+    ? 'backend-course-uber_app_prod'
+    : env === 'test'
+      ? 'backend-course-uber_app_test'
+      : 'backend-course-uber_app_dev';
+
 export const SETTINGS_MONGO_DB = {
-  PORT: process.env.PORT || 5001,
-  MONGO_URL:
-    process.env.MONGO_URL ||
-    'mongodb+srv://eduard_tobilko:!Miami4769@uber-app-cluster.njm4aox.mongodb.net/?retryWrites=true&w=majority&appName=uber-app-cluster',
-  DB_NAME: process.env.DB_NAME || 'backend-course-uber_app',
+  MONGO_URL: process.env.MONGO_URI ?? 'mongodb://127.0.0.1:27017',
+  DB_NAME: process.env.DB_NAME ?? defaultDbName,
+
+  ADMIN_USERNAME: process.env.ADMIN_USERNAME ?? '',
+  ADMIN_PASSWORD: process.env.ADMIN_PASSWORD ?? '',
 };

@@ -21,8 +21,8 @@ export type DriverType = {
 };
 
 export type DriverValidationError = {
-  field: string;
   message: string;
+  field: string;
 };
 
 // ? Пояснення:

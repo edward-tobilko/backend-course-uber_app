@@ -14,7 +14,7 @@ export const setupApp = (app: Express) => {
   app.use(express.json()); // * middleware для парсинга JSON в теле (body) запроса
 
   app.get(ROOT_PATH, (_req: Request, res: Response) => {
-    res.status(200).send('hello world!!!');
+    res.status(200).send('Hello back!!!');
   });
 
   // * Подключаем роутеры

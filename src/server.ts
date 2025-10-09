@@ -8,17 +8,25 @@ const bootstrap = async () => {
   const app = express();
   setupApp(app); // * навешиваем middleware and routes
 
-  const PORT = SETTINGS_MONGO_DB.PORT;
+  const PORT = Number(process.env.PORT ?? 5001);
 
-  await runDB(SETTINGS_MONGO_DB.MONGO_URL);
+  try {
+    await runDB(SETTINGS_MONGO_DB.MONGO_URL);
 
-  app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-  });
+    const server = app.listen(PORT, () => {
+      console.log(`✅ Server running on http://localhost:${PORT}`);
+      console.log(`NODE_ENV=${process.env.NODE_ENV} PORT=${PORT}`);
+      console.log('✅ ENTRY:', __filename);
+    });
 
-  console.log('ENTRY:', __filename);
-
-  return app;
+    server.on('error', (err) => {
+      console.error('❌ Server error:', err);
+      process.exit(1);
+    });
+  } catch (error) {
+    console.error('❌ Failed to start app:', error);
+    process.exit(1);
+  }
 };
 
 bootstrap();

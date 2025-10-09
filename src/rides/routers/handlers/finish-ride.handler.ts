@@ -16,7 +16,7 @@ export async function finishRideHandler(
       return res
         .status(HTTP_STATUS_CODES.BAD_REQUEST_400)
         .json(
-          createErrorMessages([{ field: 'id', message: 'Ride is not found' }]),
+          createErrorMessages([{ message: 'Ride is not found', field: 'id' }]),
         );
     }
 
@@ -24,8 +24,8 @@ export async function finishRideHandler(
       return res.status(HTTP_STATUS_CODES.BAD_REQUEST_400).json(
         createErrorMessages([
           {
-            field: 'id',
             message: 'Ride already finished',
+            field: 'id',
           },
         ]),
       );
