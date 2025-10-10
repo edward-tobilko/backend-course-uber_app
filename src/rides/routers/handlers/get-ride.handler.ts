@@ -3,7 +3,7 @@ import { log } from 'node:console';
 
 import { ridesRepository } from '../../repositories/rides.repository';
 import { HTTP_STATUS_CODES } from '../../../core/utils/http-statuses';
-import { createErrorMessages } from '../../../core/utils/error-messages.utils';
+import { createErrorMessages } from '../../../core/utils/error-messages.util';
 import { mapToRideViewModelUtil } from '../mappers/map-to-ride-view-model.util';
 
 export async function getRideHandler(

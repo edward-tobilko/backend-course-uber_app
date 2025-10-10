@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { HTTP_STATUS_CODES } from '../../../core/utils/http-statuses';
 import { driversRepository } from '../../repositories/drivers.repository';
 import { ridesRepository } from '../../../rides/repositories/rides.repository';
-import { createErrorMessages } from '../../../core/utils/error-messages.utils';
+import { createErrorMessages } from '../../../core/utils/error-messages.util';
 
 export async function deleteDriverHandler(
   req: Request<{ id: string }>,

@@ -7,22 +7,23 @@ import {
 
 import { HTTP_STATUS_CODES } from '../../utils/http-statuses';
 
-const formatErrors = (error: ValidationError) => {
+const formatValidationErrors = (error: ValidationError) => {
   const expressError = error as unknown as FieldValidationError;
 
   return {
-    field: expressError.path, // Поле с ошибкой
-    message: expressError.msg, // Сообщение ошибки
+    status: HTTP_STATUS_CODES.BAD_REQUEST_400,
+    source: expressError.path, // Поле с ошибкой
+    detail: expressError.msg, // Сообщение ошибки
   };
 };
 
 export const inputValidationResultMiddleware = (
-  req: Request,
+  req: Request<{}, {}, {}, {}>,
   res: Response,
   next: NextFunction,
 ) => {
   const errors = validationResult(req)
-    .formatWith(formatErrors)
+    .formatWith(formatValidationErrors)
     .array({ onlyFirstError: true });
 
   if (errors.length > 0) {

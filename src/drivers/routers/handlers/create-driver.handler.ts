@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import { DriverInputDto } from '../../dto/driver-input-dto.type';
+import { DriverInputDto } from '../../dto/driver-attributes';
 import { HTTP_STATUS_CODES } from '../../../core/utils/http-statuses';
 import { DriverType } from '../../types/driver.types';
 import { driversRepository } from '../../repositories/drivers.repository';

@@ -3,7 +3,7 @@ import { log } from 'node:console';
 
 import { HTTP_STATUS_CODES } from '../../../core/utils/http-statuses';
 import { ridesRepository } from '../../repositories/rides.repository';
-import { createErrorMessages } from '../../../core/utils/error-messages.utils';
+import { createErrorMessages } from '../../../core/utils/error-messages.util';
 
 export async function finishRideHandler(
   req: Request<{ id: string }>,

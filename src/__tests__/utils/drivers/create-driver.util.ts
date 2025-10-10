@@ -2,7 +2,7 @@ import request from 'supertest';
 import { Express } from 'express';
 import { WithId } from 'mongodb';
 
-import { DriverInputDto } from '../../../drivers/dto/driver-input-dto.type';
+import { DriverInputDto } from '../../../drivers/dto/driver-attributes';
 import { getDriverDtoUtil } from './get-driver-dto.util';
 import { DRIVERS_PATH } from '../../../core/paths/paths';
 import { generateBasicAuthToken } from '../generate-admin-auth-token';

@@ -20,10 +20,5 @@ export type DriverType = {
   createdAt: Date;
 };
 
-export type DriverValidationError = {
-  message: string;
-  field: string;
-};
-
 // ? Пояснення:
 // * DriverType — це структура документа в базі (“backend-level” модель (як зберігається у MongoDB))

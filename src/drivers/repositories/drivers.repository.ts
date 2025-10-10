@@ -1,7 +1,7 @@
 import { ObjectId, WithId } from 'mongodb';
 
 import { driverCollection } from '../../db/mongo.db';
-import { DriverInputDto } from '../dto/driver-input-dto.type';
+import { DriverInputDto } from '../dto/driver-attributes';
 import { DriverType } from '../types/driver.types';
 
 export const driversRepository = {

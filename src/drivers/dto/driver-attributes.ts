@@ -1,6 +1,6 @@
 import { VehicleFeature } from '../types/driver.types';
 
-export type DriverInputDto = {
+export type DriverAttributes = {
   name: string;
   phoneNumber: string;
   email: string;
@@ -13,4 +13,5 @@ export type DriverInputDto = {
   vehicleFeatures: VehicleFeature[];
 };
 
-// ? dto (Data Transfer Object) - то, что присылает клиент.
+// ? Пояснення:
+// * dto (Data Transfer Object) - те, що присилає клієнт.

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 
 import { HTTP_STATUS_CODES } from '../../../core/utils/http-statuses';
-import { createErrorMessages } from '../../../core/utils/error-messages.utils';
+import { createErrorMessages } from '../../../core/utils/error-messages.util';
 import { driversRepository } from '../../repositories/drivers.repository';
 import { mapToDriverViewModelUtil } from '../mappers/map-to-driver-view-model.util';
 
