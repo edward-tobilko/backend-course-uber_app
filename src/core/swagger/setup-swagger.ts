@@ -20,5 +20,4 @@ export const setupSwagger = (app: Express) => {
   app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 };
 
-// ? Пояснення:
-// * swagger - як би наша фронтенд документація - http://localhost:5001/api/
+// ? swagger - як би наша фронтенд документація - http://localhost:5001/api/

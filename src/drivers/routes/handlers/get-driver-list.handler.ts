@@ -3,7 +3,7 @@ import { log } from 'node:console';
 
 import { driversRepository } from '../../repositories/drivers.repository';
 import { HTTP_STATUS_CODES } from '../../../core/utils/http-statuses';
-import { mapToDriverViewModelUtil } from '../mappers/map-to-driver-view-model.util';
+import { mapToDriverViewModelUtil } from '../mappers/map-to-driver-output.mapper';
 
 export async function getDriverListHandler(_req: Request, res: Response) {
   try {

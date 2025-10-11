@@ -1,13 +1,59 @@
 import { ObjectId, WithId } from 'mongodb';
 
 import { driverCollection } from '../../db/mongo.db';
-import { DriverInputDto } from '../dto/driver-attributes';
-import { DriverType } from '../types/driver.types';
+import { DriverDataTypeAttributes } from '../routes/output/driver-data-type.output';
+import { DriverQueryTypeInput } from '../routes/input/driver-query-type.input';
 
 export const driversRepository = {
   // * Найти всех водителей
-  async findAll(): Promise<WithId<DriverType>[]> {
-    return driverCollection.find().toArray();
+  async findAllRepo(queryDto: DriverQueryTypeInput): Promise<{
+    items: WithId<DriverDataTypeAttributes>[];
+    totalCount: number;
+  }> {
+    const filter: any = {};
+    const {
+      pageNumber,
+      pageSize,
+      sortBy,
+      sortDirection,
+      searchDriverNameTerm,
+      searchDriverEmailTerm,
+      searchVehicleMakeTerm,
+    } = queryDto;
+
+    if (searchDriverNameTerm) {
+      // * встроенные операторы mongodb $regex и $options, 'i' - для игнорирования регистра
+      filter.name = { $regex: searchDriverNameTerm, $options: 'i' };
+    }
+
+    if (searchDriverEmailTerm) {
+      filter.email = { $regex: searchDriverEmailTerm, $options: 'i' };
+    }
+
+    if (searchVehicleMakeTerm) {
+      filter['vehicle.make'] = {
+        $regex: searchVehicleMakeTerm,
+        $options: 'i',
+      };
+    }
+
+    const items = await driverCollection
+      .find(filter)
+
+      // * "asc" (по возрастанию), то mongo используется 1
+      // * "desc" — то -1 для сортировки по убыванию. - по алфавиту от Я-А, Z-A
+      .sort({ [sortBy]: sortDirection })
+
+      // * пропускаем определённое количество док. перед тем, как вернуть нужный набор данных: Например, страница 3, pageSize=10 → пропускает 20 документов.
+      .skip((pageNumber - 1) * pageSize)
+
+      // * limit - ограничивает количество возвращаемых документов до значения pageSize
+      .limit(pageSize)
+      .toArray();
+
+    const totalCount = await driverCollection.countDocuments(filter);
+
+    return { items, totalCount };
   },
 
   // * Найти водителя по ID
@@ -69,9 +115,12 @@ export const driversRepository = {
   },
 };
 
-// ? Що тут відбувається:
-// * driverCollection — це посилання на MongoDB колекцію (наприклад, db.collection('drivers')).
-// * .find() — це метод MongoDB, який повертає всі документи в колекції.
-// * .toArray() — перетворює курсор (MongoDB Cursor) у масив об’єктів.
-// * WithId<DriverType> — це тип з бібліотеки mongodb, який означає, що кожен об’єкт має обов’язкове поле _id (додається MongoDB автоматично).
-// * Тобто findAll() дістає всіх водіїв із бази і повертає їх як масив документів із _id.
+// ? driverCollection — це посилання на MongoDB колекцію (наприклад, db.collection('drivers')).
+// ? .find(filter) — це метод MongoDB, який повертає всі документи в колекції з вже відфільтрованими обʼєктами.
+// ? .toArray() — перетворює курсор (MongoDB Cursor) у масив об’єктів.
+// ? WithId<DriverDataTypeAttributes> — це тип з бібліотеки mongodb, який означає, що кожен об’єкт має обов’язкове поле _id (додається MongoDB автоматично).
+// ? Тобто findAllRepo() метод дістає всіх водіїв із бази і повертає їх як масив документів із _id.
+
+// ? sort - Сортує дані за заданим полем і напрямком.
+// ? skip - Пропускає елементи, щоб вибрати потрібну сторінку.
+// ? limit - Обмежує кількість елементів на сторінці.

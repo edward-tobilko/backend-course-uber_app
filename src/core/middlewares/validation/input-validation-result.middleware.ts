@@ -35,5 +35,4 @@ export const inputValidationResultMiddleware = (
   next(); // Если ошибок нет, передаём управление дальше
 };
 
-// ? Explanation:
-// * { onlyFirstError: true } - покажет нам первую ошибку филда, а не все сразу
+// ? { onlyFirstError: true } - покажет нам первую ошибку филда, а не все сразу

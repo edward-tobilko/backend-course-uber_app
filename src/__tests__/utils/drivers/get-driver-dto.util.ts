@@ -1,4 +1,4 @@
-import { DriverInputDto } from '../../../drivers/dto/driver-attributes';
+import { DriverInputDto } from '../../../drivers/application/dto/driver-attributes';
 import { VehicleFeature } from '../../../drivers/types/driver.types';
 
 export const getDriverDtoUtil = (): DriverInputDto => {

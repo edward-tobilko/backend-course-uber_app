@@ -23,8 +23,9 @@ export const dataIdBodyValidation = body('data.id')
     return true;
   });
 
-// ? Пояснення: Этот middleware проверяет, что id:
-// * существует в запросе (exists()),
-// * является строкой (isString()),
-// * не пустое (isLength({ min: 1 })),
-// * состоит только из цифр (isNumeric()).
+// ? exists() - существует в запросе
+// ? isString() - является строкой
+// ? isNumeric() - состоит только из цифр
+
+// ? value — це значення data.id
+// ? req — це об’єкт запиту

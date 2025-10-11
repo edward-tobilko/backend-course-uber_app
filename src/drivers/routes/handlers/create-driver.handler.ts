@@ -1,10 +1,9 @@
 import { Request, Response } from 'express';
 
-import { DriverInputDto } from '../../dto/driver-attributes';
 import { HTTP_STATUS_CODES } from '../../../core/utils/http-statuses';
 import { DriverType } from '../../types/driver.types';
 import { driversRepository } from '../../repositories/drivers.repository';
-import { mapToDriverViewModelUtil } from '../mappers/map-to-driver-view-model.util';
+import { mapToDriverViewModelUtil } from '../mappers/map-to-driver-output.mapper';
 
 export async function createDriverHandler(
   req: Request<{}, {}, DriverInputDto>,

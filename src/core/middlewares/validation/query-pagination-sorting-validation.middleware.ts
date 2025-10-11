@@ -9,7 +9,7 @@ const DEFAULT_PAGE_SIZE = 10;
 const DEFAULT_SORT_BY = 'createdAt';
 const DEFAULT_SORT_DIRECTION = SortDirection.Desc;
 
-const paginationAndSortingDefault: PaginationAndSorting<string> = {
+export const paginationAndSortingDefault: PaginationAndSorting<string> = {
   pageNumber: DEFAULT_PAGE_NUMBER,
   pageSize: DEFAULT_PAGE_SIZE,
   sortBy: DEFAULT_SORT_BY,
