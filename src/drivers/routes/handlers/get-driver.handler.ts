@@ -1,29 +1,21 @@
 import { Request, Response } from 'express';
 
 import { HTTP_STATUS_CODES } from '../../../core/utils/http-statuses';
-import { createErrorMessages } from '../../../core/utils/error-messages.util';
-import { driversRepository } from '../../repositories/drivers.repository';
-import { mapToDriverViewModelUtil } from '../mappers/map-to-driver-output.mapper';
+import { driversService } from '../../application/drivers.service';
+import { mapToDriverOutput } from '../mappers/map-to-driver-output.mapper';
+import { errorsHandler } from '../../../core/errors/errors.handler';
 
 export async function getDriverHandler(
   req: Request<{ id: string }>,
   res: Response,
 ) {
   try {
-    const driver = await driversRepository.findDriverById(req.params.id);
+    const driverId = await driversService.findDriverByIdOrFail(req.params.id);
 
-    if (!driver) {
-      return res
-        .status(HTTP_STATUS_CODES.NOT_FOUND_404)
-        .send(
-          createErrorMessages([{ message: 'Driver not found', field: 'id' }]),
-        );
-    }
+    const driverOutput = mapToDriverOutput(driverId);
 
-    const driverViewModelResponse = mapToDriverViewModelUtil(driver);
-
-    res.status(HTTP_STATUS_CODES.OK_200).json(driverViewModelResponse);
+    res.status(HTTP_STATUS_CODES.OK_200).json(driverOutput);
   } catch (e: unknown) {
-    res.sendStatus(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR_500);
+    errorsHandler(e, res);
   }
 }

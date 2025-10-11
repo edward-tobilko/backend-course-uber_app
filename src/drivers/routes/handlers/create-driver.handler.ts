@@ -1,37 +1,27 @@
 import { Request, Response } from 'express';
 
 import { HTTP_STATUS_CODES } from '../../../core/utils/http-statuses';
-import { DriverType } from '../../types/driver.types';
-import { driversRepository } from '../../repositories/drivers.repository';
-import { mapToDriverViewModelUtil } from '../mappers/map-to-driver-output.mapper';
+import { driversService } from '../../application/drivers.service';
+import { DriverCreateTypeInput } from '../input/driver-create-type.input';
+import { mapToDriverOutput } from '../mappers/map-to-driver-output.mapper';
+import { errorsHandler } from '../../../core/errors/errors.handler';
 
 export async function createDriverHandler(
-  req: Request<{}, {}, DriverInputDto>,
+  req: Request<{}, {}, DriverCreateTypeInput>,
   res: Response,
 ) {
   try {
-    // * создаем нового водителя
-    const newDriver: DriverType = {
-      name: req.body.name, // ті значення, які до нас прийшли від клієнта
-      phoneNumber: req.body.phoneNumber,
-      email: req.body.email,
-      vehicle: {
-        make: req.body.vehicleMake,
-        model: req.body.vehicleModel,
-        year: req.body.vehicleYear,
-        licensePlate: req.body.vehicleLicensePlate,
-        description: req.body.vehicleDescription,
-        features: req.body.vehicleFeatures,
-      },
-      createdAt: new Date(),
-    };
+    const createdDriverId = await driversService.create(
+      req.body.data.attributes,
+    );
 
-    const createdDriver = await driversRepository.create(newDriver);
+    const createdDriver =
+      await driversService.findDriverByIdOrFail(createdDriverId);
 
-    const driverViewModelResponse = mapToDriverViewModelUtil(createdDriver); // додаємо id з mongoDB (_id: Object("someIdString"))
+    const driverOutput = mapToDriverOutput(createdDriver); // додаємо id з mongoDB (_id: Object("someIdString"))
 
-    res.status(HTTP_STATUS_CODES.CREATED_201).json(driverViewModelResponse);
+    res.status(HTTP_STATUS_CODES.CREATED_201).json(driverOutput);
   } catch (error: unknown) {
-    res.sendStatus(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR_500);
+    errorsHandler(error, res);
   }
 }

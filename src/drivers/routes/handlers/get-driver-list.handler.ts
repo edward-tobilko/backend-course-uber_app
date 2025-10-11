@@ -1,25 +1,39 @@
 import { Request, Response } from 'express';
 import { log } from 'node:console';
+import { matchedData } from 'express-validator';
 
-import { driversRepository } from '../../repositories/drivers.repository';
-import { HTTP_STATUS_CODES } from '../../../core/utils/http-statuses';
-import { mapToDriverViewModelUtil } from '../mappers/map-to-driver-output.mapper';
+import { DriverQueryTypeInput } from '../input/driver-query-type.input';
+import { errorsHandler } from '../../../core/errors/errors.handler';
+import { driversService } from '../../application/drivers.service';
+import { mapToDriverListPaginatedOutput } from '../mappers/map-to-driver-list-paginated-output.mapper';
+import { setDefaultSortAndPaginationIfNotExist } from '../../../core/helpers/set-default-sort-and-pagination';
 
-export async function getDriverListHandler(_req: Request, res: Response) {
+export async function getDriverListHandler(
+  req: Request<{}, {}, DriverQueryTypeInput>,
+  res: Response,
+) {
   try {
-    const drivers = await driversRepository.findAll();
-    const driverViewModels = drivers.map(mapToDriverViewModelUtil);
+    // * утилита для извечения трансформированных значений после валидатара
+    const sanitizedQuery = matchedData<DriverQueryTypeInput>(req, {
+      locations: ['query'],
+      includeOptionals: true,
+    });
 
-    log(driverViewModels);
+    // * в req.query остаются сырые квери параметры (строки)
+    const queryInput = setDefaultSortAndPaginationIfNotExist(sanitizedQuery);
 
-    res.json(driverViewModels);
+    const { items, totalCount } = await driversService.findAll(queryInput);
+
+    log(`Drivers: ${items} - Total: ${totalCount}`);
+
+    const driversListOutput = mapToDriverListPaginatedOutput(items, {
+      pageNumber: queryInput.pageNumber,
+      pageSize: queryInput.pageSize,
+      totalCount,
+    });
+
+    res.json(driversListOutput);
   } catch (error: unknown) {
-    res.sendStatus(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR_500);
+    errorsHandler(error, res);
   }
 }
-
-// ? Що відбувається тут:
-// * Контролер отримує HTTP-запит (GET /drivers).
-// * Викликає репозиторій findAll() → отримує сирі документи з бази (_id, __v, тощо).
-// * Далі кожен документ мапиться через mapToDriverViewModelUtil, який формує зручну форму для фронтенду.
-// * У кінці повертає JSON через res.json().

@@ -3,6 +3,8 @@ import { ObjectId, WithId } from 'mongodb';
 import { driverCollection } from '../../db/mongo.db';
 import { DriverDataTypeAttributes } from '../routes/output/driver-data-type.output';
 import { DriverQueryTypeInput } from '../routes/input/driver-query-type.input';
+import { RepositoryNotFoundError } from '../../core/errors/repository-not-found.error';
+import { DriverDtoTypeAttributes } from '../application/dto/driver-attributes';
 
 export const driversRepository = {
   // * Найти всех водителей
@@ -57,21 +59,37 @@ export const driversRepository = {
   },
 
   // * Найти водителя по ID
-  async findDriverById(driverId: string): Promise<WithId<DriverType> | null> {
+  async findDriverByIdRepo(
+    driverId: string,
+  ): Promise<WithId<DriverDataTypeAttributes> | null> {
     // * ищем водителя в бд по id
     return driverCollection.findOne({ _id: new ObjectId(driverId) }); // Если результат поиска равно null или undefined, то вернем null.
   },
 
+  async findDriverByIdOrFailRepo(
+    driverId: string,
+  ): Promise<WithId<DriverDataTypeAttributes>> {
+    const result = await driverCollection.findOne({
+      _id: new ObjectId(driverId),
+    });
+
+    if (!result) {
+      throw new RepositoryNotFoundError('Driver not exist');
+    }
+
+    return result;
+  },
+
   // * Создать нового водителя
-  async create(newDriver: DriverType): Promise<WithId<DriverType>> {
+  async createRepo(newDriver: DriverDataTypeAttributes): Promise<string> {
     // * добавляем newDriver в БД
     const insertResult = await driverCollection.insertOne(newDriver);
 
-    return { ...newDriver, _id: insertResult.insertedId }; //ObjectId ('66efeaadeb3dafea3c3971fb')
+    return insertResult.insertedId.toString(); // ObjectId ('66efeaadeb3dafea3c3971fb')
   },
 
   // * Удалить водителя
-  async delete(id: string): Promise<void> {
+  async deleteRepo(id: string): Promise<void> {
     const deleteResult = await driverCollection.deleteOne({
       _id: new ObjectId(id),
     });
@@ -84,7 +102,7 @@ export const driversRepository = {
   },
 
   // * Обновить данные водителя (отправляем весь обьект)
-  async update(id: string, dto: DriverInputDto): Promise<void> {
+  async updateRepo(id: string, dto: DriverDtoTypeAttributes): Promise<void> {
     const updateResult = await driverCollection.updateOne(
       { _id: new ObjectId(id) },
 

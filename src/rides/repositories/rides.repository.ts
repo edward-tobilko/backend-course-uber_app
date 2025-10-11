@@ -23,7 +23,9 @@ export const ridesRepository = {
   },
 
   // * метод для пошуку активної поїздки водія по id
-  async findActiveRideByDriverId(driverId: string): Promise<RideType | null> {
+  async findActiveRideByDriverIdRepo(
+    driverId: string,
+  ): Promise<RideType | null> {
     return rideCollection.findOne({ driverId, finishedAt: null });
   },
 

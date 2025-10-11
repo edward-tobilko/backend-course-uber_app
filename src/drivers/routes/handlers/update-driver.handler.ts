@@ -1,26 +1,19 @@
 import { Request, Response } from 'express';
 
-import { DriverInputDto } from '../../application/dto/driver-attributes';
+import { errorsHandler } from '../../../core/errors/errors.handler';
 import { HTTP_STATUS_CODES } from '../../../core/utils/http-statuses';
-import { driversRepository } from '../../repositories/drivers.repository';
+import { driversService } from '../../application/drivers.service';
+import { DriverUpdateTypeInput } from '../input/driver-update-type.input';
 
 export async function updateDriverHandler(
-  req: Request<{ id: string }, {}, DriverInputDto>,
+  req: Request<{ id: string }, {}, DriverUpdateTypeInput>,
   res: Response,
 ) {
   try {
-    const driver = driversRepository.findDriverById(req.params.id);
-
-    if (!driver) {
-      res
-        .status(HTTP_STATUS_CODES.NOT_FOUND_404)
-        .json({ message: `Driver with id=${req.params.id} not found` });
-    }
-
-    await driversRepository.update(req.params.id, req.body);
+    await driversService.update(req.params.id, req.body.data.attributes);
 
     res.sendStatus(HTTP_STATUS_CODES.NO_CONTENT_204);
   } catch (error: unknown) {
-    res.sendStatus(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR_500);
+    errorsHandler(error, res);
   }
 }
