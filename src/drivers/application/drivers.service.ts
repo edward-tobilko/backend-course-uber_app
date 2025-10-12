@@ -3,7 +3,7 @@ import { WithId } from 'mongodb';
 import { driversRepository } from '../repositories/drivers.repository';
 import { DriverQueryTypeInput } from '../routes/input/driver-query-type.input';
 import { DriverDataTypeAttributes } from '../routes/output/driver-data-type.output';
-import { DriverDtoTypeAttributes } from './dto/driver-attributes';
+import { DriverDtoTypeAttributes } from './dto/driver-dto-type-attributes';
 import { ridesRepository } from '../../rides/repositories/rides.repository';
 import { DomainError } from '../../core/errors/domain.error';
 

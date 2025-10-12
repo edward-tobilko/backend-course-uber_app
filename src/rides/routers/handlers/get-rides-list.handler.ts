@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 
 import { ridesRepository } from '../../repositories/rides.repository';
 import { HTTP_STATUS_CODES } from '../../../core/utils/http-statuses';
-import { mapToRideViewModelUtil } from '../mappers/map-to-ride-view-model.util';
+import { mapToRideViewModelUtil } from '../mappers/map-to-ride-output.mapper';
 
 export async function getRidesListHandler(_req: Request, res: Response) {
   try {

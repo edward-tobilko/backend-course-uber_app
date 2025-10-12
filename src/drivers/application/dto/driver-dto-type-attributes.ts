@@ -1,4 +1,4 @@
-import { VehicleFeature } from '../../routes/output/driver-data-type.output';
+import { VehicleFeatureEnum } from '../../routes/output/driver-data-type.output';
 
 export type DriverDtoTypeAttributes = {
   name: string;
@@ -10,7 +10,7 @@ export type DriverDtoTypeAttributes = {
   vehicleYear: number;
   vehicleLicensePlate: string;
   vehicleDescription: string | null;
-  vehicleFeatures: VehicleFeature[];
+  vehicleFeatures: VehicleFeatureEnum[];
 };
 
 // ? dto (Data Transfer Object) - те, що присилає клієнт.

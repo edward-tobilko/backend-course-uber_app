@@ -1,8 +1,8 @@
 import { body } from 'express-validator';
 
-import { VehicleFeature } from '../routes/output/driver-data-type.output';
-import { resourceTypeValidation } from '../../core/middlewares/validation/resource-type-validation.middleware';
-import { ResourceType } from '../../core/types/resource';
+import { VehicleFeatureEnum } from '../routes/output/driver-data-type.output';
+import { resourceEnumValidation } from '../../core/middlewares/validation/resource-enum-validation.middleware';
+import { ResourceEnum } from '../../core/types/resource-enum';
 import { dataIdBodyValidation } from '../../core/middlewares/validation/params-id-validation.middleware';
 
 const nameValidation = body('data.attributes.name')
@@ -69,9 +69,9 @@ const vehicleFeaturesValidation = body('data.attributes.vehicleFeatures')
   .isArray()
   .withMessage('vehicleFeatures should be array')
   .optional() // Позволяет массиву быть пустым
-  .custom((vehicleFeatures: Array<VehicleFeature>) => {
+  .custom((vehicleFeatures: Array<VehicleFeatureEnum>) => {
     if (vehicleFeatures.length) {
-      const validFeatures = Object.values(VehicleFeature);
+      const validFeatures = Object.values(VehicleFeatureEnum);
 
       vehicleFeatures.forEach((feature) => {
         if (!validFeatures.includes(feature)) {
@@ -86,7 +86,7 @@ const vehicleFeaturesValidation = body('data.attributes.vehicleFeatures')
 
 export const driverCreateInputDtoValidation = [
   // data.type
-  resourceTypeValidation(ResourceType.Drivers),
+  resourceEnumValidation(ResourceEnum.Drivers),
 
   // data.attributes
   nameValidation,
@@ -101,13 +101,13 @@ export const driverCreateInputDtoValidation = [
 ];
 
 export const driverUpdateInputDtoValidation = [
-  // data.type
-  resourceTypeValidation(ResourceType.Drivers),
+  // *data.type
+  resourceEnumValidation(ResourceEnum.Drivers),
 
-  // data.id
+  // * data.id
   dataIdBodyValidation,
 
-  // data.attributes
+  // * data.attributes
   nameValidation,
   phoneNumberValidation,
   emailValidation,

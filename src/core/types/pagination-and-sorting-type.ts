@@ -1,11 +1,11 @@
-import { SortDirection } from './sort-direction';
+import { SortDirectionEnum } from './sort-direction-enum';
 
 // * Type for paginationAndSortingDefault and setDefaultSortAndPaginationIfNotExist
-export type PaginationAndSorting<S> = {
+export type PaginationAndSortingType<S> = {
   pageNumber: number;
   pageSize: number;
   sortBy: S; // Available values : createdAt, name, email - див в swagger
-  sortDirection: SortDirection;
+  sortDirection: SortDirectionEnum;
 };
 
 // ? <S> - дженерик, який ми вказуємо, що sortBy у нас буде по дефолту "createdAt" - строка. <S> = DriverSortFieldTypeInput

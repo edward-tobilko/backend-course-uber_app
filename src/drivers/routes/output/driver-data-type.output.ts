@@ -1,13 +1,13 @@
-import { ResourceType } from '../../../core/types/resource';
+import { ResourceEnum } from '../../../core/types/resource-enum';
 
-export enum VehicleFeature {
+export enum VehicleFeatureEnum {
   WiFi = 'wi-fi',
   ChildSeat = 'child-seat',
   PetFriendly = 'pet-friendly',
   Water = 'water',
 }
 
-export type DriverDataTypeAttributes = {
+export type DriverTypeAttributes = {
   name: string;
   phoneNumber: string;
   email: string;
@@ -17,13 +17,13 @@ export type DriverDataTypeAttributes = {
     year: number;
     licensePlate: string;
     description: string | null;
-    features: VehicleFeature[];
+    features: VehicleFeatureEnum[];
   };
   createdAt: Date;
 };
 
 export type DriverDataTypeOutput = {
-  type: ResourceType.Drivers;
+  type: ResourceEnum.Drivers;
   id: string;
   attributes: {
     name: string;
@@ -35,10 +35,10 @@ export type DriverDataTypeOutput = {
       year: number;
       licensePlate: string;
       description: string | null;
-      features: VehicleFeature[];
+      features: VehicleFeatureEnum[];
     };
     createdAt: Date;
   };
 };
 
-// ? DriverDataTypeOutput — це структура документа в базі (“backend-level” модель який зберігається, наприклад, у MongoDB).
+// ? DriverDataTypeOutput — це структура документа в базі (“backend-level” модел, яка зберігається, наприклад, у MongoDB).

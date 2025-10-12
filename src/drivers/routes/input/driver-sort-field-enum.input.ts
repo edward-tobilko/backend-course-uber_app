@@ -1,4 +1,4 @@
-export enum DriverSortFieldTypeInput {
+export enum DriverSortFieldInputEnum {
   CreatedAt = 'createdAt',
   Name = 'name',
   Email = 'email',

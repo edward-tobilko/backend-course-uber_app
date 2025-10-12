@@ -1,9 +1,9 @@
-import { ResourceType } from '../../../core/types/resource';
-import { DriverDtoTypeAttributes } from '../../application/dto/driver-attributes';
+import { ResourceEnum } from '../../../core/types/resource-enum';
+import { DriverDtoTypeAttributes } from '../../application/dto/driver-dto-type-attributes';
 
 export type DriverCreateTypeInput = {
   data: {
-    type: ResourceType.Drivers;
+    type: ResourceEnum.Drivers;
     attributes: DriverDtoTypeAttributes;
   };
 };

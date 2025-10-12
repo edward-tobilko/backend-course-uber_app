@@ -1,5 +1,5 @@
 // * Paginated output model
-export type PaginatedOutput = {
+export type PaginatedTypeOutput = {
   page: number;
   pageSize: number;
   pageCount: number;

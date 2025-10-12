@@ -1,5 +1,5 @@
 import { RideInputDtoType } from '../../../rides/dto/ride-input-dto.types';
-import { Currency } from '../../../rides/types/ride.types';
+import { Currency } from '../../../rides/types/ride-attributes';
 
 export function getRideDtoUtil(driverId: string): RideInputDtoType {
   return {

@@ -4,7 +4,7 @@ import { log } from 'node:console';
 import { ridesRepository } from '../../repositories/rides.repository';
 import { HTTP_STATUS_CODES } from '../../../core/utils/http-statuses';
 import { createErrorMessages } from '../../../core/utils/error-messages.util';
-import { mapToRideViewModelUtil } from '../mappers/map-to-ride-view-model.util';
+import { mapToRideViewModelUtil } from '../mappers/map-to-ride-output.mapper';
 
 export async function getRideHandler(
   req: Request<{ id: string }>,

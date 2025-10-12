@@ -6,7 +6,7 @@ import { clearDB } from '../../utils/clear-db.util';
 import { RIDES_PATH } from '../../../core/paths/paths';
 import { HTTP_STATUS_CODES } from '../../../core/utils/http-statuses';
 import { generateBasicAuthToken } from '../../utils/generate-admin-auth-token';
-import { Currency } from '../../../rides/types/ride.types';
+import { Currency } from '../../../rides/types/ride-attributes';
 import { runDB, stopDB } from '../../../db/mongo.db';
 import { SETTINGS_MONGO_DB } from '../../../core/settings-mongoDB/settings-mongo.db';
 

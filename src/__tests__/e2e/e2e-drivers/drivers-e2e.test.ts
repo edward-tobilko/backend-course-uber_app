@@ -2,7 +2,7 @@ import express from 'express';
 import request from 'supertest';
 
 import { setupApp } from '../../../app';
-import { DriverInputDto } from '../../../drivers/application/dto/driver-attributes';
+import { DriverInputDto } from '../../../drivers/application/dto/driver-dto-type-attributes';
 import { HTTP_STATUS_CODES } from '../../../core/utils/http-statuses';
 import { VehicleFeature } from '../../../drivers/types/driver.types';
 import { getDriverDtoUtil } from '../../utils/drivers/get-driver-dto.util';

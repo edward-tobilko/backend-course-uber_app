@@ -6,7 +6,7 @@ import { adminGuardMiddlewareAuth } from '../../auth/middlewares/admin-guard.mid
 import { getRideHandler } from './handlers/get-ride.handler';
 import { idParamValidation } from '../../core/middlewares/validation/params-id-validation.middleware';
 import { inputValidationResultMiddleware } from '../../core/middlewares/validation/input-validation-result.middleware';
-import { rideBodyDtoValidation } from '../validation/ride-body-dto-validation.middleware';
+import { rideBodyDtoValidation } from '../validation/ride-input-dto-validation.middleware';
 import { finishRideHandler } from './handlers/finish-ride.handler';
 
 export const ridesRouter = Router({});

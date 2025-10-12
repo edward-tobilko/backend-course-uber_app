@@ -4,7 +4,7 @@ import { driverCollection } from '../../db/mongo.db';
 import { DriverDataTypeAttributes } from '../routes/output/driver-data-type.output';
 import { DriverQueryTypeInput } from '../routes/input/driver-query-type.input';
 import { RepositoryNotFoundError } from '../../core/errors/repository-not-found.error';
-import { DriverDtoTypeAttributes } from '../application/dto/driver-attributes';
+import { DriverDtoTypeAttributes } from '../application/dto/driver-dto-type-attributes';
 
 export const driversRepository = {
   // * Найти всех водителей

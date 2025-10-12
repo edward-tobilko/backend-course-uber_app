@@ -1,26 +1,29 @@
 import { WithId } from 'mongodb';
 
-import { DriverTypeOutput } from '../output/driver-type.output';
-import { ResourceEnum } from '../../../core/types/resource-enum';
-import { DriverTypeAttributes } from '../output/driver-data-type.output';
+import { RideTypeAttributes } from '../output/ride-data-type.output';
+import { ResourceType } from '../../../core/types/resource-enum';
+import { RideTypeOutput } from '../output/ride-type.output';
 
-export const mapToDriverOutput = (
-  driver: WithId<DriverTypeAttributes>,
-): DriverTypeOutput => {
+export function mapToRideOutputMapper(
+  ride: WithId<RideTypeAttributes>,
+): RideTypeOutput {
   return {
     data: {
-      type: ResourceEnum.Drivers,
-      id: driver._id.toString(),
+      type: ResourceType.Rides,
+      id: ride._id.toString(),
       attributes: {
-        name: driver.name,
-        phoneNumber: driver.phoneNumber,
-        email: driver.email,
-        vehicle: driver.vehicle,
-        createdAt: driver.createdAt,
+        clientName: ride.clientName,
+        driver: ride.driver,
+        vehicle: ride.vehicle,
+        price: ride.price,
+        currency: ride.currency,
+        startedAt: ride.startedAt,
+        finishedAt: ride.finishedAt,
+        addresses: ride.addresses,
       },
     },
   };
-};
+}
 
 // ? MongoDB створює поле _id (типу ObjectId), яке фронтенду краще бачити як id: string.
 

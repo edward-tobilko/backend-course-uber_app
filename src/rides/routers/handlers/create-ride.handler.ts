@@ -1,12 +1,9 @@
 import { Request, Response } from 'express';
 
 import { ridesRepository } from '../../repositories/rides.repository';
-import { RideType } from '../../types/ride.types';
 import { HTTP_STATUS_CODES } from '../../../core/utils/http-statuses';
-import { RideInputDtoType } from '../../dto/ride-input-dto.types';
 import { driversRepository } from '../../../drivers/repositories/drivers.repository';
 import { createErrorMessages } from '../../../core/utils/error-messages.util';
-import { mapToRideViewModelUtil } from '../mappers/map-to-ride-view-model.util';
 
 export async function createRideHandler(
   req: Request<{}, {}, RideInputDtoType>,

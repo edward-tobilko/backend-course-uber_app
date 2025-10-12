@@ -1,8 +1,8 @@
-import { PaginationAndSorting } from '../../../core/types/pagination-and-sorting';
-import { DriverSortFieldTypeInput } from './driver-sort-field-type.input';
+import { PaginationAndSortingType } from '../../../core/types/pagination-and-sorting-type';
+import { DriverSortFieldInputEnum } from './driver-sort-field-enum.input';
 
 export type DriverQueryTypeInput =
-  PaginationAndSorting<DriverSortFieldTypeInput> &
+  PaginationAndSortingType<DriverSortFieldInputEnum> &
     Partial<{
       searchDriverNameTerm: string;
       searchDriverEmailTerm: string;
