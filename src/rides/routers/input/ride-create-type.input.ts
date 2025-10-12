@@ -1,9 +1,9 @@
 import { ResourceEnum } from '../../../core/types/resource-enum';
-import { RideTypeAttributes } from '../output/ride-data-type.output';
+import { RideDtoTypeAttributes } from '../../application/dto/ride-dto-type.attributes';
 
 export type RideCreateTypeInput = {
   data: {
     type: ResourceEnum.Rides;
-    attributes: RideTypeAttributes;
+    attributes: RideDtoTypeAttributes;
   };
 };

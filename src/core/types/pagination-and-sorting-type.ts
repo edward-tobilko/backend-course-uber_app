@@ -4,11 +4,11 @@ import { SortDirectionEnum } from './sort-direction-enum';
 export type PaginationAndSortingType<S> = {
   pageNumber: number;
   pageSize: number;
-  sortBy: S; // Available values : createdAt, name, email - див в swagger
+  sortBy: S; // Available values -> see RideSortFieldEnumInput or DriverSortFieldInputEnum
   sortDirection: SortDirectionEnum;
 };
 
-// ? <S> - дженерик, який ми вказуємо, що sortBy у нас буде по дефолту "createdAt" - строка. <S> = DriverSortFieldTypeInput
+// ? <S> - дженерик, який ми вказуємо, що sortBy у нас буде по дефолту "createdAt" - строка. <S> = DriverSortFieldTypeInput or RideSortFieldEnumInput
 // ? return:
 // ? ...paginationAndSortingDefault → спочатку додає всі default значення.
 // ? ...query → потім поверх дефолтів накладає параметри, які реально прийшли з req.query. (Тобто, якщо користувач щось передав — воно “перекриє” дефолт.)

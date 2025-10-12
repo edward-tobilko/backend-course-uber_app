@@ -11,4 +11,4 @@ export function setDefaultSortAndPaginationIfNotExist<P = string>(
   };
 }
 
-// ? P — generic-функція (тип поля), за яким можна сортуват (наприклад: Available values : createdAt, name, email - див в swagger)
+// ? P — generic-функція (тип поля), за яким можна сортувати, наприклад: Available values : createdAt, name, email - див в swagger

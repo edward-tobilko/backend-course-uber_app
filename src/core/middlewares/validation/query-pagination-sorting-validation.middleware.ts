@@ -1,13 +1,13 @@
 import { query } from 'express-validator';
 
 import { PaginationAndSortingType } from '../../types/pagination-and-sorting-type';
-import { SortDirectionType } from '../../types/sort-direction-enum';
+import { SortDirectionEnum } from '../../types/sort-direction-enum';
 
 // * Дефолтные значения
 const DEFAULT_PAGE_NUMBER = 1;
 const DEFAULT_PAGE_SIZE = 10;
 const DEFAULT_SORT_BY = 'createdAt';
-const DEFAULT_SORT_DIRECTION = SortDirectionType.Desc;
+const DEFAULT_SORT_DIRECTION = SortDirectionEnum.Desc;
 
 export const paginationAndSortingDefault: PaginationAndSortingType<string> = {
   pageNumber: DEFAULT_PAGE_NUMBER,
@@ -45,9 +45,9 @@ export function paginationAndSortingValidation<T extends string>(
     query('sortDirection')
       .optional({ values: 'falsy' })
       .default(DEFAULT_SORT_DIRECTION)
-      .isIn(Object.values(SortDirectionType))
+      .isIn(Object.values(SortDirectionEnum))
       .withMessage(
-        `Sort direction must be one of: ${Object.values(SortDirectionType).join(', ')}`,
+        `Sort direction must be one of: ${Object.values(SortDirectionEnum).join(', ')}`,
       ),
   ];
 }

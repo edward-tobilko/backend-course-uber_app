@@ -6,9 +6,16 @@ import { createDriverHandler } from './handlers/create-driver.handler';
 import { deleteDriverHandler } from './handlers/delete-driver.handler';
 import { updateDriverHandler } from './handlers/update-driver.handler';
 import { idParamValidation } from '../../core/middlewares/validation/params-id-validation.middleware';
-import { driverInputBodyDtoValidation } from '../validation/driver-input-dto-validation.middlewares';
 import { inputValidationResultMiddleware } from '../../core/middlewares/validation/input-validation-result.middleware';
 import { adminGuardMiddlewareAuth } from '../../auth/middlewares/admin-guard.middleware';
+import {
+  driverCreateInputDtoValidation,
+  driverUpdateInputDtoValidation,
+} from '../validation/driver-input-dto-validation.middlewares';
+import { paginationAndSortingValidation } from '../../core/middlewares/validation/query-pagination-sorting-validation.middleware';
+import { DriverSortFieldInputEnum } from './input/driver-sort-field-enum.input';
+import { getDriverRidesListHandler } from './handlers/get-driver-rides-list.handler';
+import { RideSortFieldEnumInput } from '../../rides/routers/input/ride-sort-field-enum.input';
 
 export const driversRouter = Router({});
 
@@ -16,19 +23,31 @@ export const driversRouter = Router({});
 
 // * Routes
 // ? method GET
-driversRouter.get('', getDriverListHandler);
+driversRouter.get(
+  '',
+  paginationAndSortingValidation(DriverSortFieldInputEnum),
+  inputValidationResultMiddleware,
+  getDriverListHandler,
+);
 driversRouter.get(
   `/:id`,
   idParamValidation,
   inputValidationResultMiddleware,
   getDriverHandler,
 );
+driversRouter.get(
+  `/:id/rides`,
+  idParamValidation,
+  paginationAndSortingValidation(RideSortFieldEnumInput),
+  inputValidationResultMiddleware,
+  getDriverRidesListHandler,
+);
 
 // ? method POST
 driversRouter.post(
   '',
   adminGuardMiddlewareAuth, // проверяет авторизацию для данного запроса.
-  driverInputBodyDtoValidation, // проверяет, что данные, передаваемые в теле запроса, соответствуют ожидаемой структуре.
+  driverCreateInputDtoValidation, // проверяет, что данные, передаваемые в теле запроса, соответствуют ожидаемой структуре.
   inputValidationResultMiddleware, // проверяет, прошли ли данные валидацию.
   createDriverHandler, // основной обработчик запроса, который создаёт водителя, если все предыдущие мидлвейры прошли успешно.
 );
@@ -47,7 +66,7 @@ driversRouter.put(
   '/:id',
   adminGuardMiddlewareAuth,
   idParamValidation,
-  driverInputBodyDtoValidation,
+  driverUpdateInputDtoValidation,
   inputValidationResultMiddleware,
   updateDriverHandler,
 );

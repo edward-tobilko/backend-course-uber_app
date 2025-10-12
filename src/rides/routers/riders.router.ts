@@ -6,12 +6,18 @@ import { adminGuardMiddlewareAuth } from '../../auth/middlewares/admin-guard.mid
 import { getRideHandler } from './handlers/get-ride.handler';
 import { idParamValidation } from '../../core/middlewares/validation/params-id-validation.middleware';
 import { inputValidationResultMiddleware } from '../../core/middlewares/validation/input-validation-result.middleware';
-import { rideBodyDtoValidation } from '../validation/ride-input-dto-validation.middleware';
 import { finishRideHandler } from './handlers/finish-ride.handler';
+import { rideCreateInputDtoValidation } from '../validation/ride-input-dto-validation.middleware';
+import { paginationAndSortingValidation } from '../../core/middlewares/validation/query-pagination-sorting-validation.middleware';
+import { RideSortFieldEnumInput } from './input/ride-sort-field-enum.input';
 
 export const ridesRouter = Router({});
 
-ridesRouter.get('', getRidesListHandler);
+ridesRouter.get(
+  '',
+  paginationAndSortingValidation(RideSortFieldEnumInput),
+  getRidesListHandler,
+);
 ridesRouter.get(
   '/:id',
   idParamValidation,
@@ -22,7 +28,7 @@ ridesRouter.get(
 ridesRouter.post(
   '',
   adminGuardMiddlewareAuth,
-  rideBodyDtoValidation,
+  rideCreateInputDtoValidation,
   inputValidationResultMiddleware,
   createRideHandler,
 );

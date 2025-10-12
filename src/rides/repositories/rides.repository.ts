@@ -3,24 +3,75 @@ import { log } from 'node:console';
 
 import { rideCollection } from '../../db/mongo.db';
 import { RideTypeAttributes } from '../routers/output/ride-data-type.output';
+import { RideQueryTypeInput } from '../routers/input/ride-query-type.input';
+import { RepositoryNotFoundError } from '../../core/errors/repository-not-found.error';
 
 export const ridesRepository = {
-  async findAllRidesRepo(): Promise<WithId<RideTypeAttributes>[]> {
-    return rideCollection.find().toArray();
+  async findAllRidesRepo(
+    queryDto: RideQueryTypeInput,
+  ): Promise<{ items: WithId<RideTypeAttributes>[]; totalCount: number }> {
+    const { pageNumber, pageSize, sortBy, sortDirection } = queryDto;
+
+    const filter = {};
+
+    const [items, totalCount] = await Promise.all([
+      rideCollection
+        .find(filter)
+        .sort({ [sortBy]: sortDirection })
+        .skip((pageNumber - 1) * pageSize)
+        .limit(pageSize)
+        .toArray(),
+
+      rideCollection.countDocuments(filter),
+    ]);
+
+    return { items, totalCount };
   },
 
-  async findRideById(id: string): Promise<WithId<RideTypeAttributes> | null> {
+  async findRidesByDriverRepo(
+    driverId: string,
+    queryDto: RideQueryTypeInput,
+  ): Promise<{ items: WithId<RideTypeAttributes>[]; totalCount: number }> {
+    const { pageNumber, pageSize, sortBy, sortDirection } = queryDto;
+
+    const filter = { 'driver.id': driverId };
+
+    const [items, totalCount] = await Promise.all([
+      rideCollection
+        .find(filter)
+        .sort({ [sortBy]: sortDirection })
+        .skip((pageNumber - 1) * pageSize)
+        .limit(pageSize)
+        .toArray(),
+
+      rideCollection.countDocuments(filter),
+    ]);
+
+    return { items, totalCount };
+  },
+
+  async findRideByIdRepo(
+    id: string,
+  ): Promise<WithId<RideTypeAttributes> | null> {
     return rideCollection.findOne({ _id: new ObjectId(id) }); // Если результат поиска равно null или undefined, то вернем null.
   },
 
-  async createNewRide(
-    newRide: RideTypeAttributes,
+  async findRideByIdOrFailRepo(
+    id: string,
   ): Promise<WithId<RideTypeAttributes>> {
-    const createdRideResult = await rideCollection.insertOne(newRide);
+    const result = await rideCollection.findOne({ _id: new ObjectId(id) });
 
-    log('createdRideResult ->', createdRideResult); //   acknowledged: true, insertedId: new ObjectId('68e17d24405a39ae4442c337')
+    if (!result) {
+      throw new RepositoryNotFoundError('Ride not exist');
+    }
 
-    return { ...newRide, _id: createdRideResult.insertedId }; // ObjectId('66efeaadeb3dafea3c3971fb')
+    return result;
+  },
+
+  async createNewRideRepo(newRide: RideTypeAttributes): Promise<string> {
+    const insertResult = await rideCollection.insertOne(newRide);
+
+    return insertResult.insertedId.toString(); // ObjectId('66efeaadeb3dafea3c3971fb')
   },
 
   // * метод для пошуку активної поїздки водія по id
@@ -30,7 +81,7 @@ export const ridesRepository = {
     return rideCollection.findOne({ driverId, finishedAt: null });
   },
 
-  async finishedRide(rideId: string, finishedAt: Date) {
+  async finishRideRepo(rideId: string, finishedAt: Date) {
     const updateResult = await rideCollection.updateOne(
       {
         _id: new ObjectId(rideId),

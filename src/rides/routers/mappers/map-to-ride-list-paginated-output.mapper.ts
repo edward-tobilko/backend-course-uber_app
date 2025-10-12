@@ -5,7 +5,7 @@ import {
   RideTypeAttributes,
 } from '../output/ride-data-type.output';
 import { RideListPaginatedOutput } from '../output/ride-list-paginated-type.output';
-import { ResourceType } from '../../../core/types/resource-enum';
+import { ResourceEnum } from '../../../core/types/resource-enum';
 
 export const mapToRideListPaginatedOutput = (
   rideAttributes: WithId<RideTypeAttributes>[],
@@ -20,7 +20,7 @@ export const mapToRideListPaginatedOutput = (
     },
     data: rideAttributes.map(
       (ride): RideDataTypeOutput => ({
-        type: ResourceType.Rides,
+        type: ResourceEnum.Rides,
         id: ride._id.toString(),
         attributes: {
           clientName: ride.clientName,

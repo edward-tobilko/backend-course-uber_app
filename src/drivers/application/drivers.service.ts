@@ -2,28 +2,28 @@ import { WithId } from 'mongodb';
 
 import { driversRepository } from '../repositories/drivers.repository';
 import { DriverQueryTypeInput } from '../routes/input/driver-query-type.input';
-import { DriverDataTypeAttributes } from '../routes/output/driver-data-type.output';
+import { DriverTypeAttributes } from '../routes/output/driver-data-type.output';
 import { DriverDtoTypeAttributes } from './dto/driver-dto-type-attributes';
 import { ridesRepository } from '../../rides/repositories/rides.repository';
 import { DomainError } from '../../core/errors/domain.error';
 
 export const driversService = {
   async findAll(queryDto: DriverQueryTypeInput): Promise<{
-    items: WithId<DriverDataTypeAttributes>[];
+    items: WithId<DriverTypeAttributes>[];
     totalCount: number;
   }> {
-    return await driversRepository.findAllRepo(queryDto);
+    return driversRepository.findAllRepo(queryDto);
   },
 
   async findDriverByIdOrFail(
     driverId: string,
-  ): Promise<WithId<DriverDataTypeAttributes>> {
-    return await driversRepository.findDriverByIdOrFailRepo(driverId);
+  ): Promise<WithId<DriverTypeAttributes>> {
+    return driversRepository.findDriverByIdOrFailRepo(driverId);
   },
 
   async create(dto: DriverDtoTypeAttributes): Promise<string> {
     // * создаем нового водителя
-    const newDriver: DriverDataTypeAttributes = {
+    const newDriver: DriverTypeAttributes = {
       name: dto.name, // ті значення, які до нас прийшли від клієнта
       phoneNumber: dto.phoneNumber,
       email: dto.email,
@@ -38,7 +38,7 @@ export const driversService = {
       createdAt: new Date(),
     };
 
-    return await driversRepository.createRepo(newDriver);
+    return driversRepository.createRepo(newDriver);
   },
 
   async update(id: string, dto: DriverDtoTypeAttributes): Promise<void> {

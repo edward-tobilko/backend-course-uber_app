@@ -2,8 +2,6 @@ import express from 'express';
 import request from 'supertest';
 
 import { setupApp } from '../../../app';
-import { DriverInputDto } from '../../../drivers/application/dto/driver-dto-type-attributes';
-import { VehicleFeature } from '../../../drivers/types/driver.types';
 import { HTTP_STATUS_CODES } from '../../../core/utils/http-statuses';
 import { clearDB } from '../../utils/clear-db.util';
 import { DRIVERS_PATH } from '../../../core/paths/paths';
@@ -13,6 +11,9 @@ import { getDriverByIdUtil } from '../../utils/drivers/get-driver-by-id.util';
 import { getDriverDtoUtil } from '../../utils/drivers/get-driver-dto.util';
 import { runDB, stopDB } from '../../../db/mongo.db';
 import { SETTINGS_MONGO_DB } from '../../../core/settings-mongoDB/settings-mongo.db';
+import { DriverDtoTypeAttributes } from '../../../drivers/application/dto/driver-dto-type-attributes';
+import { ResourceEnum } from '../../../core/types/resource-enum';
+import { DriverCreateTypeInput } from '../../../drivers/routes/input/driver-create-type.input';
 
 describe('Driver API body validation check', () => {
   const app = express();
@@ -20,7 +21,8 @@ describe('Driver API body validation check', () => {
 
   const adminToken = generateBasicAuthToken();
 
-  const correctTestDriverData: DriverInputDto = getDriverDtoUtil();
+  const correctTestDriverDtoAttributes: DriverDtoTypeAttributes =
+    getDriverDtoUtil();
 
   beforeAll(async () => {
     await runDB(SETTINGS_MONGO_DB.MONGO_URL);
@@ -31,16 +33,32 @@ describe('Driver API body validation check', () => {
     await stopDB();
   });
 
-  it('POST: /drivers -> should not create driver when incorrect body passed - 401 and 400', async () => {
+  it('POST: /api/drivers -> should not create driver when incorrect body passed - 401 and 400', async () => {
+    const correctTestDriverDtoData: DriverCreateTypeInput = {
+      data: {
+        type: ResourceEnum.Drivers,
+        attributes: correctTestDriverDtoAttributes,
+      },
+    };
+
     const invalidDataSet1 = await request(app)
       .post(DRIVERS_PATH)
       .set('Authorization', adminToken)
       .send({
-        ...correctTestDriverData,
-        name: '     ',
-        phoneNumber: '   ',
-        email: 'invalid email',
-        vehicleMake: '',
+        data: {
+          ...correctTestDriverDtoData.data,
+          attributes: {
+            name: '   ', // empty string
+            phoneNumber: '    ', // empty string
+            email: 'invalid email', // incorrect email
+            vehicleMake: '', // empty string
+            vehicleModel: 'A6',
+            vehicleYear: 2020,
+            vehicleLicensePlate: 'XYZ-456',
+            vehicleDescription: null,
+            vehicleFeatures: [],
+          },
+        },
       })
       .expect(HTTP_STATUS_CODES.BAD_REQUEST_400);
 
@@ -50,11 +68,20 @@ describe('Driver API body validation check', () => {
       .post(DRIVERS_PATH)
       .set('Authorization', adminToken)
       .send({
-        ...correctTestDriverData,
-        phoneNumber: '', // empty string
-        vehicleModel: '', // empty string
-        vehicleYear: 'year', // incorrect number
-        vehicleLicensePlate: '', // empty string
+        data: {
+          ...correctTestDriverDtoData.data,
+          attributes: {
+            name: 'Feodor',
+            phoneNumber: '', // empty string
+            email: 'feodor@example.com',
+            vehicleModel: '', // empty string
+            vehicleLicensePlate: '', // empty string
+            vehicleMake: '', // empty string
+            vehicleYear: 2020,
+            vehicleDescription: null,
+            vehicleFeatures: [],
+          },
+        },
       })
       .expect(HTTP_STATUS_CODES.BAD_REQUEST_400);
 
@@ -64,19 +91,31 @@ describe('Driver API body validation check', () => {
       .post(DRIVERS_PATH)
       .set('Authorization', adminToken)
       .send({
-        ...correctTestDriverData,
-        name: 'A', // too short
+        data: {
+          ...correctTestDriverDtoData.data,
+          attributes: {
+            name: 'Feodor',
+            email: 'feodor@example.com',
+            phoneNumber: '', // empty string
+            vehicleModel: '', // empty string
+            vehicleLicensePlate: '', // empty string
+            vehicleMake: '', // empty string
+            vehicleYear: 2020,
+            vehicleDescription: null,
+            vehicleFeatures: [],
+          },
+        },
       });
 
-    expect(invalidDataSet3.body.errorMessages).toHaveLength(1);
+    expect(invalidDataSet3.body.errorMessages).toHaveLength(4);
 
     // * проверяем никто ли не создался
     const driverListResponse = await request(app).get(DRIVERS_PATH);
 
-    expect(driverListResponse.body).toHaveLength(0);
+    expect(driverListResponse.body.data).toHaveLength(0);
   });
 
-  it('PUT: /drivers/:id should not update driver when incorrect data passed - 401 and 400', async () => {
+  it('PUT: /api/drivers/:id should not update driver when incorrect data passed - 401 and 400', async () => {
     const createDriverResponse = await createDriverUtil(
       app,
       correctTestDriverData,

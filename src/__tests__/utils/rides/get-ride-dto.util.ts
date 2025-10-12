@@ -1,12 +1,12 @@
-import { RideInputDtoType } from '../../../rides/dto/ride-input-dto.types';
-import { Currency } from '../../../rides/types/ride-attributes';
+import { RideDtoTypeAttributes } from '../../../rides/application/dto/ride-dto-type.attributes';
+import { CurrencyEnum } from '../../../rides/routers/output/ride-data-type.output';
 
-export function getRideDtoUtil(driverId: string): RideInputDtoType {
+export function getRideDtoUtil(driverId: string): RideDtoTypeAttributes {
   return {
     driverId,
     clientName: 'Bob',
     price: 200,
-    currency: Currency.USD,
+    currency: CurrencyEnum.USD,
     fromAddress: '123 Main St, Springfield, IL',
     toAddress: '456 Elm St, Shelbyville, IL',
   };

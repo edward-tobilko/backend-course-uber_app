@@ -13,13 +13,13 @@ export async function getDriverListHandler(
   res: Response,
 ) {
   try {
-    // * утилита для извечения трансформированных значений после валидатара
+    // * утиліта для вилучення трансформованих значень після валідатора
     const sanitizedQuery = matchedData<DriverQueryTypeInput>(req, {
       locations: ['query'],
       includeOptionals: true,
     });
 
-    // * в req.query остаются сырые квери параметры (строки)
+    // * в req.query залишаються сирі параметри запиту (рядки)
     const queryInput = setDefaultSortAndPaginationIfNotExist(sanitizedQuery);
 
     const { items, totalCount } = await driversService.findAll(queryInput);

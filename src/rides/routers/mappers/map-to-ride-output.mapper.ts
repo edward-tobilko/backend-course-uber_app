@@ -1,7 +1,7 @@
 import { WithId } from 'mongodb';
 
 import { RideTypeAttributes } from '../output/ride-data-type.output';
-import { ResourceType } from '../../../core/types/resource-enum';
+import { ResourceEnum } from '../../../core/types/resource-enum';
 import { RideTypeOutput } from '../output/ride-type.output';
 
 export function mapToRideOutputMapper(
@@ -9,7 +9,7 @@ export function mapToRideOutputMapper(
 ): RideTypeOutput {
   return {
     data: {
-      type: ResourceType.Rides,
+      type: ResourceEnum.Rides,
       id: ride._id.toString(),
       attributes: {
         clientName: ride.clientName,

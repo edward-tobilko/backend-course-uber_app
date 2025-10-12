@@ -1,7 +1,7 @@
-import { DriverInputDto } from '../../../drivers/application/dto/driver-dto-type-attributes';
-import { VehicleFeature } from '../../../drivers/types/driver.types';
+import { DriverDtoTypeAttributes } from '../../../drivers/application/dto/driver-dto-type-attributes';
+import { VehicleFeatureEnum } from '../../../drivers/routes/output/driver-data-type.output';
 
-export const getDriverDtoUtil = (): DriverInputDto => {
+export const getDriverDtoUtil = (): DriverDtoTypeAttributes => {
   return {
     name: 'Valentin',
     phoneNumber: '123-456-7890',
@@ -11,6 +11,6 @@ export const getDriverDtoUtil = (): DriverInputDto => {
     vehicleYear: 2021,
     vehicleLicensePlate: 'ABC-123',
     vehicleDescription: 'Some description',
-    vehicleFeatures: [VehicleFeature.ChildSeat],
+    vehicleFeatures: [VehicleFeatureEnum.ChildSeat],
   };
 };

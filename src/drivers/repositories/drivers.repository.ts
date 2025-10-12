@@ -1,7 +1,7 @@
 import { ObjectId, WithId } from 'mongodb';
 
 import { driverCollection } from '../../db/mongo.db';
-import { DriverDataTypeAttributes } from '../routes/output/driver-data-type.output';
+import { DriverTypeAttributes } from '../routes/output/driver-data-type.output';
 import { DriverQueryTypeInput } from '../routes/input/driver-query-type.input';
 import { RepositoryNotFoundError } from '../../core/errors/repository-not-found.error';
 import { DriverDtoTypeAttributes } from '../application/dto/driver-dto-type-attributes';
@@ -9,7 +9,7 @@ import { DriverDtoTypeAttributes } from '../application/dto/driver-dto-type-attr
 export const driversRepository = {
   // * Найти всех водителей
   async findAllRepo(queryDto: DriverQueryTypeInput): Promise<{
-    items: WithId<DriverDataTypeAttributes>[];
+    items: WithId<DriverTypeAttributes>[];
     totalCount: number;
   }> {
     const filter: any = {};
@@ -61,14 +61,14 @@ export const driversRepository = {
   // * Найти водителя по ID
   async findDriverByIdRepo(
     driverId: string,
-  ): Promise<WithId<DriverDataTypeAttributes> | null> {
+  ): Promise<WithId<DriverTypeAttributes> | null> {
     // * ищем водителя в бд по id
     return driverCollection.findOne({ _id: new ObjectId(driverId) }); // Если результат поиска равно null или undefined, то вернем null.
   },
 
   async findDriverByIdOrFailRepo(
     driverId: string,
-  ): Promise<WithId<DriverDataTypeAttributes>> {
+  ): Promise<WithId<DriverTypeAttributes>> {
     const result = await driverCollection.findOne({
       _id: new ObjectId(driverId),
     });
@@ -81,7 +81,7 @@ export const driversRepository = {
   },
 
   // * Создать нового водителя
-  async createRepo(newDriver: DriverDataTypeAttributes): Promise<string> {
+  async createRepo(newDriver: DriverTypeAttributes): Promise<string> {
     // * добавляем newDriver в БД
     const insertResult = await driverCollection.insertOne(newDriver);
 

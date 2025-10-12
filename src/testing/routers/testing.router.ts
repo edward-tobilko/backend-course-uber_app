@@ -5,11 +5,14 @@ import { driverCollection, rideCollection } from '../../db/mongo.db';
 
 export const testingRouter = Router({});
 
-testingRouter.delete('', async (_req: Request, res: Response) => {
-  await Promise.all([
-    driverCollection.deleteMany(),
-    rideCollection.deleteMany(),
-  ]);
+testingRouter.delete(
+  '',
+  async (_req: Request<{}, {}, {}, {}>, res: Response) => {
+    await Promise.all([
+      driverCollection.deleteMany(),
+      rideCollection.deleteMany(),
+    ]);
 
-  res.sendStatus(HTTP_STATUS_CODES.NO_CONTENT_204);
-});
+    res.sendStatus(HTTP_STATUS_CODES.NO_CONTENT_204);
+  },
+);
