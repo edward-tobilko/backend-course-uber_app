@@ -6,14 +6,14 @@ import { getDriverDtoUtil } from './get-driver-dto.util';
 import { DRIVERS_PATH } from '../../../core/paths/paths';
 import { generateBasicAuthToken } from '../generate-admin-auth-token';
 import { HTTP_STATUS_CODES } from '../../../core/utils/http-statuses';
-import { DriverTypeAttributes } from '../../../drivers/routes/output/driver-data-type.output';
 import { DriverTypeOutput } from '../../../drivers/routes/output/driver-type.output';
 import { DriverCreateTypeInput } from '../../../drivers/routes/input/driver-create-type.input';
 import { ResourceEnum } from '../../../core/types/resource-enum';
+import { DriverDtoTypeAttributes } from '../../../drivers/application/dto/driver-dto-type-attributes';
 
 export async function createDriverUtil(
   app: Express,
-  driverDto?: Partial<DriverTypeAttributes>,
+  driverDto?: Partial<DriverDtoTypeAttributes>,
 ): Promise<WithId<DriverTypeOutput>> {
   const testDriverData: DriverCreateTypeInput = {
     data: {
