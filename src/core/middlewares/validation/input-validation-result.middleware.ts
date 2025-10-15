@@ -6,8 +6,12 @@ import {
 } from 'express-validator';
 
 import { HTTP_STATUS_CODES } from '../../utils/http-statuses';
+import { ValidationErrorType } from '../../types/validation-error-type';
+import { createErrorMessages } from '../../utils/error-messages.util';
 
-const formatValidationErrors = (error: ValidationError) => {
+const formatValidationErrors = (
+  error: ValidationError,
+): ValidationErrorType => {
   const expressError = error as unknown as FieldValidationError;
 
   return {
@@ -29,7 +33,7 @@ export const inputValidationResultMiddleware = (
   if (errors.length > 0) {
     return res
       .status(HTTP_STATUS_CODES.BAD_REQUEST_400)
-      .json({ errorMessages: errors });
+      .json(createErrorMessages(errors));
   }
 
   next(); // Если ошибок нет, передаём управление дальше

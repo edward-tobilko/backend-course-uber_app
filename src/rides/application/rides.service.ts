@@ -12,7 +12,7 @@ export const ridesService = {
   async findAllRides(
     queryDto: RideQueryTypeInput,
   ): Promise<{ items: WithId<RideTypeAttributes>[]; totalCount: number }> {
-    return ridesService.findAllRides(queryDto);
+    return ridesRepository.findAllRidesRepo(queryDto);
   },
 
   async findRidesByDriver(

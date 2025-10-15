@@ -43,6 +43,11 @@ describe('Driver API body validation check', () => {
       },
     };
 
+    await request(app)
+      .post(DRIVERS_PATH)
+      .send(correctTestDriverData)
+      .expect(HTTP_STATUS_CODES.UNAUTHORIZED_401);
+
     const invalidDataSet1 = await request(app)
       .post(DRIVERS_PATH)
       .set('Authorization', adminToken)

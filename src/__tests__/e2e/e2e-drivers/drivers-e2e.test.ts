@@ -21,8 +21,6 @@ describe('E2E: Drivers API', () => {
 
   const adminToken = generateBasicAuthToken();
 
-  const correctTestDriverData: DriverDtoTypeAttributes = getDriverDtoUtil();
-
   beforeAll(async () => {
     await runDB(SETTINGS_MONGO_DB.MONGO_URL);
     await clearDB(app);
@@ -35,7 +33,6 @@ describe('E2E: Drivers API', () => {
   it('POST: /api/drivers -> should create new driver - 201', async () => {
     await createDriverUtil(app, {
       ...getDriverDtoUtil(),
-      ...correctTestDriverData,
       name: 'Feodor',
       email: 'feodor@example.com',
     });

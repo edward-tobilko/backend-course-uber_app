@@ -24,7 +24,9 @@ export async function getDriverListHandler(
 
     const { items, totalCount } = await driversService.findAll(queryInput);
 
-    log(`Drivers: ${items} - Total: ${totalCount}`);
+    log(
+      `Drivers: ${items.map((item) => item.name)} - Total: ${totalCount.toString()}`,
+    );
 
     const driversListOutput = mapToDriverListPaginatedOutput(items, {
       pageNumber: queryInput.pageNumber,
