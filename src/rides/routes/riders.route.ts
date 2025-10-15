@@ -11,28 +11,28 @@ import { rideCreateInputDtoValidation } from '../validation/ride-input-dto-valid
 import { paginationAndSortingValidation } from '../../core/middlewares/validation/query-pagination-sorting-validation.middleware';
 import { RideSortFieldEnumInput } from './input/ride-sort-field-enum.input';
 
-export const ridesRouter = Router({});
+export const ridesRoute = Router({});
 
-ridesRouter.get(
+ridesRoute.get(
   '',
   paginationAndSortingValidation(RideSortFieldEnumInput),
   getRidesListHandler,
 );
-ridesRouter.get(
+ridesRoute.get(
   '/:id',
   idParamValidation,
   inputValidationResultMiddleware,
   getRideHandler,
 );
 
-ridesRouter.post(
+ridesRoute.post(
   '',
   adminGuardMiddlewareAuth,
   rideCreateInputDtoValidation,
   inputValidationResultMiddleware,
   createRideHandler,
 );
-ridesRouter.post(
+ridesRoute.post(
   '/:id/actions/finish',
   adminGuardMiddlewareAuth,
   idParamValidation,

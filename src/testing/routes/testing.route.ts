@@ -3,9 +3,9 @@ import { Request, Response, Router } from 'express';
 import { HTTP_STATUS_CODES } from '../../core/utils/http-statuses';
 import { driverCollection, rideCollection } from '../../db/mongo.db';
 
-export const testingRouter = Router({});
+export const testingRoute = Router({});
 
-testingRouter.delete(
+testingRoute.delete(
   '',
   async (_req: Request<{}, {}, {}, {}>, res: Response) => {
     await Promise.all([

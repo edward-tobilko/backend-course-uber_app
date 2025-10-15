@@ -9,7 +9,6 @@ import { HTTP_STATUS_CODES } from '../../../core/utils/http-statuses';
 import { getRideByIdUtil } from '../../utils/rides/get-ride-by-id.util';
 import { runDB, stopDB } from '../../../db/mongo.db';
 import { SETTINGS_MONGO_DB } from '../../../core/settings-mongoDB/settings-mongo.db';
-import { RideViewModelType } from '../../../rides/types/ride-view-model.types';
 import { generateBasicAuthToken } from '../../utils/generate-admin-auth-token';
 
 describe('E2E rides API tests', () => {
@@ -26,49 +25,45 @@ describe('E2E rides API tests', () => {
     await stopDB();
   });
 
-  it('POST: /rides -> should create new ride - 201', async () => {
-    await createRideUtil(app, { clientName: 'Max', price: 10 });
+  it('POST: /api/rides -> should create new ride - 201', async () => {
+    await createRideUtil(app);
   });
 
-  it('GET: /rides -> should return rides list - 200', async () => {
-    await createRideUtil(app, {
-      clientName: 'Another client1',
-      price: 20,
-    });
+  it('GET: /api/rides -> should return rides list - 200', async () => {
+    await createRideUtil(app);
 
     const getRideListResponse = await request(app)
       .get(RIDES_PATH)
       .expect(HTTP_STATUS_CODES.OK_200);
 
-    expect(getRideListResponse.body).toBeInstanceOf(Array);
-    expect(getRideListResponse.body).toHaveLength(2);
+    expect(getRideListResponse.body.data).toBeInstanceOf(Array);
+    expect(getRideListResponse.body.data).toHaveLength(2); // створилося 2 поїздки, тому що одна у нас в createRideUtil лежить
   });
 
-  it('GET: /rides/:id -> should return ride by id - 200', async () => {
-    const createdNewRideResponse: RideViewModelType = await createRideUtil(app);
+  it('GET: /api/rides/:id -> should return ride by id - 200', async () => {
+    const createdRideResponse = await createRideUtil(app);
 
-    const getRideById = await getRideByIdUtil(app, createdNewRideResponse.id);
+    const getRideById = await getRideByIdUtil(app, createdRideResponse.data.id);
 
-    expect(getRideById).toEqual({
-      ...createdNewRideResponse,
-      id: expect.any(String),
-      startedAt: expect.any(String),
-      finishedAt: null,
-    });
+    expect(getRideById.data.id).toBe(createdRideResponse.data.id);
+    expect(getRideById.data.attributes).toEqual(
+      createdRideResponse.data.attributes,
+    );
   });
 
-  it('POST: /rides/:id/actions/finish -> should finish ride - 204', async () => {
-    const createdRide: RideViewModelType = await createRideUtil(app);
+  it('POST: /api/rides/:id/actions/finish -> should finish ride - 204', async () => {
+    const createdRide = await createRideUtil(app);
 
     await request(app)
-      .post(`${RIDES_PATH}/${createdRide.id}/actions/finish`)
+      .post(`${RIDES_PATH}/${createdRide.data.id}/actions/finish`)
       .set('Authorization', generateBasicAuthToken())
       .expect(HTTP_STATUS_CODES.NO_CONTENT_204);
 
-    const fetchedRide = await getRideByIdUtil(app, createdRide.id);
+    const fetchedRideById = await getRideByIdUtil(app, createdRide.data.id);
 
-    expect(fetchedRide).toEqual({
-      ...createdRide,
+    expect(fetchedRideById.data.id).toBe(createdRide.data.id);
+    expect(fetchedRideById.data.attributes).toEqual({
+      ...createdRide.data.attributes,
       finishedAt: expect.any(String),
     });
   });

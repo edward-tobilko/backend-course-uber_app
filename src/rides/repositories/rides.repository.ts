@@ -2,8 +2,8 @@ import { ObjectId, WithId } from 'mongodb';
 import { log } from 'node:console';
 
 import { rideCollection } from '../../db/mongo.db';
-import { RideTypeAttributes } from '../routers/output/ride-data-type.output';
-import { RideQueryTypeInput } from '../routers/input/ride-query-type.input';
+import { RideTypeAttributes } from '../routes/output/ride-data-type.output';
+import { RideQueryTypeInput } from '../routes/input/ride-query-type.input';
 import { RepositoryNotFoundError } from '../../core/errors/repository-not-found.error';
 
 export const ridesRepository = {

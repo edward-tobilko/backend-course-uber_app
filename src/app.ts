@@ -1,15 +1,15 @@
 import express, { Express, Request, Response } from 'express';
 
-import { driversRouter } from './drivers/routes/drivers.router';
-import { testingRouter } from './testing/routers/testing.router';
+import { driversRoute } from './drivers/routes/drivers.route';
 import {
   DRIVERS_PATH,
   RIDES_PATH,
   ROOT_PATH,
   TESTING_PATH,
 } from './core/paths/paths';
-import { ridesRouter } from './rides/routers/riders.router';
+import { ridesRoute } from './rides/routes/riders.route';
 import { setupSwagger } from './core/swagger/setup-swagger';
+import { testingRoute } from './testing/routes/testing.route';
 
 /**
  * Настраиваем routes, cors, swagger
@@ -24,9 +24,9 @@ export const setupApp = (app: Express) => {
   });
 
   // * Подключаем роутеры
-  app.use(DRIVERS_PATH, driversRouter);
-  app.use(RIDES_PATH, ridesRouter);
-  app.use(TESTING_PATH, testingRouter);
+  app.use(DRIVERS_PATH, driversRoute);
+  app.use(RIDES_PATH, ridesRoute);
+  app.use(TESTING_PATH, testingRoute);
 
   setupSwagger(app);
 

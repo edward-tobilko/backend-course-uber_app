@@ -15,27 +15,27 @@ import {
 import { paginationAndSortingValidation } from '../../core/middlewares/validation/query-pagination-sorting-validation.middleware';
 import { DriverSortFieldInputEnum } from './input/driver-sort-field-enum.input';
 import { getDriverRidesListHandler } from './handlers/get-driver-rides-list.handler';
-import { RideSortFieldEnumInput } from '../../rides/routers/input/ride-sort-field-enum.input';
+import { RideSortFieldEnumInput } from '../../rides/routes/input/ride-sort-field-enum.input';
 
-export const driversRouter = Router({});
+export const driversRoute = Router({});
 
 // driversRouter.use(adminGuardMiddlewareAuth); // Применяем мидлвейр ко всем запросам в этом роутере
 
 // * Routes
 // ? method GET
-driversRouter.get(
+driversRoute.get(
   '',
   paginationAndSortingValidation(DriverSortFieldInputEnum),
   inputValidationResultMiddleware,
   getDriverListHandler,
 );
-driversRouter.get(
+driversRoute.get(
   `/:id`,
   idParamValidation,
   inputValidationResultMiddleware,
   getDriverHandler,
 );
-driversRouter.get(
+driversRoute.get(
   `/:id/rides`,
   idParamValidation,
   paginationAndSortingValidation(RideSortFieldEnumInput),
@@ -44,7 +44,7 @@ driversRouter.get(
 );
 
 // ? method POST
-driversRouter.post(
+driversRoute.post(
   '',
   adminGuardMiddlewareAuth, // проверяет авторизацию для данного запроса.
   driverCreateInputDtoValidation, // проверяет, что данные, передаваемые в теле запроса, соответствуют ожидаемой структуре.
@@ -53,7 +53,7 @@ driversRouter.post(
 );
 
 // ? method DELETE
-driversRouter.delete(
+driversRoute.delete(
   '/:id',
   adminGuardMiddlewareAuth,
   idParamValidation,
@@ -62,7 +62,7 @@ driversRouter.delete(
 );
 
 // ? method UPDATE
-driversRouter.put(
+driversRoute.put(
   '/:id',
   adminGuardMiddlewareAuth,
   idParamValidation,

@@ -3,7 +3,7 @@ import { Express } from 'express';
 
 import { RIDES_PATH } from '../../../core/paths/paths';
 import { HTTP_STATUS_CODES } from '../../../core/utils/http-statuses';
-import { RideTypeOutput } from '../../../rides/routers/output/ride-type.output';
+import { RideTypeOutput } from '../../../rides/routes/output/ride-type.output';
 
 export async function getRideByIdUtil(
   app: Express,

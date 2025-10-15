@@ -1,7 +1,7 @@
 import { Collection, Db, MongoClient } from 'mongodb';
 
 import { SETTINGS_MONGO_DB } from '../core/settings-mongoDB/settings-mongo.db';
-import { RideTypeAttributes } from '../rides/routers/output/ride-data-type.output';
+import { RideTypeAttributes } from '../rides/routes/output/ride-data-type.output';
 import { DriverTypeAttributes } from '../drivers/routes/output/driver-data-type.output';
 
 let client: MongoClient;

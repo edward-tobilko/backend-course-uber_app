@@ -1,4 +1,4 @@
-import { CurrencyEnum } from '../../routers/output/ride-data-type.output';
+import { CurrencyEnum } from '../../routes/output/ride-data-type.output';
 
 export type RideDtoTypeAttributes = {
   clientName: string;

@@ -11,6 +11,9 @@ import { createDriverUtil } from '../../utils/drivers/create-driver.util';
 import { getDriverByIdUtil } from '../../utils/drivers/get-driver-by-id.util';
 import { runDB, stopDB } from '../../../db/mongo.db';
 import { SETTINGS_MONGO_DB } from '../../../core/settings-mongoDB/settings-mongo.db';
+import { DriverDtoTypeAttributes } from '../../../drivers/application/dto/driver-dto-type-attributes';
+import { VehicleFeatureEnum } from '../../../drivers/routes/output/driver-data-type.output';
+import { updateDriverUtil } from '../../utils/drivers/update-driver.util';
 
 describe('E2E: Drivers API', () => {
   const app = express();
@@ -18,7 +21,7 @@ describe('E2E: Drivers API', () => {
 
   const adminToken = generateBasicAuthToken();
 
-  const correctTestDriverData: DriverInputDto = getDriverDtoUtil();
+  const correctTestDriverData: DriverDtoTypeAttributes = getDriverDtoUtil();
 
   beforeAll(async () => {
     await runDB(SETTINGS_MONGO_DB.MONGO_URL);
@@ -29,78 +32,74 @@ describe('E2E: Drivers API', () => {
     await stopDB();
   });
 
-  it('POST: /drivers -> should create new driver - 201', async () => {
-    const newDriver: DriverInputDto = {
+  it('POST: /api/drivers -> should create new driver - 201', async () => {
+    await createDriverUtil(app, {
+      ...getDriverDtoUtil(),
       ...correctTestDriverData,
       name: 'Feodor',
       email: 'feodor@example.com',
-    };
-
-    await createDriverUtil(app, newDriver);
+    });
   });
 
-  it('GET: /drivers -> should return drivers list - 200', async () => {
-    await createDriverUtil(app, {
-      name: 'Another driver1',
-      vehicleLicensePlate: 'XYZ-111',
-    });
-    await createDriverUtil(app, {
-      name: 'Another driver2',
-      vehicleLicensePlate: 'XYZ-222',
-    });
+  it('GET: /api/drivers -> should return drivers list - 200', async () => {
+    await Promise.all([
+      createDriverUtil(app, {
+        name: 'Another driver1',
+        vehicleLicensePlate: 'XYZ-111',
+      }),
+      createDriverUtil(app, {
+        name: 'Another driver2',
+        vehicleLicensePlate: 'XYZ-222',
+      }),
+    ]);
 
-    const driverListResponseDrivers = await request(app)
+    const driversListResponse = await request(app)
       .get(DRIVERS_PATH)
       .expect(HTTP_STATUS_CODES.OK_200);
 
-    expect(driverListResponseDrivers.body).toBeInstanceOf(Array);
-    expect(driverListResponseDrivers.body.length).toBeGreaterThanOrEqual(2);
+    expect(driversListResponse.body.data).toBeInstanceOf(Array);
+    expect(driversListResponse.body.data.length).toBeGreaterThanOrEqual(2);
   });
 
-  it('GET: /drivers/:id should return driver by id - 200', async () => {
+  it('GET: /api/drivers/:id should return driver by id - 200', async () => {
     const createdDriver = await createDriverUtil(app, {
       name: 'Another Driver',
     });
 
     const getDriverByIdResponse = await getDriverByIdUtil(
       app,
-      createdDriver.id,
+      createdDriver.data.id,
     );
 
     expect(getDriverByIdResponse).toEqual({
       ...createdDriver,
-      id: expect.any(String),
-      createdAt: expect.any(String),
     });
-
-    // log('createResponse ->', createResponse.status, createResponse.body);
-    // log('getResponse ->', getResponse.status, getResponse.body);
   });
 
-  it('DELETE: /drivers/:id and check after NOT FOUND - 404 and 204', async () => {
+  it('DELETE: /api/drivers/:id and check after NOT FOUND - 404 and 204', async () => {
     // * 1. створюємо драйвера
     const createdDriver = await createDriverUtil(app);
 
-    expect(typeof createdDriver.id).toBe('string');
+    expect(typeof createdDriver.data.id).toBe('string');
 
     // * 2. Видаляємо
     await request(app)
-      .delete(`${DRIVERS_PATH}/${createdDriver.id}`)
+      .delete(`${DRIVERS_PATH}/${createdDriver.data.id}`)
       .set('Authorization', adminToken)
       .expect(HTTP_STATUS_CODES.NO_CONTENT_204);
 
     // * 3. Отримуємо відповідь
     await request(app)
-      .get(`${DRIVERS_PATH}/${createdDriver.id}`)
+      .get(`${DRIVERS_PATH}/${createdDriver.data.id}`)
       .expect(HTTP_STATUS_CODES.NOT_FOUND_404);
   });
 
-  it('PUT: /drivers/:id should update driver - 200 and 204', async () => {
+  it('PUT: /api/drivers/:id should update driver - 200 and 204', async () => {
     const createdDriver = await createDriverUtil(app, {
       name: 'Another Driver',
     });
 
-    const driverUpdateData: DriverInputDto = {
+    const driverUpdateData: DriverDtoTypeAttributes = {
       name: 'Updated Name',
       phoneNumber: '999-888-7777',
       email: 'updated@example.com',
@@ -109,22 +108,18 @@ describe('E2E: Drivers API', () => {
       vehicleYear: 2022,
       vehicleLicensePlate: 'NEW-789',
       vehicleDescription: 'Updated vehicle description',
-      vehicleFeatures: [VehicleFeature.ChildSeat],
+      vehicleFeatures: [VehicleFeatureEnum.ChildSeat],
     };
 
-    await request(app)
-      .put(`${DRIVERS_PATH}/${createdDriver.id}`)
-      .set('Authorization', adminToken)
-      .send(driverUpdateData)
-      .expect(HTTP_STATUS_CODES.NO_CONTENT_204);
+    await updateDriverUtil(app, createdDriver.data.id, driverUpdateData);
 
     const getDriverByIdResponse = await getDriverByIdUtil(
       app,
-      createdDriver.id,
+      createdDriver.data.id,
     );
 
-    expect(getDriverByIdResponse).toEqual({
-      id: createdDriver.id,
+    expect(getDriverByIdResponse.data.id).toBe(createdDriver.data.id);
+    expect(getDriverByIdResponse.data.attributes).toEqual({
       name: driverUpdateData.name,
       phoneNumber: driverUpdateData.phoneNumber,
       email: driverUpdateData.email,

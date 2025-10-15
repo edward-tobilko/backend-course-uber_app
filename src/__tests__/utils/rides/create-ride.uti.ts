@@ -7,7 +7,7 @@ import { HTTP_STATUS_CODES } from '../../../core/utils/http-statuses';
 import { getRideDtoUtil } from './get-ride-dto.util';
 import { createDriverUtil } from '../drivers/create-driver.util';
 import { RideDtoTypeAttributes } from '../../../rides/application/dto/ride-dto-type.attributes';
-import { RideTypeOutput } from '../../../rides/routers/output/ride-type.output';
+import { RideTypeOutput } from '../../../rides/routes/output/ride-type.output';
 import { ResourceEnum } from '../../../core/types/resource-enum';
 
 export async function createRideUtil(
@@ -21,7 +21,7 @@ export async function createRideUtil(
   const testRideData = {
     data: {
       type: ResourceEnum.Rides,
-      data: { ...defaultRideDataDto, ...rideDto },
+      attributes: { ...defaultRideDataDto, ...rideDto },
     },
   };
 
@@ -34,5 +34,5 @@ export async function createRideUtil(
   return createdRideResponse.body;
 }
 
-// ? rideDto? - в параметрах приймає input, який ми будемо додавати в основному тесті, при створенні новоі поіздки (амперсант "?" означає можемо додавати, а можемо ні).
+// ? rideDto? - в параметрах приймає input, який ми будемо додавати в основному тесті, при створенні нової поїздки (амперсант "?" означає можемо додавати, а можемо ні).
 // ? Partial<RideDtoTypeAttributes> - дає змогу додавати поля опційно, а не наприклад весь обʼєкт RideDtoTypeAttributes.

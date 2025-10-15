@@ -1,7 +1,7 @@
 import { WithId } from 'mongodb';
 
-import { RideQueryTypeInput } from '../routers/input/ride-query-type.input';
-import { RideTypeAttributes } from '../routers/output/ride-data-type.output';
+import { RideQueryTypeInput } from '../routes/input/ride-query-type.input';
+import { RideTypeAttributes } from '../routes/output/ride-data-type.output';
 import { ridesRepository } from '../repositories/rides.repository';
 import { driversRepository } from '../../drivers/repositories/drivers.repository';
 import { log } from 'node:console';
