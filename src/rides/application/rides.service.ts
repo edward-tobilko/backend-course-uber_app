@@ -4,7 +4,6 @@ import { RideQueryTypeInput } from '../routes/input/ride-query-type.input';
 import { RideTypeAttributes } from '../routes/output/ride-data-type.output';
 import { ridesRepository } from '../repositories/rides.repository';
 import { driversRepository } from '../../drivers/repositories/drivers.repository';
-import { log } from 'node:console';
 import { RideDtoTypeAttributes } from './dto/ride-dto-type.attributes';
 import { DomainError } from '../../core/errors/domain.error';
 
@@ -19,10 +18,7 @@ export const ridesService = {
     driverId: string,
     queryDto: RideQueryTypeInput,
   ): Promise<{ items: WithId<RideTypeAttributes>[]; totalCount: number }> {
-    const driverResult =
-      await driversRepository.findDriverByIdOrFailRepo(driverId);
-
-    log('driverResult ->', driverResult);
+    await driversRepository.findDriverByIdOrFailRepo(driverId);
 
     return ridesRepository.findRidesByDriverRepo(driverId, queryDto);
   },

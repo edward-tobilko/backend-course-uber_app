@@ -2,8 +2,8 @@ import { SortDirectionEnum } from './sort-direction-enum';
 
 // * Type for paginationAndSortingDefault and setDefaultSortAndPaginationIfNotExist
 export type PaginationAndSortingType<S> = {
-  pageNumber: number;
-  pageSize: number;
+  pageNumber: number; // Поточний номер сторінки
+  pageSize: number; // Кількість елементів на сторінці
   sortBy: S; // Available values -> see RideSortFieldEnumInput or DriverSortFieldInputEnum
   sortDirection: SortDirectionEnum;
 };

@@ -13,11 +13,15 @@ export async function getDriverRidesListHandler(
     const driverId = req.params.id;
     const queryInput = req.query;
 
+    // * Приводимо типи до number, так як значення з query приходять строкою
+    const pageNumber = Number(queryInput.pageNumber) || 1;
+    const pageSize = Number(queryInput.pageSize) || 10;
+
     const data = await ridesService.findRidesByDriver(driverId, queryInput);
 
     const rideListOutput = mapToRideListPaginatedOutput(data.items, {
-      pageNumber: queryInput.pageNumber,
-      pageSize: queryInput.pageSize,
+      pageNumber,
+      pageSize,
       totalCount: data.totalCount,
     });
 

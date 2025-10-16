@@ -4,10 +4,10 @@ import { PaginationAndSortingType } from '../../types/pagination-and-sorting-typ
 import { SortDirectionEnum } from '../../types/sort-direction-enum';
 
 // * Дефолтные значения
-const DEFAULT_PAGE_NUMBER = 1;
-const DEFAULT_PAGE_SIZE = 10;
+export const DEFAULT_PAGE_NUMBER = 1;
+export const DEFAULT_PAGE_SIZE = 10;
 const DEFAULT_SORT_BY = 'createdAt';
-const DEFAULT_SORT_DIRECTION = SortDirectionEnum.Desc;
+const DEFAULT_SORT_DIRECTION = SortDirectionEnum.Desc; // "desc"
 
 export const paginationAndSortingDefault: PaginationAndSortingType<string> = {
   pageNumber: DEFAULT_PAGE_NUMBER,
@@ -21,30 +21,38 @@ export function paginationAndSortingValidation<T extends string>(
 ) {
   return [
     query('pageNumber')
-      .optional({ values: 'falsy' }) // что бы default() применялся и для ''
-      .default(DEFAULT_PAGE_NUMBER)
+      .customSanitizer((value) =>
+        value === undefined || value === '' ? DEFAULT_PAGE_NUMBER : value,
+      )
       .isInt({ min: 1 })
-      .withMessage('Page number must be a positive integer')
-      .toInt(),
+      .toInt()
+      .withMessage('Page number must be a positive integer'),
 
     query('pageSize')
-      .optional({ values: 'falsy' })
-      .default(DEFAULT_PAGE_SIZE)
-      .isInt({ min: 1, max: 10 })
-      .withMessage('Page size must be between 1 and 100')
-      .toInt(),
+      .customSanitizer((value) =>
+        value === undefined || value === '' ? DEFAULT_PAGE_SIZE : value,
+      )
+      .isInt({ min: 1, max: 100 })
+      .toInt()
+      .withMessage('Page size must be between 1 and 100'),
 
     query('sortBy')
-      .optional({ values: 'falsy' })
-      .default(Object.values(sortFieldsEnum)[0]) // Дефолтное значение - первое поле
+      .customSanitizer((value) =>
+        value === undefined || value === ''
+          ? Object.values(sortFieldsEnum)[0] // Дефолтное значение - первое поле
+          : value,
+      )
       .isIn(Object.values(sortFieldsEnum))
       .withMessage(
         `Allowed sort fields: ${Object.values(sortFieldsEnum).join(', ')}`,
       ),
 
     query('sortDirection')
-      .optional({ values: 'falsy' })
-      .default(DEFAULT_SORT_DIRECTION)
+      .customSanitizer((value) =>
+        value === undefined || value === ''
+          ? DEFAULT_SORT_DIRECTION
+          : String(value).toLowerCase(),
+      )
       .isIn(Object.values(SortDirectionEnum))
       .withMessage(
         `Sort direction must be one of: ${Object.values(SortDirectionEnum).join(', ')}`,

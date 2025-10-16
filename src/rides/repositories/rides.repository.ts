@@ -5,6 +5,10 @@ import { rideCollection } from '../../db/mongo.db';
 import { RideTypeAttributes } from '../routes/output/ride-data-type.output';
 import { RideQueryTypeInput } from '../routes/input/ride-query-type.input';
 import { RepositoryNotFoundError } from '../../core/errors/repository-not-found.error';
+import {
+  DEFAULT_PAGE_NUMBER,
+  DEFAULT_PAGE_SIZE,
+} from '../../core/middlewares/validation/query-pagination-sorting-validation.middleware';
 
 export const ridesRepository = {
   async findAllRidesRepo(
@@ -34,18 +38,30 @@ export const ridesRepository = {
   ): Promise<{ items: WithId<RideTypeAttributes>[]; totalCount: number }> {
     const { pageNumber, pageSize, sortBy, sortDirection } = queryDto;
 
+    const page = Number(pageNumber) || DEFAULT_PAGE_NUMBER;
+    const size = Number(pageSize) || DEFAULT_PAGE_SIZE;
+
     const filter = { 'driver.id': driverId };
 
     const [items, totalCount] = await Promise.all([
       rideCollection
         .find(filter)
         .sort({ [sortBy]: sortDirection })
-        .skip((pageNumber - 1) * pageSize)
-        .limit(pageSize)
+        .skip((page - 1) * size)
+        .limit(page)
         .toArray(),
 
       rideCollection.countDocuments(filter),
     ]);
+
+    console.log('findRidesByDriverRepo ->', {
+      pageNumber,
+      pageSize,
+      sortBy,
+      sortDirection,
+      filter,
+    });
+    console.log('items.length =', items.length, ' totalCount =', totalCount);
 
     return { items, totalCount };
   },
