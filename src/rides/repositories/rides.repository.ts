@@ -1,5 +1,4 @@
 import { ObjectId, WithId } from 'mongodb';
-import { log } from 'node:console';
 
 import { rideCollection } from '../../db/mongo.db';
 import { RideTypeAttributes } from '../routes/output/ride-data-type.output';
@@ -113,8 +112,6 @@ export const ridesRepository = {
     if (updateResult.matchedCount < 1) {
       throw new Error('Ride not exist');
     }
-
-    log('updateResult ->', updateResult);
 
     return;
   },

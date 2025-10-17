@@ -23,7 +23,7 @@ export async function updateDriverUtil(
   };
 
   const updatedDriverResponse = await request(app)
-    .put(`/${DRIVERS_PATH}/${driverId}`)
+    .put(`${DRIVERS_PATH}/${driverId}`)
     .set('Authorization', generateBasicAuthToken())
     .send(testDriverData)
     .expect(HTTP_STATUS_CODES.NO_CONTENT_204);
