@@ -1,4 +1,4 @@
-export class DomainError extends Error {
+export class ApplicationError extends Error {
   constructor(
     detail: string,
     public readonly source?: string,

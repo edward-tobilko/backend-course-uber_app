@@ -1,4 +1,4 @@
-import { HTTP_STATUS_CODES } from '../utils/http-statuses';
+import { HTTP_STATUS_CODES } from '../../utils/http-statuses';
 
 // * ValidationErrorOutput model
 type ValidationErrorTypeOutput = {

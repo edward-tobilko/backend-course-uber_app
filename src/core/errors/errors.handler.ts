@@ -2,8 +2,8 @@ import { Response } from 'express';
 
 import { RepositoryNotFoundError } from './repository-not-found.error';
 import { HTTP_STATUS_CODES } from '../utils/http-statuses';
-import { createErrorMessages } from '../utils/error-messages.util';
-import { DomainError } from './domain.error';
+import { createErrorMessages } from './create-error-messages';
+import { ApplicationError } from './application.error';
 
 export function errorsHandler(error: unknown, res: Response): void {
   if (error instanceof RepositoryNotFoundError) {
@@ -21,7 +21,7 @@ export function errorsHandler(error: unknown, res: Response): void {
     return;
   }
 
-  if (error instanceof DomainError) {
+  if (error instanceof ApplicationError) {
     const httpStatus = HTTP_STATUS_CODES.UNPROCESSABLE_ENTITY_422;
 
     res.status(httpStatus).json(

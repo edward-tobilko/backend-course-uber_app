@@ -5,7 +5,7 @@ import { DriverQueryTypeInput } from '../routes/input/driver-query-type.input';
 import { DriverTypeAttributes } from '../routes/output/driver-data-type.output';
 import { DriverDtoTypeAttributes } from './dto/driver-dto-type-attributes';
 import { ridesRepository } from '../../rides/repositories/rides.repository';
-import { DomainError } from '../../core/errors/domain.error';
+import { DomainError } from '../../core/errors/application.error';
 
 export const driversService = {
   async findAll(queryDto: DriverQueryTypeInput): Promise<{
