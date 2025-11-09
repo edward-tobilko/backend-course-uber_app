@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { log } from 'node:console';
 import { matchedData } from 'express-validator';
 
-import { DriverQueryTypeInput } from '../input/driver-query-type.input';
+import { DriverQueryTypeInput } from '../request-payloads/driver-query-type.input';
 import { errorsHandler } from '../../../core/errors/errors.handler';
 import { driversService } from '../../application/drivers.service';
 import { mapToDriverListPaginatedOutput } from '../mappers/map-to-driver-list-paginated-output.mapper';
@@ -27,12 +27,6 @@ export async function getDriverListHandler(
     log(
       `Drivers: ${items.map((item) => item.name)} - Total: ${totalCount.toString()}`,
     );
-
-    const driversListOutput = mapToDriverListPaginatedOutput(items, {
-      pageNumber: queryInput.pageNumber,
-      pageSize: queryInput.pageSize,
-      totalCount,
-    });
 
     res.json(driversListOutput);
   } catch (error: unknown) {

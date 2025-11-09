@@ -1,26 +1,5 @@
 import { ResourceEnum } from '../../../core/types/resource-enum';
-
-export enum VehicleFeatureEnum {
-  WiFi = 'wi-fi',
-  ChildSeat = 'child-seat',
-  PetFriendly = 'pet-friendly',
-  Water = 'water',
-}
-
-export type DriverTypeAttributes = {
-  name: string;
-  phoneNumber: string;
-  email: string;
-  vehicle: {
-    make: string; // e.g., Toyota
-    model: string; // e.g., Camry
-    year: number;
-    licensePlate: string;
-    description: string | null;
-    features: VehicleFeatureEnum[];
-  };
-  createdAt: Date;
-};
+import { VehicleFeatureEnum } from '../../domain/driver';
 
 export type DriverDataTypeOutput = {
   type: ResourceEnum.Drivers;

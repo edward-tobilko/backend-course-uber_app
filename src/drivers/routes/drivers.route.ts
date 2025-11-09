@@ -9,11 +9,11 @@ import { idParamValidation } from '../../core/middlewares/validation/params-id-v
 import { inputValidationResultMiddleware } from '../../core/middlewares/validation/input-validation-result.middleware';
 import { adminGuardMiddlewareAuth } from '../../auth/middlewares/admin-guard.middleware';
 import {
-  driverCreateInputDtoValidation,
-  driverUpdateInputDtoValidation,
-} from '../validation/driver-input-dto-validation.middlewares';
+  createDriverRequestPayloadValidation,
+  updateDriverRequestPayloadValidation,
+} from './validation/driver-request-payload.validation-middlewares';
 import { paginationAndSortingValidation } from '../../core/middlewares/validation/query-pagination-sorting-validation.middleware';
-import { DriverSortFieldInputEnum } from './input/driver-sort-field-enum.input';
+import { DriverSortFieldInputEnum } from './request-payloads/driver-sort-field-enum';
 import { getDriverRidesListHandler } from './handlers/get-driver-rides-list.handler';
 import { RideSortFieldEnumInput } from '../../rides/routes/input/ride-sort-field-enum.input';
 
@@ -47,7 +47,7 @@ driversRoute.get(
 driversRoute.post(
   '',
   adminGuardMiddlewareAuth, // проверяет авторизацию для данного запроса.
-  driverCreateInputDtoValidation, // проверяет, что данные, передаваемые в теле запроса, соответствуют ожидаемой структуре.
+  createDriverRequestPayloadValidation, // проверяет, что данные, передаваемые в теле запроса, соответствуют ожидаемой структуре.
   inputValidationResultMiddleware, // проверяет, прошли ли данные валидацию.
   createDriverHandler, // основной обработчик запроса, который создаёт водителя, если все предыдущие мидлвейры прошли успешно.
 );
@@ -66,7 +66,7 @@ driversRoute.put(
   '/:id',
   adminGuardMiddlewareAuth,
   idParamValidation,
-  driverUpdateInputDtoValidation,
+  updateDriverRequestPayloadValidation,
   inputValidationResultMiddleware,
   updateDriverHandler,
 );

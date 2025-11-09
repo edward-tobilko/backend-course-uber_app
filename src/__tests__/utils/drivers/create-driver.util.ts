@@ -6,10 +6,10 @@ import { getDriverDtoUtil } from './get-driver-dto.util';
 import { DRIVERS_PATH } from '../../../core/paths/paths';
 import { generateBasicAuthToken } from '../generate-admin-auth-token';
 import { HTTP_STATUS_CODES } from '../../../core/utils/http-statuses';
-import { DriverTypeOutput } from '../../../drivers/routes/output/driver-type.output';
-import { DriverCreateTypeInput } from '../../../drivers/routes/input/driver-create-type.input';
+import { DriverTypeOutput } from '../../../drivers/application/output/driver-type.output';
+import { DriverCreateTypeInput } from '../../../drivers/routes/request-payloads/create-driver-request.payload';
 import { ResourceEnum } from '../../../core/types/resource-enum';
-import { DriverDtoTypeAttributes } from '../../../drivers/application/dto/driver-dto-type-attributes';
+import { DriverDtoTypeAttributes } from '../../../drivers/domain/driver-domain-dto-attributes';
 
 export async function createDriverUtil(
   app: Express,

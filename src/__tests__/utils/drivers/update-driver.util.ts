@@ -1,8 +1,8 @@
 import request from 'supertest';
 import { Express } from 'express';
 
-import { DriverDtoTypeAttributes } from '../../../drivers/application/dto/driver-dto-type-attributes';
-import { DriverUpdateTypeInput } from '../../../drivers/routes/input/driver-update-type.input';
+import { DriverDtoTypeAttributes } from '../../../drivers/domain/driver-domain-dto-attributes';
+import { DriverUpdateTypeInput } from '../../../drivers/routes/request-payloads/update-driver-request.payload';
 import { ResourceEnum } from '../../../core/types/resource-enum';
 import { getDriverDtoUtil } from './get-driver-dto.util';
 import { generateBasicAuthToken } from '../generate-admin-auth-token';

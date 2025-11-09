@@ -11,11 +11,11 @@ import { getDriverByIdUtil } from '../../utils/drivers/get-driver-by-id.util';
 import { getDriverDtoUtil } from '../../utils/drivers/get-driver-dto.util';
 import { runDB, stopDB } from '../../../db/mongo.db';
 import { SETTINGS_MONGO_DB } from '../../../core/settings-mongoDB/settings-mongo.db';
-import { DriverDtoTypeAttributes } from '../../../drivers/application/dto/driver-dto-type-attributes';
+import { DriverDtoTypeAttributes } from '../../../drivers/domain/driver-domain-dto-attributes';
 import { ResourceEnum } from '../../../core/types/resource-enum';
-import { DriverCreateTypeInput } from '../../../drivers/routes/input/driver-create-type.input';
-import { DriverUpdateTypeInput } from '../../../drivers/routes/input/driver-update-type.input';
-import { VehicleFeatureEnum } from '../../../drivers/routes/output/driver-data-type.output';
+import { DriverCreateTypeInput } from '../../../drivers/routes/request-payloads/create-driver-request.payload';
+import { DriverUpdateTypeInput } from '../../../drivers/routes/request-payloads/update-driver-request.payload';
+import { VehicleFeatureEnum } from '../../../drivers/application/output/driver-data-type.output';
 
 describe('Driver API body validation check', () => {
   const app = express();

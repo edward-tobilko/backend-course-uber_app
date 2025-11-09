@@ -1,11 +1,11 @@
 import { WithId } from 'mongodb';
 
 import { driversRepository } from '../repositories/drivers.repository';
-import { DriverQueryTypeInput } from '../routes/input/driver-query-type.input';
-import { DriverTypeAttributes } from '../routes/output/driver-data-type.output';
-import { DriverDtoTypeAttributes } from './dto/driver-dto-type-attributes';
+import { DriverQueryTypeInput } from '../routes/request-payloads/driver-query-type.input';
+import { DriverTypeAttributes } from './output/driver-data-type.output';
+import { DriverDtoTypeAttributes } from '../domain/driver-domain-dto-attributes';
 import { ridesRepository } from '../../rides/repositories/rides.repository';
-import { DomainError } from '../../core/errors/application.error';
+import { ApplicationError } from '../../core/errors/application.error';
 
 export const driversService = {
   async findAll(queryDto: DriverQueryTypeInput): Promise<{
@@ -51,7 +51,7 @@ export const driversService = {
     const activeRide = await ridesRepository.findActiveRideByDriverIdRepo(id);
 
     if (activeRide) {
-      throw new DomainError(
+      throw new ApplicationError(
         'Driver has an active ride. Complete or cancel the ride first',
       );
     }

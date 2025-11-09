@@ -1,14 +1,12 @@
 import { WithId } from 'mongodb';
 
-import {
-  DriverDataTypeOutput,
-  DriverTypeAttributes,
-} from '../output/driver-data-type.output';
+import { DriverDataTypeOutput } from '../output/driver-data-type.output';
 import { ResourceEnum } from '../../../core/types/resource-enum';
 import { DriverListPaginatedTypeOutput } from '../output/driver-list-paginated-type.output';
+import { Driver } from '../../domain/driver';
 
 export function mapToDriverListPaginatedOutput(
-  driversAttributes: WithId<DriverTypeAttributes>[],
+  driversAttributes: WithId<Driver>[],
   meta: { pageNumber: number; pageSize: number; totalCount: number },
 ): DriverListPaginatedTypeOutput {
   return {

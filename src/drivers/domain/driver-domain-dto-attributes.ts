@@ -1,6 +1,6 @@
-import { VehicleFeatureEnum } from '../../routes/output/driver-data-type.output';
+import { VehicleFeatureEnum } from './driver';
 
-export type DriverDtoTypeAttributes = {
+export type DriverDomainDtoAttributes = {
   name: string;
   phoneNumber: string;
   email: string;

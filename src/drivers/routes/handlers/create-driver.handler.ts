@@ -2,20 +2,21 @@ import { Request, Response } from 'express';
 
 import { HTTP_STATUS_CODES } from '../../../core/utils/http-statuses';
 import { driversService } from '../../application/drivers.service';
-import { DriverCreateTypeInput } from '../input/driver-create-type.input';
-import { mapToDriverOutput } from '../mappers/map-to-driver-output.mapper';
+import { CreateDriverRequestPayload } from '../request-payloads/create-driver-request.payload';
 import { errorsHandler } from '../../../core/errors/errors.handler';
+import { mapToDriverOutput } from '../../application/mappers/map-to-driver-output.mapper';
+import { createCommand } from '../../../core/helpers/create-command';
 
 export async function createDriverHandler(
-  req: Request<{}, {}, DriverCreateTypeInput>,
+  req: Request<{}, {}, CreateDriverRequestPayload>,
   res: Response,
 ) {
   try {
-    const createdDriverId = await driversService.create(
-      req.body.data.attributes,
-    );
+    const command = createCommand(req.body.data.attributes);
 
-    const createdDriver =
+    const createdDriverId = await driversService.create(command);
+
+    const driverOutput =
       await driversService.findDriverByIdOrFail(createdDriverId);
 
     const driverOutput = mapToDriverOutput(createdDriver); // додаємо id з mongoDB (_id: Object("someIdString"))

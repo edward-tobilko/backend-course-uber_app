@@ -1,9 +1,9 @@
 import { body } from 'express-validator';
 
-import { VehicleFeatureEnum } from '../routes/output/driver-data-type.output';
-import { resourceEnumValidation } from '../../core/middlewares/validation/resource-enum-validation.middleware';
-import { ResourceEnum } from '../../core/types/resource-enum';
-import { dataIdBodyValidation } from '../../core/middlewares/validation/params-id-validation.middleware';
+import { VehicleFeatureEnum } from '../../application/output/driver-data-type.output';
+import { resourceEnumValidation } from '../../../core/middlewares/validation/resource-enum-validation.middleware';
+import { ResourceEnum } from '../../../core/types/resource-enum';
+import { dataIdBodyValidation } from '../../../core/middlewares/validation/params-id-validation.middleware';
 
 const nameValidation = body('data.attributes.name')
   .isString()
@@ -84,7 +84,7 @@ const vehicleFeaturesValidation = body('data.attributes.vehicleFeatures')
     return true;
   });
 
-export const driverCreateInputDtoValidation = [
+export const createDriverRequestPayloadValidation = [
   // data.type
   resourceEnumValidation(ResourceEnum.Drivers),
 
@@ -100,7 +100,7 @@ export const driverCreateInputDtoValidation = [
   vehicleFeaturesValidation,
 ];
 
-export const driverUpdateInputDtoValidation = [
+export const updateDriverRequestPayloadValidation = [
   // *data.type
   resourceEnumValidation(ResourceEnum.Drivers),
 

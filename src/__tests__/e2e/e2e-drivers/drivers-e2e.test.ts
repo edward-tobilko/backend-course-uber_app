@@ -11,8 +11,8 @@ import { createDriverUtil } from '../../utils/drivers/create-driver.util';
 import { getDriverByIdUtil } from '../../utils/drivers/get-driver-by-id.util';
 import { runDB, stopDB } from '../../../db/mongo.db';
 import { SETTINGS_MONGO_DB } from '../../../core/settings-mongoDB/settings-mongo.db';
-import { DriverDtoTypeAttributes } from '../../../drivers/application/dto/driver-dto-type-attributes';
-import { VehicleFeatureEnum } from '../../../drivers/routes/output/driver-data-type.output';
+import { DriverDtoTypeAttributes } from '../../../drivers/domain/driver-domain-dto-attributes';
+import { VehicleFeatureEnum } from '../../../drivers/application/output/driver-data-type.output';
 import { updateDriverUtil } from '../../utils/drivers/update-driver.util';
 
 describe('E2E: Drivers API', () => {
