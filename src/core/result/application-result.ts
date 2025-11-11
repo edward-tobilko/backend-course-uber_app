@@ -14,11 +14,11 @@ export class ApplicationResult<D> {
       this.errors = args.errors;
     }
 
-    this.data = args.data;
     this.status = ApplicationResultStatusEnum.Success;
+    this.data = args.data;
   }
 
   hasError() {
-    return (this.status = ApplicationResultStatusEnum.Error);
+    return this.status === ApplicationResultStatusEnum.Error;
   }
 }

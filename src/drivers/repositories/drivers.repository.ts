@@ -18,10 +18,9 @@ export class DriversRepository {
     return Driver.reconstitute(driver);
   }
 
-  // * Создать нового водителя
+  // * Создаем и добавляем нового водителя в БД
   async saveRepo(newDriver: Driver): Promise<Driver> {
     if (!newDriver._id) {
-      // * добавляем newDriver в БД
       const insertResult = await driverCollection.insertOne(newDriver);
 
       newDriver._id = insertResult.insertedId;
@@ -29,30 +28,20 @@ export class DriversRepository {
       return newDriver;
     } else {
       // * Обновить данные водителя (отправляем весь обьект)
-      const updateResult = await driverCollection.updateOne(
-        { _id: new ObjectId(id) },
+      const { _id, ...dtoToUpdate } = newDriver;
 
-        // * меняем поля, которые нам нужны, но объект нужно отправлять целиком
+      const updateResult = await driverCollection.updateOne(
+        { _id },
         {
           $set: {
-            name: dto.name,
-            phoneNumber: dto.phoneNumber,
-            email: dto.email,
-            vehicle: {
-              make: dto.vehicleMake,
-              model: dto.vehicleModel,
-              year: dto.vehicleYear,
-              licensePlate: dto.vehicleLicensePlate,
-              description: dto.vehicleDescription,
-              features: dto.vehicleFeatures,
-            },
+            ...dtoToUpdate,
           },
         },
       );
 
       // * проверяем, если водитель не найден, то выбрасываем ошибку
       if (updateResult.matchedCount < 1) {
-        throw new Error('Driver not exist');
+        throw new RepositoryNotFoundError('Driver is not exist');
       }
 
       return newDriver;
@@ -66,7 +55,7 @@ export class DriversRepository {
     });
 
     if (deleteResult.deletedCount < 1) {
-      throw new Error('Driver not exist');
+      throw new RepositoryNotFoundError('Driver not exist');
     }
 
     return;
@@ -77,8 +66,7 @@ export class DriversRepository {
 // ? .find(filter) — это метод MongoDB, который возвращает все документы в коллекции с уже отфильтрованными объектами.
 // ? .toArray() — преобразует курсор (MongoDB Cursor) в массив объектов.
 // ? WithId<DriverDataTypeAttributes> — это тип из библиотеки mongodb, который означает, что каждый объект имеет обязательное поле _id (добавляется MongoDB автоматически).
-// ? То есть findAllRepo() метод получает всех водителей из базы и возвращает их как массив документов с _id.
-
+// ? Тоесть findAllRepo() метод получает всех водителей из базы и возвращает их как массив документов с _id.
 // ? sort — сортирует данные по заданному полю и направлению.
 // ? skip — пропускает элементы, чтобы выбрать нужную страницу.
 // ? limit — ограничивает количество элементов на странице.

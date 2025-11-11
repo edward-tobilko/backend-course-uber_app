@@ -13,4 +13,4 @@ export type DriverDomainDtoAttributes = {
   vehicleFeatures: VehicleFeatureEnum[];
 };
 
-// ? dto (Data Transfer Object) - те, що присилає клієнт.
+// ? dto (Data Transfer Object) - то, что присылает клиент.

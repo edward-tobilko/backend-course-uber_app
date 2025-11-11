@@ -24,7 +24,7 @@ export class Driver {
     features: VehicleFeatureEnum[];
   };
   createdAt: Date;
-  updateAt: Date;
+  updatedAt: Date;
 
   private constructor(dto: ClassFieldsOnly<Driver>) {
     this.name = dto.name;
@@ -32,7 +32,7 @@ export class Driver {
     this.email = dto.email;
     this.vehicle = dto.vehicle;
     this.createdAt = dto.createdAt;
-    this.updateAt = dto.updateAt;
+    this.updatedAt = dto.updatedAt;
 
     if (dto._id) {
       this._id = dto._id;
@@ -81,4 +81,8 @@ export class Driver {
   }
 }
 
-// ? class Driver - доменна сутність ( Domain Entity ).
+// ? class Driver -> updateDriver() - бизнес-логика уровня домена, а не просто patch-update в репозитории. ( Domain Entity ).
+// ? reconstitute() - метод «восстановления» (rehydration) объекта из БД:
+// ? - Используется, когда ты получаешь Driver из Mongo.
+// ? - Ты получаешь plain object, а хочешь — полноценный экземпляр класса с методами.
+// ? - Именно reconstitute возвращает правильный тип WithId<Driver> (то есть документ с _id).

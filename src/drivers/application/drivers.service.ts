@@ -1,63 +1,74 @@
-import { WithId } from 'mongodb';
-
-import { driversRepository } from '../repositories/drivers.repository';
-import { DriverQueryTypeInput } from '../routes/request-payloads/driver-query-type.input';
-import { DriverTypeAttributes } from './output/driver-data-type.output';
-import { DriverDtoTypeAttributes } from '../domain/driver-domain-dto-attributes';
-import { ridesRepository } from '../../rides/repositories/rides.repository';
+import { RidesRepository } from '../../rides/repositories/rides.repository';
 import { ApplicationError } from '../../core/errors/application.error';
+import { DriversRepository } from '../repositories/drivers.repository';
+import {
+  CreateDriverCommand,
+  UpdateDriverCommand,
+} from './commands/driver-type.commands';
+import { WithMeta } from '../../core/types/with-meta-type';
+import { ApplicationResult } from '../../core/result/application-result';
+import { Driver } from '../domain/driver';
+import { createErrorApplicationResult } from '../../core/result/create-error-application-result';
+import { DriverErrorCode } from '../routes/request-payloads/driver-errors-request.payload';
 
-export const driversService = {
-  async findAll(queryDto: DriverQueryTypeInput): Promise<{
-    items: WithId<DriverTypeAttributes>[];
-    totalCount: number;
-  }> {
-    return driversRepository.findAllRepo(queryDto);
-  },
+class DriversService {
+  private driversRepository: DriversRepository;
+  private ridesRepository: RidesRepository;
 
-  async findDriverByIdOrFail(
-    driverId: string,
-  ): Promise<WithId<DriverTypeAttributes>> {
-    return driversRepository.findDriverByIdOrFailRepo(driverId);
-  },
+  constructor() {
+    this.driversRepository = new DriversRepository();
+    this.ridesRepository = new RidesRepository();
+  }
 
-  async create(dto: DriverDtoTypeAttributes): Promise<string> {
+  async create(
+    command: WithMeta<CreateDriverCommand>,
+  ): Promise<ApplicationResult<{ id: string } | null>> {
     // * создаем нового водителя
-    const newDriver: DriverTypeAttributes = {
-      name: dto.name, // ті значення, які до нас прийшли від клієнта
-      phoneNumber: dto.phoneNumber,
-      email: dto.email,
-      vehicle: {
-        make: dto.vehicleMake,
-        model: dto.vehicleModel,
-        year: dto.vehicleYear,
-        licensePlate: dto.vehicleLicensePlate,
-        description: dto.vehicleDescription,
-        features: dto.vehicleFeatures,
+    const newDriver = Driver.createDriver(command.payload);
+
+    const createdDriver = await this.driversRepository.saveRepo(newDriver);
+
+    return new ApplicationResult({
+      data: {
+        id: createdDriver._id!.toString(),
       },
-      createdAt: new Date(),
-    };
+    });
+  }
 
-    return driversRepository.createRepo(newDriver);
-  },
+  async update(
+    command: WithMeta<UpdateDriverCommand>,
+  ): Promise<ApplicationResult<null>> {
+    const { id, ...driverDomainDto } = command.payload;
 
-  async update(id: string, dto: DriverDtoTypeAttributes): Promise<void> {
-    await driversRepository.updateRepo(id, dto);
+    const driver = await this.driversRepository.findDriverByIdOrFailRepo(id);
 
-    return;
-  },
+    driver.updateDriver(driverDomainDto);
 
-  async delete(id: string): Promise<void> {
-    const activeRide = await ridesRepository.findActiveRideByDriverIdRepo(id);
+    await this.driversRepository.saveRepo(driver);
+
+    return new ApplicationResult({ data: null });
+  }
+
+  async delete(
+    command: WithMeta<{ id: string }>,
+  ): Promise<ApplicationResult<null>> {
+    const id = command.payload.id;
+
+    const activeRide =
+      await this.ridesRepository.findActiveRideByDriverIdRepo(id);
 
     if (activeRide) {
-      throw new ApplicationError(
+      return createErrorApplicationResult(
         'Driver has an active ride. Complete or cancel the ride first',
+        DriverErrorCode.HasActiveRide,
+        command.meta.throwError,
       );
     }
 
-    await driversRepository.deleteRepo(id);
+    await this.driversRepository.deleteRepo(id);
 
-    return;
-  },
-};
+    return new ApplicationResult({ data: null });
+  }
+}
+
+export const driversService = new DriversService();

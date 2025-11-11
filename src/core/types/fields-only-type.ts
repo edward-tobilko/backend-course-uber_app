@@ -1,4 +1,4 @@
-// ? утилитарный тип, который из типа класса оставляет только свойства-нефункции, а все методы выбрасывает
+// ? ClassFieldsOnly - гарантирует, что в dto только поля, без методов.
 export type ClassFieldsOnly<T> = {
   [K in keyof T as T[K] extends Function ? never : K]: T[K];
 };

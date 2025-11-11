@@ -9,7 +9,7 @@ import {
   DEFAULT_PAGE_SIZE,
 } from '../../core/middlewares/validation/query-pagination-sorting-validation.middleware';
 
-export const ridesRepository = {
+export class RidesRepository {
   async findAllRidesRepo(
     queryDto: RideQueryTypeInput,
   ): Promise<{ items: WithId<RideTypeAttributes>[]; totalCount: number }> {
@@ -29,7 +29,7 @@ export const ridesRepository = {
     ]);
 
     return { items, totalCount };
-  },
+  }
 
   async findRidesByDriverRepo(
     driverId: string,
@@ -63,13 +63,13 @@ export const ridesRepository = {
     console.log('items.length =', items.length, ' totalCount =', totalCount);
 
     return { items, totalCount };
-  },
+  }
 
   async findRideByIdRepo(
     id: string,
   ): Promise<WithId<RideTypeAttributes> | null> {
     return rideCollection.findOne({ _id: new ObjectId(id) }); // Если результат поиска равно null или undefined, то вернем null.
-  },
+  }
 
   async findRideByIdOrFailRepo(
     id: string,
@@ -81,20 +81,20 @@ export const ridesRepository = {
     }
 
     return result;
-  },
+  }
 
   async createNewRideRepo(newRide: RideTypeAttributes): Promise<string> {
     const insertResult = await rideCollection.insertOne(newRide);
 
     return insertResult.insertedId.toString(); // ObjectId('66efeaadeb3dafea3c3971fb')
-  },
+  }
 
   // * метод для пошуку активної поїздки водія по id
   async findActiveRideByDriverIdRepo(
     driverId: string,
   ): Promise<RideTypeAttributes | null> {
     return rideCollection.findOne({ driverId, finishedAt: null });
-  },
+  }
 
   async finishRideRepo(rideId: string, finishedAt: Date) {
     const updateResult = await rideCollection.updateOne(
@@ -114,5 +114,5 @@ export const ridesRepository = {
     }
 
     return;
-  },
-};
+  }
+}
