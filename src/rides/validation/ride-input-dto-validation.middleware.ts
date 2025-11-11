@@ -1,7 +1,7 @@
 import { body } from 'express-validator';
 
-import { ResourceEnum } from '../../core/types/resource-enum';
-import { CurrencyEnum } from '../routes/output/ride-data-type.output';
+import { ResourceEnum } from '../../core/types/resources-enum';
+import { CurrencyEnum } from '../application/output/ride-data-type.output';
 import { resourceEnumValidation } from '../../core/middlewares/validation/resource-enum-validation.middleware';
 
 export const clientNameValidation = body('data.attributes.clientName')

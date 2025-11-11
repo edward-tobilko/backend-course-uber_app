@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { errorsHandler } from '../../../core/errors/errors.handler';
 import { ridesService } from '../../../rides/application/rides.service';
 import { RideQueryTypeInput } from '../../../rides/routes/input/ride-query-type.input';
-import { mapToRideListPaginatedOutput } from '../../../rides/routes/mappers/map-to-ride-list-paginated-output.mapper';
+import { mapToRideListPaginatedOutput } from '../../../rides/application/mappers/map-to-ride-list-paginated-output.mapper';
 
 export async function getDriverRidesListHandler(
   req: Request<{ id: string }, {}, {}, RideQueryTypeInput>,

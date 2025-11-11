@@ -1,7 +1,7 @@
 import { WithId } from 'mongodb';
 
 import { RideTypeAttributes } from '../output/ride-data-type.output';
-import { ResourceEnum } from '../../../core/types/resource-enum';
+import { ResourceEnum } from '../../../core/types/resources-enum';
 import { RideTypeOutput } from '../output/ride-type.output';
 
 export function mapToRideOutputMapper(

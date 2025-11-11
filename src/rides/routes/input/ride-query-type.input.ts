@@ -1,5 +1,4 @@
-import { PaginationAndSortingType } from '../../../core/types/pagination-and-sorting-type';
-import { RideSortFieldEnumInput } from './ride-sort-field-enum.input';
+import { PaginationAndSorting } from '../../../core/types/pagination-and-sorting-type';
+import { RideSortField } from '../request-type-payloads/ride-sort-field-enum';
 
-export type RideQueryTypeInput =
-  PaginationAndSortingType<RideSortFieldEnumInput>;
+export type RideQueryInput = PaginationAndSorting<RideSortField>;

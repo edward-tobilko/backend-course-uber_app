@@ -8,8 +8,8 @@ import { HTTP_STATUS_CODES } from '../../../core/utils/http-statuses';
 import { generateBasicAuthToken } from '../../utils/generate-admin-auth-token';
 import { runDB, stopDB } from '../../../db/mongo.db';
 import { SETTINGS_MONGO_DB } from '../../../core/settings-mongoDB/settings-mongo.db';
-import { ResourceEnum } from '../../../core/types/resource-enum';
-import { CurrencyEnum } from '../../../rides/routes/output/ride-data-type.output';
+import { ResourceEnum } from '../../../core/types/resources-enum';
+import { CurrencyEnum } from '../../../rides/application/output/ride-data-type.output';
 import { createRideUtil } from '../../utils/rides/create-ride.uti';
 
 describe('Ride API body validation check', () => {

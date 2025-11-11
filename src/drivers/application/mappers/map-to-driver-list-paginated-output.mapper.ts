@@ -1,7 +1,7 @@
 import { WithId } from 'mongodb';
 
 import { DriverDataTypeOutput } from '../output/driver-data-type.output';
-import { ResourceEnum } from '../../../core/types/resource-enum';
+import { ResourceEnum } from '../../../core/types/resources-enum';
 import { DriverListPaginatedTypeOutput } from '../output/driver-list-paginated-type.output';
 import { Driver } from '../../domain/driver';
 

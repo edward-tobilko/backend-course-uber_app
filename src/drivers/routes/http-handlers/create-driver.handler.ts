@@ -17,7 +17,7 @@ export async function createDriverHandler(
 
     const result = await driversService.create(command);
 
-    log(result);
+    log('result ->', result);
 
     const driverOutput = await driversQueryService.findDriverByIdOrFail(
       result.data!.id,

@@ -1,5 +1,5 @@
 import { RideDtoTypeAttributes } from '../../../rides/application/dto/ride-dto-type.attributes';
-import { CurrencyEnum } from '../../../rides/routes/output/ride-data-type.output';
+import { CurrencyEnum } from '../../../rides/application/output/ride-data-type.output';
 
 export function getRideDtoUtil(driverId: string): RideDtoTypeAttributes {
   return {

@@ -1,11 +1,11 @@
-import { SortDirectionEnum } from './sort-direction-enum';
+import { SortDirection } from './sort-direction-enum';
 
 // * Type for paginationAndSortingDefault and setDefaultSortAndPaginationIfNotExist
-export type PaginationAndSortingType<S> = {
+export type PaginationAndSorting<S> = {
   pageNumber: number; // Поточний номер сторінки
   pageSize: number; // Кількість елементів на сторінці
   sortBy: S; // Available values -> see RideSortFieldEnumInput or DriverSortFieldInputEnum
-  sortDirection: SortDirectionEnum;
+  sortDirection: SortDirection;
 };
 
 // ? <S> - дженерик, який ми вказуємо, що sortBy у нас буде по дефолту "createdAt" - строка. <S> = DriverSortFieldTypeInput or RideSortFieldEnumInput

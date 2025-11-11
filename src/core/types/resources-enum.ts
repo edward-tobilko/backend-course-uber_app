@@ -1,4 +1,4 @@
-export enum ResourceEnum {
+export enum Resources {
   Drivers = 'drivers',
   Rides = 'rides',
 }

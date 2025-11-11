@@ -3,7 +3,7 @@ import { Express } from 'express';
 
 import { DriverDtoTypeAttributes } from '../../../drivers/domain/driver-domain-dto-attributes';
 import { DriverUpdateTypeInput } from '../../../drivers/routes/request-payloads/update-driver-request.payload';
-import { ResourceEnum } from '../../../core/types/resource-enum';
+import { ResourceEnum } from '../../../core/types/resources-enum';
 import { getDriverDtoUtil } from './get-driver-dto.util';
 import { generateBasicAuthToken } from '../generate-admin-auth-token';
 import { DRIVERS_PATH } from '../../../core/paths/paths';

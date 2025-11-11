@@ -1,4 +1,4 @@
-import { ResourceEnum } from '../../../core/types/resource-enum';
+import { ResourceEnum } from '../../../core/types/resources-enum';
 import { DriverDomainDtoAttributes } from '../../domain/driver-domain-dto-attributes';
 
 export type UpdateDriverRequestPayload = {

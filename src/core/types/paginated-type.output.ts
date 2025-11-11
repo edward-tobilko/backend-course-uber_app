@@ -1,5 +1,5 @@
 // * Paginated output model
-export type PaginatedTypeOutput = {
+export type PaginatedOutput = {
   page: number; // Поточний номер сторінки
   pageSize: number; // Кількість елементів на сторінці
   pageCount: number; // Загальна кількість доступних сторінок

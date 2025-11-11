@@ -8,7 +8,7 @@ import { generateBasicAuthToken } from '../generate-admin-auth-token';
 import { HTTP_STATUS_CODES } from '../../../core/utils/http-statuses';
 import { DriverTypeOutput } from '../../../drivers/application/output/driver-type.output';
 import { DriverCreateTypeInput } from '../../../drivers/routes/request-payloads/create-driver-request.payload';
-import { ResourceEnum } from '../../../core/types/resource-enum';
+import { ResourceEnum } from '../../../core/types/resources-enum';
 import { DriverDtoTypeAttributes } from '../../../drivers/domain/driver-domain-dto-attributes';
 
 export async function createDriverUtil(

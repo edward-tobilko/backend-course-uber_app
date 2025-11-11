@@ -1,9 +1,9 @@
 import { body } from 'express-validator';
 
-import { VehicleFeatureEnum } from '../../application/output/driver-data-type.output';
 import { resourceEnumValidation } from '../../../core/middlewares/validation/resource-enum-validation.middleware';
-import { ResourceEnum } from '../../../core/types/resource-enum';
+import { ResourceEnum } from '../../../core/types/resources-enum';
 import { dataIdBodyValidation } from '../../../core/middlewares/validation/params-id-validation.middleware';
+import { VehicleFeatureEnum } from '../../domain/driver';
 
 const nameValidation = body('data.attributes.name')
   .isString()

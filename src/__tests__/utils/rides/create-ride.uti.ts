@@ -7,8 +7,8 @@ import { HTTP_STATUS_CODES } from '../../../core/utils/http-statuses';
 import { getRideDtoUtil } from './get-ride-dto.util';
 import { createDriverUtil } from '../drivers/create-driver.util';
 import { RideDtoTypeAttributes } from '../../../rides/application/dto/ride-dto-type.attributes';
-import { RideTypeOutput } from '../../../rides/routes/output/ride-type.output';
-import { ResourceEnum } from '../../../core/types/resource-enum';
+import { RideTypeOutput } from '../../../rides/application/output/ride-type.output';
+import { ResourceEnum } from '../../../core/types/resources-enum';
 
 export async function createRideUtil(
   app: Express,

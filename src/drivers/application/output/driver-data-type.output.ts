@@ -1,4 +1,4 @@
-import { ResourceEnum } from '../../../core/types/resource-enum';
+import { ResourceEnum } from '../../../core/types/resources-enum';
 import { VehicleFeatureEnum } from '../../domain/driver';
 
 export type DriverDataTypeOutput = {

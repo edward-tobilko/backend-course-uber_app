@@ -1,7 +1,7 @@
 import { WithId } from 'mongodb';
 
 import { DriverTypeOutput } from '../output/driver-type.output';
-import { ResourceEnum } from '../../../core/types/resource-enum';
+import { ResourceEnum } from '../../../core/types/resources-enum';
 import { Driver } from '../../domain/driver';
 
 export const mapToDriverOutput = (driver: WithId<Driver>): DriverTypeOutput => {

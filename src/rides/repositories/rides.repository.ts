@@ -1,7 +1,7 @@
 import { ObjectId, WithId } from 'mongodb';
 
 import { rideCollection } from '../../db/mongo.db';
-import { RideTypeAttributes } from '../routes/output/ride-data-type.output';
+import { RideTypeAttributes } from '../application/output/ride-data-type.output';
 import { RideQueryTypeInput } from '../routes/input/ride-query-type.input';
 import { RepositoryNotFoundError } from '../../core/errors/repository-not-found.error';
 import {
@@ -10,27 +10,6 @@ import {
 } from '../../core/middlewares/validation/query-pagination-sorting-validation.middleware';
 
 export class RidesRepository {
-  async findAllRidesRepo(
-    queryDto: RideQueryTypeInput,
-  ): Promise<{ items: WithId<RideTypeAttributes>[]; totalCount: number }> {
-    const { pageNumber, pageSize, sortBy, sortDirection } = queryDto;
-
-    const filter = {};
-
-    const [items, totalCount] = await Promise.all([
-      rideCollection
-        .find(filter)
-        .sort({ [sortBy]: sortDirection })
-        .skip((pageNumber - 1) * pageSize)
-        .limit(pageSize)
-        .toArray(),
-
-      rideCollection.countDocuments(filter),
-    ]);
-
-    return { items, totalCount };
-  }
-
   async findRidesByDriverRepo(
     driverId: string,
     queryDto: RideQueryTypeInput,

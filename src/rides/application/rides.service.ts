@@ -1,7 +1,7 @@
 import { WithId } from 'mongodb';
 
 import { RideQueryTypeInput } from '../routes/input/ride-query-type.input';
-import { RideTypeAttributes } from '../routes/output/ride-data-type.output';
+import { RideTypeAttributes } from './output/ride-data-type.output';
 import { ridesRepository } from '../repositories/rides.repository';
 import { driversRepository } from '../../drivers/repositories/drivers.repository';
 import { RideDtoTypeAttributes } from './dto/ride-dto-type.attributes';

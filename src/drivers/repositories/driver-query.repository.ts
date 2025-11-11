@@ -1,4 +1,4 @@
-import { ObjectId, WithId } from 'mongodb';
+import { ObjectId } from 'mongodb';
 
 import { driverCollection } from '../../db/mongo.db';
 import { mapToDriverListPaginatedOutput } from '../application/mappers/map-to-driver-list-paginated-output.mapper';
