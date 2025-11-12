@@ -1,4 +1,4 @@
-import { VehicleFeatureEnum } from './driver';
+import { VehicleFeatureEnum } from './driver.domain';
 
 export type DriverDomainDtoAttributes = {
   name: string;

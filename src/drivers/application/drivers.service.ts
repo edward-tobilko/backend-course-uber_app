@@ -7,7 +7,7 @@ import {
 } from './commands/driver-type.commands';
 import { WithMeta } from '../../core/types/with-meta-type';
 import { ApplicationResult } from '../../core/result/application-result';
-import { Driver } from '../domain/driver';
+import { Driver } from '../domain/driver.domain';
 import { createErrorApplicationResult } from '../../core/result/create-error-application-result';
 import { DriverErrorCode } from '../routes/request-payloads/driver-errors-request.payload';
 

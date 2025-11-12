@@ -1,9 +1,9 @@
 import { WithId } from 'mongodb';
 
 import { DriverDataTypeOutput } from '../output/driver-data-type.output';
-import { ResourceEnum } from '../../../core/types/resources-enum';
 import { DriverListPaginatedTypeOutput } from '../output/driver-list-paginated-type.output';
-import { Driver } from '../../domain/driver';
+import { Driver } from '../../domain/driver.domain';
+import { Resources } from '../../../core/types/resources-enum';
 
 export function mapToDriverListPaginatedOutput(
   driversAttributes: WithId<Driver>[],
@@ -18,7 +18,7 @@ export function mapToDriverListPaginatedOutput(
     },
     data: driversAttributes.map(
       (driver): DriverDataTypeOutput => ({
-        type: ResourceEnum.Drivers,
+        type: Resources.Drivers,
         id: driver._id.toString(),
         attributes: {
           name: driver.name,

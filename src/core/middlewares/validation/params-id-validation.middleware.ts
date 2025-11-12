@@ -11,7 +11,7 @@ export const idParamValidation = param('id')
   .isMongoId()
   .withMessage('Incorrect format of ObjectId');
 
-// * додаємо id валідацію на driverId в тілі post
+// * добавляем id валидацию на driverId в теле post
 export const dataIdBodyValidation = body('data.id')
   .exists()
   .withMessage('ID in body is required')
@@ -27,5 +27,5 @@ export const dataIdBodyValidation = body('data.id')
 // ? isString() - является строкой
 // ? isNumeric() - состоит только из цифр
 
-// ? value — це значення data.id
-// ? req — це об’єкт запиту
+// ? value — это значение data.id
+// ? req — это объект запроса

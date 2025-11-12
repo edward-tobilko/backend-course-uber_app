@@ -1,4 +1,4 @@
 export enum SortDirection {
-  Asc = 'asc', // ascending — за зростанням (1)
-  Desc = 'desc', // descending — за спаданням (-1)
+  Asc = 'asc', // ascending — по росту (1)
+  Desc = 'desc', // descending — по спаду (-1)
 }

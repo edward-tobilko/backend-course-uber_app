@@ -11,7 +11,7 @@ import { getDriverByIdUtil } from '../../utils/drivers/get-driver-by-id.util';
 import { getDriverDtoUtil } from '../../utils/drivers/get-driver-dto.util';
 import { runDB, stopDB } from '../../../db/mongo.db';
 import { SETTINGS_MONGO_DB } from '../../../core/settings-mongoDB/settings-mongo.db';
-import { DriverDtoTypeAttributes } from '../../../drivers/domain/driver-domain-dto-attributes';
+import { DriverDtoTypeAttributes } from '../../../drivers/domain/driver-dto.domain';
 import { ResourceEnum } from '../../../core/types/resources-enum';
 import { DriverCreateTypeInput } from '../../../drivers/routes/request-payloads/create-driver-request.payload';
 import { DriverUpdateTypeInput } from '../../../drivers/routes/request-payloads/update-driver-request.payload';

@@ -1,7 +1,7 @@
 import request from 'supertest';
 import { Express } from 'express';
 
-import { DriverDtoTypeAttributes } from '../../../drivers/domain/driver-domain-dto-attributes';
+import { DriverDtoTypeAttributes } from '../../../drivers/domain/driver-dto.domain';
 import { DriverUpdateTypeInput } from '../../../drivers/routes/request-payloads/update-driver-request.payload';
 import { ResourceEnum } from '../../../core/types/resources-enum';
 import { getDriverDtoUtil } from './get-driver-dto.util';

@@ -1,77 +1,53 @@
 import { ObjectId, WithId } from 'mongodb';
 
 import { rideCollection } from '../../db/mongo.db';
-import { RideTypeAttributes } from '../application/output/ride-data-type.output';
-import { RideQueryTypeInput } from '../routes/input/ride-query-type.input';
+import { Ride } from '../domain/ride.domain';
 import { RepositoryNotFoundError } from '../../core/errors/repository-not-found.error';
-import {
-  DEFAULT_PAGE_NUMBER,
-  DEFAULT_PAGE_SIZE,
-} from '../../core/middlewares/validation/query-pagination-sorting-validation.middleware';
 
 export class RidesRepository {
-  async findRidesByDriverRepo(
-    driverId: string,
-    queryDto: RideQueryTypeInput,
-  ): Promise<{ items: WithId<RideTypeAttributes>[]; totalCount: number }> {
-    const { pageNumber, pageSize, sortBy, sortDirection } = queryDto;
+  async findRideByIdOrFailRepo(id: string): Promise<WithId<Ride>> {
+    const ride = await rideCollection.findOne({ _id: new ObjectId(id) }); // Если результат поиска равно null или undefined, то вернем null.
 
-    const page = Number(pageNumber) || DEFAULT_PAGE_NUMBER;
-    const size = Number(pageSize) || DEFAULT_PAGE_SIZE;
-
-    const filter = { 'driver.id': driverId };
-
-    const [items, totalCount] = await Promise.all([
-      rideCollection
-        .find(filter)
-        .sort({ [sortBy]: sortDirection })
-        .skip((page - 1) * size)
-        .limit(page)
-        .toArray(),
-
-      rideCollection.countDocuments(filter),
-    ]);
-
-    console.log('findRidesByDriverRepo ->', {
-      pageNumber,
-      pageSize,
-      sortBy,
-      sortDirection,
-      filter,
-    });
-    console.log('items.length =', items.length, ' totalCount =', totalCount);
-
-    return { items, totalCount };
-  }
-
-  async findRideByIdRepo(
-    id: string,
-  ): Promise<WithId<RideTypeAttributes> | null> {
-    return rideCollection.findOne({ _id: new ObjectId(id) }); // Если результат поиска равно null или undefined, то вернем null.
-  }
-
-  async findRideByIdOrFailRepo(
-    id: string,
-  ): Promise<WithId<RideTypeAttributes>> {
-    const result = await rideCollection.findOne({ _id: new ObjectId(id) });
-
-    if (!result) {
-      throw new RepositoryNotFoundError('Ride not exist');
+    if (!ride) {
+      throw new RepositoryNotFoundError('Ride is not exist!');
     }
 
-    return result;
+    return Ride.reconstitute(ride);
   }
 
-  async createNewRideRepo(newRide: RideTypeAttributes): Promise<string> {
-    const insertResult = await rideCollection.insertOne(newRide);
+  async saveRideRepo(newRide: Ride): Promise<Ride> {
+    if (!newRide._id) {
+      // или создаем
+      const insertResult = await rideCollection.insertOne(newRide);
 
-    return insertResult.insertedId.toString(); // ObjectId('66efeaadeb3dafea3c3971fb')
+      newRide._id = insertResult.insertedId;
+
+      return newRide;
+    } else {
+      // или обновляем уже существующего
+      const { _id, ...dtoToUpdate } = newRide;
+
+      const updateResult = await rideCollection.updateOne(
+        {
+          _id,
+        },
+        {
+          $set: {
+            ...dtoToUpdate,
+          },
+        },
+      );
+
+      if (updateResult.matchedCount < 1) {
+        throw new Error('Ride is not exist');
+      }
+
+      return newRide;
+    }
   }
 
-  // * метод для пошуку активної поїздки водія по id
-  async findActiveRideByDriverIdRepo(
-    driverId: string,
-  ): Promise<RideTypeAttributes | null> {
+  // * метод для поиска активной поездки водителя по id
+  async findActiveRideByDriverIdRepo(driverId: string): Promise<Ride | null> {
     return rideCollection.findOne({ driverId, finishedAt: null });
   }
 
@@ -89,7 +65,7 @@ export class RidesRepository {
     );
 
     if (updateResult.matchedCount < 1) {
-      throw new Error('Ride not exist');
+      throw new Error('Ride is not exist');
     }
 
     return;

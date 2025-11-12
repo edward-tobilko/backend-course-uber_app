@@ -1,9 +1,9 @@
-import { ResourceEnum } from '../../../core/types/resources-enum';
-import { DriverDomainDtoAttributes } from '../../domain/driver-domain-dto-attributes';
+import { Resources } from '../../../core/types/resources-enum';
+import { DriverDomainDtoAttributes } from '../../domain/driver-dto.domain';
 
 export type UpdateDriverRequestPayload = {
   data: {
-    type: ResourceEnum.Drivers;
+    type: Resources.Drivers;
     id: string;
     attributes: DriverDomainDtoAttributes;
   };

@@ -1,4 +1,4 @@
-import { DriverDtoTypeAttributes } from '../../../drivers/domain/driver-domain-dto-attributes';
+import { DriverDtoTypeAttributes } from '../../../drivers/domain/driver-dto.domain';
 import { VehicleFeatureEnum } from '../../../drivers/application/output/driver-data-type.output';
 
 export const getDriverDtoUtil = (): DriverDtoTypeAttributes => {

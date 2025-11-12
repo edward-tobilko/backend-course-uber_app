@@ -2,9 +2,10 @@ import { WithId } from 'mongodb';
 
 import { Resources } from '../../../core/types/resources-enum';
 import { RideListPaginatedOutput } from '../output/ride-list-paginated-type.output';
+import { RideAttributes } from '../../domain/ride.domain';
 
 export const mapToRideListPaginatedOutput = (
-  rideAttributes: WithId<>[],
+  rideAttributes: WithId<RideAttributes>[],
   meta: { pageNumber: number; pageSize: number; totalCount: number },
 ): RideListPaginatedOutput => {
   return {

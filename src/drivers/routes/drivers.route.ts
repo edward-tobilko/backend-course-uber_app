@@ -13,9 +13,9 @@ import {
   updateDriverRequestPayloadValidation,
 } from './validation/driver-request-payload.validation-middlewares';
 import { paginationAndSortingValidation } from '../../core/middlewares/validation/query-pagination-sorting-validation.middleware';
-import { DriverSortFieldInputEnum } from './request-payloads/driver-sort-field-enum';
+import { DriverSortField } from './request-payloads/driver-sort-field-enum';
 import { getDriverRidesListHandler } from './http-handlers/get-driver-rides-list.handler';
-import { RideSortFieldEnumInput } from '../../rides/routes/input/ride-sort-field-enum.input';
+import { RideSortField } from '../../rides/routes/request-type-payloads/ride-sort-field-enum';
 
 export const driversRoute = Router({});
 
@@ -25,7 +25,7 @@ export const driversRoute = Router({});
 // ? method GET
 driversRoute.get(
   '',
-  paginationAndSortingValidation(DriverSortFieldInputEnum),
+  paginationAndSortingValidation(DriverSortField),
   inputValidationResultMiddleware,
   getDriverListHandler,
 );
@@ -38,7 +38,7 @@ driversRoute.get(
 driversRoute.get(
   `/:id/rides`,
   idParamValidation,
-  paginationAndSortingValidation(RideSortFieldEnumInput),
+  paginationAndSortingValidation(RideSortField),
   inputValidationResultMiddleware,
   getDriverRidesListHandler,
 );

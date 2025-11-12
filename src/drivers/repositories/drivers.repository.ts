@@ -2,7 +2,7 @@ import { ObjectId, WithId } from 'mongodb';
 
 import { driverCollection } from '../../db/mongo.db';
 import { RepositoryNotFoundError } from '../../core/errors/repository-not-found.error';
-import { Driver } from '../domain/driver';
+import { Driver } from '../domain/driver.domain';
 
 export class DriversRepository {
   // * Найти водителя по ID

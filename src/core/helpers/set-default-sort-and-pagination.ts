@@ -1,9 +1,9 @@
 import { paginationAndSortingDefault } from '../middlewares/validation/query-pagination-sorting-validation.middleware';
-import { PaginationAndSortingType } from '../types/pagination-and-sorting-type';
+import { PaginationAndSorting } from '../types/pagination-and-sorting-type';
 
 export function setDefaultSortAndPaginationIfNotExist<P = string>(
-  query: PaginationAndSortingType<P>,
-): PaginationAndSortingType<P> {
+  query: PaginationAndSorting<P>,
+): PaginationAndSorting<P> {
   return {
     ...paginationAndSortingDefault,
     ...query,
@@ -11,4 +11,4 @@ export function setDefaultSortAndPaginationIfNotExist<P = string>(
   };
 }
 
-// ? P — generic-функція (тип поля), за яким можна сортувати, наприклад: Available values : createdAt, name, email - див в swagger
+// ? P — generic-функция (тип поля), по которому можно сортировать, например: Available values : createdAt, name, email - см. в swagger.

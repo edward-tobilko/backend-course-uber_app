@@ -2,14 +2,14 @@ import { SortDirection } from './sort-direction-enum';
 
 // * Type for paginationAndSortingDefault and setDefaultSortAndPaginationIfNotExist
 export type PaginationAndSorting<S> = {
-  pageNumber: number; // Поточний номер сторінки
-  pageSize: number; // Кількість елементів на сторінці
+  pageNumber: number; // Текущий номер страницы
+  pageSize: number;
   sortBy: S; // Available values -> see RideSortFieldEnumInput or DriverSortFieldInputEnum
   sortDirection: SortDirection;
 };
 
-// ? <S> - дженерик, який ми вказуємо, що sortBy у нас буде по дефолту "createdAt" - строка. <S> = DriverSortFieldTypeInput or RideSortFieldEnumInput
+// ? <S> - дженерик, который мы указываем, что sortBy у нас будет по умолчанию «createdAt» - строка. <S> = DriverSortField или RideSortField
 // ? return:
-// ? ...paginationAndSortingDefault → спочатку додає всі default значення.
-// ? ...query → потім поверх дефолтів накладає параметри, які реально прийшли з req.query. (Тобто, якщо користувач щось передав — воно “перекриє” дефолт.)
-// ? sortBy: (query.sortBy ?? paginationAndSortingDefault.sortBy) → гарантує, що sortBy точно не буде undefined. Якщо користувач не передав sortBy, візьме дефолтне з paginationAndSortingDefault.
+// ? ...paginationAndSortingDefault → сначала добавляет все значения по умолчанию.
+// ? ...query → затем поверх дефолтов накладывает параметры, которые реально пришли из req.query. (То есть, если пользователь что-то передал — оно «перекроет» дефолт.)
+// ? sortBy: (query.sortBy ?? paginationAndSortingDefault.sortBy) → гарантирует, что sortBy точно не будет undefined. Если пользователь не передал sortBy, возьмет дефолтное из paginationAndSortingDefault.

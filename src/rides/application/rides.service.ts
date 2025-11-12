@@ -1,12 +1,5 @@
 import { WithId } from 'mongodb';
 
-import { RideQueryTypeInput } from '../routes/input/ride-query-type.input';
-import { RideTypeAttributes } from './output/ride-data-type.output';
-import { ridesRepository } from '../repositories/rides.repository';
-import { driversRepository } from '../../drivers/repositories/drivers.repository';
-import { RideDtoTypeAttributes } from './dto/ride-dto-type.attributes';
-import { DomainError } from '../../core/errors/application.error';
-
 export const ridesService = {
   async findAllRides(
     queryDto: RideQueryTypeInput,

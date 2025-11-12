@@ -1,8 +1,8 @@
 import { body } from 'express-validator';
 
-import { ResourceEnum } from '../../types/resources-enum';
+import { Resources } from '../../types/resources-enum';
 
-export function resourceEnumValidation(resourceType: ResourceEnum) {
+export function resourceEnumValidation(resourceType: Resources) {
   return body('data.type')
     .isString()
     .equals(resourceType)

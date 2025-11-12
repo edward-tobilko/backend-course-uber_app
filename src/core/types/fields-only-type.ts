@@ -1,5 +1,5 @@
-// ? ClassFieldsOnly - гарантирует, что в dto только поля, без методов.
-export type ClassFieldsOnly<T> = {
+// ? FieldsOnly - гарантирует, что в dto только поля, без методов.
+export type FieldsOnly<T> = {
   [K in keyof T as T[K] extends Function ? never : K]: T[K];
 };
 

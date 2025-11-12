@@ -1,7 +1,7 @@
 import { ObjectId, WithId } from 'mongodb';
 
-import { ClassFieldsOnly } from '../../core/types/fields-only-type';
-import { DriverDomainDtoAttributes } from './driver-domain-dto-attributes';
+import { FieldsOnly } from '../../core/types/fields-only-type';
+import { DriverDomainDtoAttributes } from './driver-dto.domain';
 
 export enum VehicleFeatureEnum {
   WiFi = 'wi-fi',
@@ -26,7 +26,7 @@ export class Driver {
   createdAt: Date;
   updatedAt: Date;
 
-  private constructor(dto: ClassFieldsOnly<Driver>) {
+  private constructor(dto: FieldsOnly<Driver>) {
     this.name = dto.name;
     this.phoneNumber = dto.phoneNumber;
     this.email = dto.email;
@@ -74,7 +74,7 @@ export class Driver {
     this.updatedAt = new Date();
   }
 
-  static reconstitute(dto: ClassFieldsOnly<Driver>): WithId<Driver> {
+  static reconstitute(dto: FieldsOnly<Driver>): WithId<Driver> {
     const instance = new Driver(dto);
 
     return instance as WithId<Driver>;

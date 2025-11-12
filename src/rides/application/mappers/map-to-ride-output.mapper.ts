@@ -1,15 +1,13 @@
 import { WithId } from 'mongodb';
 
-import { RideTypeAttributes } from '../output/ride-data-type.output';
-import { ResourceEnum } from '../../../core/types/resources-enum';
-import { RideTypeOutput } from '../output/ride-type.output';
+import { RideAttributes } from '../../domain/ride.domain';
+import { Resources } from '../../../core/types/resources-enum';
+import { RideOutput } from '../output/ride-type.output';
 
-export function mapToRideOutputMapper(
-  ride: WithId<RideTypeAttributes>,
-): RideTypeOutput {
+export function mapToRideOutput(ride: WithId<RideAttributes>): RideOutput {
   return {
     data: {
-      type: ResourceEnum.Rides,
+      type: Resources.Rides,
       id: ride._id.toString(),
       attributes: {
         clientName: ride.clientName,
@@ -25,11 +23,11 @@ export function mapToRideOutputMapper(
   };
 }
 
-// ? MongoDB створює поле _id (типу ObjectId), яке фронтенду краще бачити як id: string.
+// ? MongoDB создает поле _id (типа ObjectId), которое фронтенду лучше видеть как id: string.
 
-// ? Ця функція:
-// ? - конвертує _id → id (у форматі string),
-// ? - фільтрує або реорганізовує дані під потрібний фронтенд формат,
-// ? - приховує зайві внутрішні поля (як __v, _id, passwordHash і т.п.).
+// ? Эта функция:
+// ? - конвертирует _id → id (в формате string),
+// ? - фильтрует или реорганизует данные под нужный фронтенд-формат,
+// ? - скрывает лишние внутренние поля (как __v, _id, passwordHash и т.п.).
 
-// ? Це best practice: завжди робити mapper (DTO/ViewModel) між базовими моделями і тими, що повертаються клієнту.
+// ? Это best practice: всегда делать mapper (DTO/ViewModel) между базовыми моделями и теми, которые возвращаются клиенту.

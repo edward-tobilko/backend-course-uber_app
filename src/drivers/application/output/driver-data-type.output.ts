@@ -1,8 +1,8 @@
-import { ResourceEnum } from '../../../core/types/resources-enum';
-import { VehicleFeatureEnum } from '../../domain/driver';
+import { Resources } from '../../../core/types/resources-enum';
+import { VehicleFeatureEnum } from '../../domain/driver.domain';
 
 export type DriverDataTypeOutput = {
-  type: ResourceEnum.Drivers;
+  type: Resources.Drivers;
   id: string;
   attributes: {
     name: string;
@@ -20,4 +20,4 @@ export type DriverDataTypeOutput = {
   };
 };
 
-// ? DriverDataTypeOutput — це структура документа в базі (“backend-level” модел, яка зберігається, наприклад, у MongoDB).
+// ? DriverDataTypeOutput — это структура документа в базе («backend-level» модель, которая хранится, например, в MongoDB).

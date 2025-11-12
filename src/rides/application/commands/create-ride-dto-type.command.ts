@@ -1,9 +1,9 @@
-import { CurrencyEnum } from '../output/ride-data-type.output';
+import { Currency } from '../../domain/ride.domain';
 
 export type CreateRideDtoCommand = {
   clientName: string;
   price: number;
-  currency: CurrencyEnum;
+  currency: Currency;
   driverId: string;
   fromAddress: string;
   toAddress: string;

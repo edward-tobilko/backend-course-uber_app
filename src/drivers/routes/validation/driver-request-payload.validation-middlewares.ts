@@ -1,9 +1,9 @@
 import { body } from 'express-validator';
 
 import { resourceEnumValidation } from '../../../core/middlewares/validation/resource-enum-validation.middleware';
-import { ResourceEnum } from '../../../core/types/resources-enum';
+import { Resources } from '../../../core/types/resources-enum';
 import { dataIdBodyValidation } from '../../../core/middlewares/validation/params-id-validation.middleware';
-import { VehicleFeatureEnum } from '../../domain/driver';
+import { VehicleFeatureEnum } from '../../domain/driver.domain';
 
 const nameValidation = body('data.attributes.name')
   .isString()
@@ -85,10 +85,10 @@ const vehicleFeaturesValidation = body('data.attributes.vehicleFeatures')
   });
 
 export const createDriverRequestPayloadValidation = [
-  // data.type
-  resourceEnumValidation(ResourceEnum.Drivers),
+  // * data.type
+  resourceEnumValidation(Resources.Drivers),
 
-  // data.attributes
+  // * data.attributes
   nameValidation,
   phoneNumberValidation,
   emailValidation,
@@ -102,7 +102,7 @@ export const createDriverRequestPayloadValidation = [
 
 export const updateDriverRequestPayloadValidation = [
   // *data.type
-  resourceEnumValidation(ResourceEnum.Drivers),
+  resourceEnumValidation(Resources.Drivers),
 
   // * data.id
   dataIdBodyValidation,

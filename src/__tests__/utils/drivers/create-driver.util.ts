@@ -9,7 +9,7 @@ import { HTTP_STATUS_CODES } from '../../../core/utils/http-statuses';
 import { DriverTypeOutput } from '../../../drivers/application/output/driver-type.output';
 import { DriverCreateTypeInput } from '../../../drivers/routes/request-payloads/create-driver-request.payload';
 import { ResourceEnum } from '../../../core/types/resources-enum';
-import { DriverDtoTypeAttributes } from '../../../drivers/domain/driver-domain-dto-attributes';
+import { DriverDtoTypeAttributes } from '../../../drivers/domain/driver-dto.domain';
 
 export async function createDriverUtil(
   app: Express,
