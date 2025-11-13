@@ -1,10 +1,10 @@
 import { WithId } from 'mongodb';
 
-import { DriverTypeOutput } from '../output/driver-type.output';
+import { DriverOutput } from '../output/driver-type.output';
 import { Driver } from '../../domain/driver.domain';
 import { Resources } from '../../../core/types/resources-enum';
 
-export const mapToDriverOutput = (driver: WithId<Driver>): DriverTypeOutput => {
+export const mapToDriverOutput = (driver: WithId<Driver>): DriverOutput => {
   return {
     data: {
       type: Resources.Drivers,

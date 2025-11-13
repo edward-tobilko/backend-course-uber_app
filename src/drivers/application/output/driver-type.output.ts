@@ -1,5 +1,5 @@
-import { DriverDataTypeOutput } from './driver-data-type.output';
+import { DriverDataOutput } from './driver-data-type.output';
 
-export type DriverTypeOutput = {
-  data: DriverDataTypeOutput;
+export type DriverOutput = {
+  data: DriverDataOutput;
 };

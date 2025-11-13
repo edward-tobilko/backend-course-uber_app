@@ -1,8 +1,8 @@
 import { body } from 'express-validator';
 
-import { ResourceEnum } from '../../core/types/resources-enum';
-import { CurrencyEnum } from '../application/output/ride-data-type.output';
+import { Resources } from '../../core/types/resources-enum';
 import { resourceEnumValidation } from '../../core/middlewares/validation/resource-enum-validation.middleware';
+import { Currency } from '../domain/ride.domain';
 
 export const clientNameValidation = body('data.attributes.clientName')
   .exists()
@@ -38,9 +38,9 @@ export const currencyValidation = body('data.attributes.currency')
   .isString()
   .withMessage('Currency should be string')
   .trim()
-  .isIn(Object.values(CurrencyEnum)) // Проверка на допустимые значения
+  .isIn(Object.values(Currency)) // Проверка на допустимые значения
   .withMessage(
-    `Currency must be one of: ${Object.values(CurrencyEnum).join(', ')}`,
+    `Currency must be one of: ${Object.values(Currency).join(', ')}`,
   );
 
 export const startAddressValidation = body('data.attributes.fromAddress')
@@ -65,7 +65,7 @@ export const endAddressValidation = body('data.attributes.toAddress')
 
 export const rideCreateInputDtoValidation = [
   // * data.type
-  resourceEnumValidation(ResourceEnum.Rides),
+  resourceEnumValidation(Resources.Rides),
 
   // * data.attributes
   clientNameValidation,

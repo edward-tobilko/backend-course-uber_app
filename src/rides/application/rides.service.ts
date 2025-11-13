@@ -1,73 +1,72 @@
-import { WithId } from 'mongodb';
+import { ApplicationResult } from '../../core/result/application-result';
+import { createErrorApplicationResult } from '../../core/result/create-error-application-result';
+import { WithMeta } from '../../core/types/with-meta-type';
+import { DriversRepository } from '../../drivers/repositories/drivers.repository';
+import { DriverErrorCode } from '../../drivers/routes/request-payloads/driver-errors-request.payload';
+import { Ride } from '../domain/ride.domain';
+import { RidesRepository } from '../repositories/rides.repository';
+import { CreateRideDtoCommand } from './commands/ride-dto-type.commands';
 
-export const ridesService = {
-  async findAllRides(
-    queryDto: RideQueryTypeInput,
-  ): Promise<{ items: WithId<RideTypeAttributes>[]; totalCount: number }> {
-    return ridesRepository.findAllRidesRepo(queryDto);
-  },
+class RidesService {
+  constructor(
+    private driversRepo = new DriversRepository(),
+    private ridesRepo = new RidesRepository(),
+  ) {}
 
-  async findRidesByDriver(
-    driverId: string,
-    queryDto: RideQueryTypeInput,
-  ): Promise<{ items: WithId<RideTypeAttributes>[]; totalCount: number }> {
-    await driversRepository.findDriverByIdOrFailRepo(driverId);
+  async createNewRide(
+    command: WithMeta<CreateRideDtoCommand>,
+  ): Promise<ApplicationResult<{ id: string } | null>> {
+    const dto = command.payload;
 
-    return ridesRepository.findRidesByDriverRepo(driverId, queryDto);
-  },
-
-  async findRideByIdOrFail(id: string): Promise<WithId<RideTypeAttributes>> {
-    return ridesRepository.findRideByIdOrFailRepo(id);
-  },
-
-  async createNewRide(dto: RideDtoTypeAttributes): Promise<string> {
-    const driver = await driversRepository.findDriverByIdOrFailRepo(
+    const driver = await this.driversRepo.findDriverByIdOrFailRepo(
       dto.driverId,
     );
 
     // * Если у водителя сейчас есть заказ, то создать новую поездку нельзя
-    const activeRide = await ridesRepository.findActiveRideByDriverIdRepo(
+    const activeRide = await this.ridesRepo.findActiveRideByDriverIdRepo(
       dto.driverId,
     );
 
     if (activeRide) {
-      throw new DomainError(
+      return createErrorApplicationResult(
         `Driver has an active ride. Complete or cancel the ride first`,
+        DriverErrorCode.HasActiveRide,
+        command.meta.throwError,
       );
     }
 
-    const newRide: RideTypeAttributes = {
-      clientName: dto.clientName,
-      driver: {
-        id: dto.driverId,
-        name: driver.name,
-      },
-      vehicle: {
-        licensePlate: driver.vehicle.licensePlate,
-        name: `${driver.vehicle.make} - ${driver.vehicle.model}`,
-      },
-      price: dto.price,
-      currency: dto.currency,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      startedAt: new Date(),
-      finishedAt: null,
-      addresses: {
-        from: dto.fromAddress,
-        to: dto.toAddress,
-      },
-    };
+    const newRide = Ride.createRide({
+      ...dto,
+      driverName: driver.name,
+      vehicleLicensePlate: driver.vehicle.licensePlate,
+      vehicleMake: driver.vehicle.make,
+      vehicleModel: driver.vehicle.model,
+    });
 
-    return await ridesRepository.createNewRideRepo(newRide);
-  },
+    const createdRide = await this.ridesRepo.saveRideRepo(newRide);
 
-  async finishRide(rideId: string) {
-    const ride = await ridesRepository.findRideByIdOrFailRepo(rideId);
+    return new ApplicationResult({ data: { id: createdRide._id!.toString() } });
+  }
+
+  async finishRide(command: WithMeta<{ rideId: string }>) {
+    const { payload: dto, meta } = command;
+
+    const ride = await this.ridesRepo.findRideByIdOrFailRepo(dto.rideId);
 
     if (ride.finishedAt) {
-      throw new DomainError(`Ride is already finished at ${ride.finishedAt}`);
+      return createErrorApplicationResult(
+        `Ride is already finished at ${ride.finishedAt}`,
+        DriverErrorCode.AlreadyFinished,
+        meta.throwError,
+      );
     }
 
-    await ridesRepository.finishRideRepo(rideId, new Date());
-  },
-};
+    ride.finishRide();
+
+    await this.ridesRepo.saveRideRepo(ride);
+
+    return new ApplicationResult({ data: null });
+  }
+}
+
+export const ridesService = new RidesService();

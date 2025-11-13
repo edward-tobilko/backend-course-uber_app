@@ -1,16 +1,16 @@
 import { Collection, Db, MongoClient } from 'mongodb';
 
 import { SETTINGS_MONGO_DB } from '../core/settings-mongoDB/settings-mongo.db';
-import { RideAttributes } from '../rides/domain/ride.domain';
-import { DriverDomainDtoAttributes } from '../drivers/domain/driver-dto.domain';
+import { Ride } from '../rides/domain/ride.domain';
+import { Driver } from '../drivers/domain/driver.domain';
 
 let client: MongoClient;
 
 const DRIVER_COLLECTION_NAME = 'drivers';
 const RIDE_COLLECTION_NAME = 'rides';
 
-export let driverCollection: Collection<DriverDomainDtoAttributes>;
-export let rideCollection: Collection<RideAttributes>;
+export let driverCollection: Collection<Driver>;
+export let rideCollection: Collection<Ride>;
 
 // * Подключения к бд
 export async function runDB(url: string): Promise<void> {
@@ -22,10 +22,8 @@ export async function runDB(url: string): Promise<void> {
     const dataBase: Db = client.db(SETTINGS_MONGO_DB.DB_NAME);
 
     // * Инициализация коллекций
-    driverCollection = dataBase.collection<DriverDomainDtoAttributes>(
-      DRIVER_COLLECTION_NAME,
-    );
-    rideCollection = dataBase.collection<RideAttributes>(RIDE_COLLECTION_NAME);
+    driverCollection = dataBase.collection<Driver>(DRIVER_COLLECTION_NAME);
+    rideCollection = dataBase.collection<Ride>(RIDE_COLLECTION_NAME);
 
     await dataBase.command({ ping: 1 });
 

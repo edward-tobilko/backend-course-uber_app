@@ -1,14 +1,14 @@
 import { WithId } from 'mongodb';
 
-import { DriverDataTypeOutput } from '../output/driver-data-type.output';
-import { DriverListPaginatedTypeOutput } from '../output/driver-list-paginated-type.output';
+import { DriverDataOutput } from '../output/driver-data-type.output';
+import { DriverListPaginatedOutput } from '../output/driver-list-paginated-type.output';
 import { Driver } from '../../domain/driver.domain';
 import { Resources } from '../../../core/types/resources-enum';
 
 export function mapToDriverListPaginatedOutput(
   driversAttributes: WithId<Driver>[],
   meta: { pageNumber: number; pageSize: number; totalCount: number },
-): DriverListPaginatedTypeOutput {
+): DriverListPaginatedOutput {
   return {
     meta: {
       page: meta.pageNumber,
@@ -17,7 +17,7 @@ export function mapToDriverListPaginatedOutput(
       totalCount: meta.totalCount,
     },
     data: driversAttributes.map(
-      (driver): DriverDataTypeOutput => ({
+      (driver): DriverDataOutput => ({
         type: Resources.Drivers,
         id: driver._id.toString(),
         attributes: {
@@ -32,5 +32,5 @@ export function mapToDriverListPaginatedOutput(
   };
 }
 
-// ? meta - Містить інформацію про поточну сторінку, розмір сторінки, загальну кількість елементів і кількість сторінок.
-// ? data - Містить самі дані (список водіїв).
+// ? meta - Содержит информацию о текущей странице, размере страницы, общем количестве элементов и количестве страниц.
+// ? data - Содержит сами данные (список водителей).

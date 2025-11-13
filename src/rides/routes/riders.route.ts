@@ -1,21 +1,21 @@
 import { Router } from 'express';
 
-import { getRidesListHandler } from './handlers/get-rides-list.handler';
-import { createRideHandler } from './handlers/create-ride.handler';
+import { getRidesListHandler } from './http-handlers/get-rides-list.handler';
+import { createRideHandler } from './http-handlers/create-ride.handler';
 import { adminGuardMiddlewareAuth } from '../../auth/middlewares/admin-guard.middleware';
-import { getRideHandler } from './handlers/get-ride.handler';
+import { getRideHandler } from './http-handlers/get-ride.handler';
 import { idParamValidation } from '../../core/middlewares/validation/params-id-validation.middleware';
 import { inputValidationResultMiddleware } from '../../core/middlewares/validation/input-validation-result.middleware';
-import { finishRideHandler } from './handlers/finish-ride.handler';
+import { finishRideHandler } from './http-handlers/finish-ride.handler';
 import { rideCreateInputDtoValidation } from '../validation/ride-input-dto-validation.middleware';
 import { paginationAndSortingValidation } from '../../core/middlewares/validation/query-pagination-sorting-validation.middleware';
-import { RideSortFieldEnumInput } from './input/ride-sort-field-enum.input';
+import { RideSortField } from './request-type-payloads/ride-sort-field-enum';
 
 export const ridesRoute = Router({});
 
 ridesRoute.get(
   '',
-  paginationAndSortingValidation(RideSortFieldEnumInput),
+  paginationAndSortingValidation(RideSortField),
   getRidesListHandler,
 );
 ridesRoute.get(

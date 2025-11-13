@@ -13,4 +13,4 @@ export type RideDtoDomain = {
   vehicleModel: string;
 };
 
-// ? dto (Data Transfer Object) - то, что присылает клиент.
+// ? dto (Data Transfer Object) - внутренняя доменная модель, где мы явно сохраняем данные, необходимые для создания сущности Ride).

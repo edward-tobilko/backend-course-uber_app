@@ -77,7 +77,7 @@ export class Ride {
     return Promise.resolve(instance as WithId<Ride>);
   }
 
-  finish() {
+  finishRide() {
     this.updatedAt = new Date();
     this.finishedAt = new Date();
   }

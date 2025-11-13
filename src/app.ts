@@ -33,16 +33,16 @@ export const setupApp = (app: Express) => {
   return app;
 };
 
-// ? 1 - Резюме потоку даних від сервера до клієнта: (service -> repository -> mapper -> handler -> router):
-// ? - Клієнт надсилає запит → GET /drivers
-// ? - Контролер (getDriverListHandler) викликає driversRepository.findAll()
-// ? - Repository дістає документи з MongoDB (driverCollection.find().toArray())
-// ? - Mapper (mapToDriverViewModelUtil) конвертує _id → id і прибирає технічні поля
-// ? - Контролер повертає JSON клієнту
+// ? 1 - Резюме потока данных от сервера к клиенту: (service -> repository -> mapper -> handler -> router):
+// ? - Клиент отправляет запрос → GET /drivers
+// ? - Контроллер (getDriverListHandler) вызывает driversRepository.findAll()
+// ? - Repository получает документы из MongoDB (driverCollection.find().toArray())
+// ? - Mapper (mapToDriverViewModelUtil) конвертирует _id → id и убирает технические поля
+// ? - Контроллер возвращает JSON клиенту
 
-// ? 2- Потік даних виглядає так (DriverInputDto -> validation -> DriverType -> DriverViewModelType):
-// ? - Клієнт шле тіло запиту у форматі DriverInputDto.
-// ? - Контролер приймає цей DTO, робить валідацію.
-// ? - Repository/Service перетворює DTO → DriverType (наприклад, групує vehicle-поля в один об’єкт).
-// ? - Зберігає у MongoDB як DriverType.
-// ? - Коли віддає назад клієнту → мапить DriverType → DriverViewModelType (щоб _id став id).
+// ? 2- Поток данных выглядит так (DriverDto -> validation -> DriverType -> DriverViewModelType):
+// ? - Клиент отправляет тело запроса в формате DriverDto.
+// ? - Контроллер принимает этот DTO, выполняет валидацию.
+// ? - Repository/Service преобразует DTO → DriverType (например, группирует vehicle-поля в один объект).
+// ? - Сохраняет в MongoDB как DriverType.
+// ? - Когда возвращает обратно клиенту → мапит DriverType → DriverViewModelType (чтобы _id стал id).

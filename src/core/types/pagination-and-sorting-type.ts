@@ -4,7 +4,7 @@ import { SortDirection } from './sort-direction-enum';
 export type PaginationAndSorting<S> = {
   pageNumber: number; // Текущий номер страницы
   pageSize: number;
-  sortBy: S; // Available values -> see RideSortFieldEnumInput or DriverSortFieldInputEnum
+  sortBy: S; // Available values -> see RideSortField or DriverSortField
   sortDirection: SortDirection;
 };
 

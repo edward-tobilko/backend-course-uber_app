@@ -15,6 +15,11 @@ export class RidesRepository {
     return Ride.reconstitute(ride);
   }
 
+  // * метод для поиска активной поездки водителя по id
+  async findActiveRideByDriverIdRepo(driverId: string): Promise<Ride | null> {
+    return rideCollection.findOne({ driverId, finishedAt: null });
+  }
+
   async saveRideRepo(newRide: Ride): Promise<Ride> {
     if (!newRide._id) {
       // или создаем
@@ -44,30 +49,5 @@ export class RidesRepository {
 
       return newRide;
     }
-  }
-
-  // * метод для поиска активной поездки водителя по id
-  async findActiveRideByDriverIdRepo(driverId: string): Promise<Ride | null> {
-    return rideCollection.findOne({ driverId, finishedAt: null });
-  }
-
-  async finishRideRepo(rideId: string, finishedAt: Date) {
-    const updateResult = await rideCollection.updateOne(
-      {
-        _id: new ObjectId(rideId),
-      },
-      {
-        $set: {
-          finishedAt,
-          updatedAt: new Date(),
-        },
-      },
-    );
-
-    if (updateResult.matchedCount < 1) {
-      throw new Error('Ride is not exist');
-    }
-
-    return;
   }
 }

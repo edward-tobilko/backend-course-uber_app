@@ -1,10 +1,10 @@
 import { WithId } from 'mongodb';
 
-import { RideAttributes } from '../../domain/ride.domain';
+import { Ride } from '../../domain/ride.domain';
 import { Resources } from '../../../core/types/resources-enum';
 import { RideOutput } from '../output/ride-type.output';
 
-export function mapToRideOutput(ride: WithId<RideAttributes>): RideOutput {
+export function mapToRideOutput(ride: WithId<Ride>): RideOutput {
   return {
     data: {
       type: Resources.Rides,

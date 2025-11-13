@@ -1,5 +1,5 @@
 import { Resources } from '../../../core/types/resources-enum';
-import { CreateRideDtoCommand } from '../../application/commands/create-ride-dto-type.command';
+import { CreateRideDtoCommand } from '../../application/commands/ride-dto-type.commands';
 
 type CreateRideAttributes = CreateRideDtoCommand;
 

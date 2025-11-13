@@ -1,7 +1,7 @@
 import { PaginatedOutput } from '../../../core/types/paginated-type.output';
-import { DriverDataTypeOutput } from './driver-data-type.output';
+import { DriverDataOutput } from './driver-data-type.output';
 
-export type DriverListPaginatedTypeOutput = {
+export type DriverListPaginatedOutput = {
   meta: PaginatedOutput;
-  data: DriverDataTypeOutput[];
+  data: DriverDataOutput[];
 };

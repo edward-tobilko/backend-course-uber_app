@@ -1,6 +1,6 @@
 import { DriverQueryRepository } from '../repositories/driver-query.repository';
-import { DriverListPaginatedTypeOutput } from './output/driver-list-paginated-type.output';
-import { DriverTypeOutput } from './output/driver-type.output';
+import { DriverListPaginatedOutput } from './output/driver-list-paginated-type.output';
+import { DriverOutput } from './output/driver-type.output';
 import { GetDriverListQuery } from './query-handlers/get-driver-list-type.query';
 
 class DriverQueryService {
@@ -12,11 +12,11 @@ class DriverQueryService {
 
   async getDriverList(
     queryDto: GetDriverListQuery,
-  ): Promise<DriverListPaginatedTypeOutput> {
+  ): Promise<DriverListPaginatedOutput> {
     return this.driverQueryRepository.findAllQueryRepo(queryDto);
   }
 
-  async findDriverByIdOrFail(driverId: string): Promise<DriverTypeOutput> {
+  async findDriverByIdOrFail(driverId: string): Promise<DriverOutput> {
     return this.driverQueryRepository.findDriverByIdOrFailQueryRepo(driverId);
   }
 }

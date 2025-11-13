@@ -1,9 +1,8 @@
 import { Request, Response } from 'express';
 
 import { errorsHandler } from '../../../core/errors/errors.handler';
-import { ridesService } from '../../../rides/application/rides.service';
-import { mapToRideListPaginatedOutput } from '../../../rides/application/mappers/map-to-ride-list-paginated-output.mapper';
 import { GetRideListRequestPayload } from '../../../rides/routes/request-type-payloads/get-ride-list.request-payload';
+import { ridesQueryService } from '../../../rides/application/rides-query.service';
 
 export async function getDriverRidesListHandler(
   req: Request<{ id: string }, {}, {}, GetRideListRequestPayload>,
@@ -13,19 +12,12 @@ export async function getDriverRidesListHandler(
     const driverId = req.params.id;
     const queryInput = req.query;
 
-    // * Приводимо типи до number, так як значення з query приходять строкою
-    const pageNumber = Number(queryInput.pageNumber) || 1;
-    const pageSize = Number(queryInput.pageSize) || 10;
+    const ridesListOutput = await ridesQueryService.findRidesByDriver(
+      driverId,
+      queryInput,
+    );
 
-    const data = await ridesService.findRidesByDriver(driverId, queryInput);
-
-    const rideListOutput = mapToRideListPaginatedOutput(data.items, {
-      pageNumber,
-      pageSize,
-      totalCount: data.totalCount,
-    });
-
-    res.json(rideListOutput);
+    res.json(ridesListOutput);
   } catch (error: unknown) {
     errorsHandler(error, res);
   }

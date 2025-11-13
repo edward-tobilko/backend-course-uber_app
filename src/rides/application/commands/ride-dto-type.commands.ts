@@ -9,4 +9,4 @@ export type CreateRideDtoCommand = {
   toAddress: string;
 };
 
-// ? dto (Data Transfer Object) - то, что присылает клиент.
+// ? dto (Data Transfer Object) - то, что присылает клиент (по внешнему запросу).

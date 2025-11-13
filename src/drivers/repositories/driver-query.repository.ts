@@ -2,8 +2,8 @@ import { ObjectId } from 'mongodb';
 
 import { driverCollection } from '../../db/mongo.db';
 import { mapToDriverListPaginatedOutput } from '../application/mappers/map-to-driver-list-paginated-output.mapper';
-import { DriverListPaginatedTypeOutput } from '../application/output/driver-list-paginated-type.output';
-import { DriverTypeOutput } from '../application/output/driver-type.output';
+import { DriverListPaginatedOutput } from '../application/output/driver-list-paginated-type.output';
+import { DriverOutput } from '../application/output/driver-type.output';
 import { DriverListRequestPayload } from '../routes/request-payloads/driver-list-request.payload';
 import { RepositoryNotFoundError } from '../../core/errors/repository-not-found.error';
 import { mapToDriverOutput } from '../application/mappers/map-to-driver-output.mapper';
@@ -12,7 +12,7 @@ export class DriverQueryRepository {
   // * Найти всех водителей
   async findAllQueryRepo(
     queryDto: DriverListRequestPayload,
-  ): Promise<DriverListPaginatedTypeOutput> {
+  ): Promise<DriverListPaginatedOutput> {
     const {
       pageNumber,
       pageSize,
@@ -60,9 +60,7 @@ export class DriverQueryRepository {
   }
 
   // * Найти водителя по ID
-  async findDriverByIdOrFailQueryRepo(
-    driverId: string,
-  ): Promise<DriverTypeOutput> {
+  async findDriverByIdOrFailQueryRepo(driverId: string): Promise<DriverOutput> {
     const driver = await driverCollection.findOne({
       _id: new ObjectId(driverId),
     });

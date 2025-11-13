@@ -1,10 +1,9 @@
 import { RidesRepository } from '../../rides/repositories/rides.repository';
-import { ApplicationError } from '../../core/errors/application.error';
 import { DriversRepository } from '../repositories/drivers.repository';
 import {
-  CreateDriverCommand,
-  UpdateDriverCommand,
-} from './commands/driver-type.commands';
+  CreateDriverDtoCommand,
+  UpdateDriverDtoCommand,
+} from './commands/driver-dto-type.commands';
 import { WithMeta } from '../../core/types/with-meta-type';
 import { ApplicationResult } from '../../core/result/application-result';
 import { Driver } from '../domain/driver.domain';
@@ -21,7 +20,7 @@ class DriversService {
   }
 
   async create(
-    command: WithMeta<CreateDriverCommand>,
+    command: WithMeta<CreateDriverDtoCommand>,
   ): Promise<ApplicationResult<{ id: string } | null>> {
     // * создаем нового водителя
     const newDriver = Driver.createDriver(command.payload);
@@ -36,7 +35,7 @@ class DriversService {
   }
 
   async update(
-    command: WithMeta<UpdateDriverCommand>,
+    command: WithMeta<UpdateDriverDtoCommand>,
   ): Promise<ApplicationResult<null>> {
     const { id, ...driverDomainDto } = command.payload;
 
