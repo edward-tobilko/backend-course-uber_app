@@ -13,7 +13,7 @@ class DriverQueryService {
   async getDriverList(
     queryDto: GetDriverListQuery,
   ): Promise<DriverListPaginatedOutput> {
-    return this.driverQueryRepository.findAllQueryRepo(queryDto);
+    return this.driverQueryRepository.findAllDriversQueryRepo(queryDto);
   }
 
   async findDriverByIdOrFail(driverId: string): Promise<DriverOutput> {

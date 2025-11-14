@@ -10,7 +10,7 @@ import { mapToDriverOutput } from '../application/mappers/map-to-driver-output.m
 
 export class DriverQueryRepository {
   // * Найти всех водителей
-  async findAllQueryRepo(
+  async findAllDriversQueryRepo(
     queryDto: DriverListRequestPayload,
   ): Promise<DriverListPaginatedOutput> {
     const {
@@ -45,7 +45,7 @@ export class DriverQueryRepository {
       .skip((pageNumber - 1) * pageSize)
 
       // * limit - ограничивает количество возвращаемых документов до значения pageSize
-      .limit(pageSize)
+      .limit(Number(pageSize))
       .toArray();
 
     const totalCount = await driverCollection.countDocuments(filter);
@@ -72,3 +72,10 @@ export class DriverQueryRepository {
     return mapToDriverOutput(driver);
   }
 }
+
+// ? driverCollection — это ссылка на коллекцию MongoDB (например, db.collection(„drivers“)).
+// ? .find(filter) — это метод MongoDB, который возвращает все документы в коллекции с уже отфильтрованными объектами.
+// ? .toArray() — преобразует курсор (MongoDB Cursor) в массив объектов.
+// ? sort — сортирует данные по заданному полю и направлению.
+// ? skip — пропускает элементы, чтобы выбрать нужную страницу.
+// ? limit — ограничивает количество элементов на странице.

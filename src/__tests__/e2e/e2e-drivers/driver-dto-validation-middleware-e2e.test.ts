@@ -11,11 +11,11 @@ import { getDriverByIdUtil } from '../../utils/drivers/get-driver-by-id.util';
 import { getDriverDtoUtil } from '../../utils/drivers/get-driver-dto.util';
 import { runDB, stopDB } from '../../../db/mongo.db';
 import { SETTINGS_MONGO_DB } from '../../../core/settings-mongoDB/settings-mongo.db';
-import { DriverDtoTypeAttributes } from '../../../drivers/domain/driver-dto.domain';
-import { ResourceEnum } from '../../../core/types/resources-enum';
-import { DriverCreateTypeInput } from '../../../drivers/routes/request-payloads/create-driver-request.payload';
-import { DriverUpdateTypeInput } from '../../../drivers/routes/request-payloads/update-driver-request.payload';
-import { VehicleFeatureEnum } from '../../../drivers/application/output/driver-data-type.output';
+import { DriverDomainDtoAttributes } from '../../../drivers/domain/driver-dto.domain';
+import { Resources } from '../../../core/types/resources-enum';
+import { CreateDriverRequestPayload } from '../../../drivers/routes/request-payloads/create-driver-request.payload';
+import { UpdateDriverRequestPayload } from '../../../drivers/routes/request-payloads/update-driver-request.payload';
+import { VehicleFeatureEnum } from '../../../drivers/domain/driver.domain';
 
 describe('Driver API body validation check', () => {
   const app = express();
@@ -23,7 +23,7 @@ describe('Driver API body validation check', () => {
 
   const adminToken = generateBasicAuthToken();
 
-  const correctTestDriverAttributes: DriverDtoTypeAttributes =
+  const correctTestDriverAttributes: DriverDomainDtoAttributes =
     getDriverDtoUtil();
 
   beforeAll(async () => {
@@ -36,9 +36,9 @@ describe('Driver API body validation check', () => {
   });
 
   it('POST: /api/drivers -> should not create driver when incorrect body passed - 401 and 400', async () => {
-    const correctTestDriverData: DriverCreateTypeInput = {
+    const correctTestDriverData: CreateDriverRequestPayload = {
       data: {
-        type: ResourceEnum.Drivers,
+        type: Resources.Drivers,
         attributes: correctTestDriverAttributes,
       },
     };
@@ -129,9 +129,9 @@ describe('Driver API body validation check', () => {
     );
     const createdDriverId = createdDriver.data.id;
 
-    const correctTestDriverData: DriverUpdateTypeInput = {
+    const correctTestDriverData: UpdateDriverRequestPayload = {
       data: {
-        type: ResourceEnum.Drivers,
+        type: Resources.Drivers,
         id: createdDriverId,
         attributes: correctTestDriverAttributes,
       },
@@ -219,9 +219,9 @@ describe('Driver API body validation check', () => {
       correctTestDriverAttributes,
     );
 
-    const correctTestDriverData: DriverUpdateTypeInput = {
+    const correctTestDriverData: UpdateDriverRequestPayload = {
       data: {
-        type: ResourceEnum.Drivers,
+        type: Resources.Drivers,
         id: createdDriver.data.id,
         attributes: correctTestDriverAttributes,
       },

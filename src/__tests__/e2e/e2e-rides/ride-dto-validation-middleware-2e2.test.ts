@@ -8,9 +8,9 @@ import { HTTP_STATUS_CODES } from '../../../core/utils/http-statuses';
 import { generateBasicAuthToken } from '../../utils/generate-admin-auth-token';
 import { runDB, stopDB } from '../../../db/mongo.db';
 import { SETTINGS_MONGO_DB } from '../../../core/settings-mongoDB/settings-mongo.db';
-import { ResourceEnum } from '../../../core/types/resources-enum';
-import { CurrencyEnum } from '../../../rides/application/output/ride-data-type.output';
+import { Resources } from '../../../core/types/resources-enum';
 import { createRideUtil } from '../../utils/rides/create-ride.uti';
+import { Currency } from '../../../rides/domain/ride.domain';
 
 describe('Ride API body validation check', () => {
   const app = express();
@@ -39,7 +39,7 @@ describe('Ride API body validation check', () => {
       .set('Authorization', adminToken)
       .send({
         data: {
-          type: ResourceEnum.Rides,
+          type: Resources.Rides,
           attributes: {
             clientName: '   ', // empty string
             price: 'bla bla', // not a number
@@ -59,7 +59,7 @@ describe('Ride API body validation check', () => {
       .set('Authorization', adminToken)
       .send({
         data: {
-          type: ResourceEnum.Rides,
+          type: Resources.Rides,
           attributes: {
             clientName: 'LA', // short string
             price: 0, // can not be 0
@@ -79,12 +79,12 @@ describe('Ride API body validation check', () => {
       .set('Authorization', adminToken)
       .send({
         data: {
-          type: ResourceEnum.Rides,
+          type: Resources.Rides,
           attributes: {
             driverId: 5000, //driver should exist
             clientName: 'Sam',
             price: 100,
-            currency: CurrencyEnum.USD,
+            currency: Currency.USD,
             fromAddress: 'test address',
             toAddress: 'test address',
           },

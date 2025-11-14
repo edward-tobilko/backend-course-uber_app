@@ -11,9 +11,9 @@ export function mapToDriverListPaginatedOutput(
 ): DriverListPaginatedOutput {
   return {
     meta: {
-      page: meta.pageNumber,
-      pageSize: meta.pageSize,
-      pageCount: Math.ceil(meta.totalCount / meta.pageSize),
+      page: Number(meta.pageNumber),
+      pageSize: Number(meta.pageSize),
+      pageCount: Math.ceil(meta.totalCount / Number(meta.pageSize)),
       totalCount: meta.totalCount,
     },
     data: driversAttributes.map(
@@ -32,5 +32,5 @@ export function mapToDriverListPaginatedOutput(
   };
 }
 
-// ? meta - Содержит информацию о текущей странице, размере страницы, общем количестве элементов и количестве страниц.
-// ? data - Содержит сами данные (список водителей).
+// ? meta - Содержит информацию о текущей странице: размере страницы, общем количестве элементов и количестве страниц.
+// ? data - Содержит сами данные: список водителей.

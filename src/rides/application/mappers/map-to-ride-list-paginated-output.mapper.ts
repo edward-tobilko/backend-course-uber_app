@@ -10,9 +10,9 @@ export const mapToRideListPaginatedOutput = (
 ): RideListPaginatedOutput => {
   return {
     meta: {
-      page: meta.pageNumber,
-      pageSize: meta.pageSize,
-      pageCount: Math.ceil(meta.totalCount / meta.pageSize),
+      page: Number(meta.pageNumber),
+      pageSize: Number(meta.pageSize),
+      pageCount: Math.ceil(meta.totalCount / Number(meta.pageSize)),
       totalCount: meta.totalCount,
     },
     data: rideAttributes.map((ride) => ({

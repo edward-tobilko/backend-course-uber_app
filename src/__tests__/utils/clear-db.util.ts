@@ -12,4 +12,4 @@ export const clearDB = async (app: Express) => {
   return;
 };
 
-// ? request(app).delete('') - це типу клієнт робить запит на наший енд поінт delete по цьому урлу '/testing/all-data'
+// ? request(app).delete('') - клиент делает запрос на наш энд-поинт delete по этому урлу „/testing/all-data“.

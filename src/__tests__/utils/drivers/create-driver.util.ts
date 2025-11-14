@@ -6,18 +6,18 @@ import { getDriverDtoUtil } from './get-driver-dto.util';
 import { DRIVERS_PATH } from '../../../core/paths/paths';
 import { generateBasicAuthToken } from '../generate-admin-auth-token';
 import { HTTP_STATUS_CODES } from '../../../core/utils/http-statuses';
-import { DriverTypeOutput } from '../../../drivers/application/output/driver-type.output';
-import { DriverCreateTypeInput } from '../../../drivers/routes/request-payloads/create-driver-request.payload';
-import { ResourceEnum } from '../../../core/types/resources-enum';
-import { DriverDtoTypeAttributes } from '../../../drivers/domain/driver-dto.domain';
+import { DriverOutput } from '../../../drivers/application/output/driver-type.output';
+import { CreateDriverRequestPayload } from '../../../drivers/routes/request-payloads/create-driver-request.payload';
+import { Resources } from '../../../core/types/resources-enum';
+import { DriverDomainDtoAttributes } from '../../../drivers/domain/driver-dto.domain';
 
 export async function createDriverUtil(
   app: Express,
-  driverDto?: Partial<DriverDtoTypeAttributes>,
-): Promise<WithId<DriverTypeOutput>> {
-  const testDriverData: DriverCreateTypeInput = {
+  driverDto?: Partial<DriverDomainDtoAttributes>,
+): Promise<WithId<DriverOutput>> {
+  const testDriverData: CreateDriverRequestPayload = {
     data: {
-      type: ResourceEnum.Drivers,
+      type: Resources.Drivers,
       attributes: { ...getDriverDtoUtil(), ...driverDto },
     },
   };
@@ -31,5 +31,5 @@ export async function createDriverUtil(
   return createdDriverResponse.body;
 }
 
-// ? driverDto? - в параметрах приймає input, який ми будемо додавати в основному тесті, при створенні нового драйвера (амперсант "?" означає можемо додавати, а можемо ні).
-// ? Partial<DriverTypeAttributes> - дає змогу додавати поля опційно, а не наприклад весь обʼєкт DriverTypeAttributes.
+// ? driverDto? - в параметрах принимает input, который мы будем добавлять в основном тесте при создании нового драйвера (амперсанд «?» означает, что мы можем добавлять, а можем и нет).
+// ? Partial<DriverDomainDtoAttributes> - позволяет добавлять поля опционально, а не, например, весь объект DriverDomainDtoAttributes.

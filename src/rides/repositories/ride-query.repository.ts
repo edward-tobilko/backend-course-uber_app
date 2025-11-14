@@ -25,7 +25,7 @@ export class RideQueryRepository {
         .find(filter)
         .sort({ [sortBy]: sortDirection })
         .skip((pageNumber - 1) * pageSize)
-        .limit(pageSize)
+        .limit(Number(pageSize))
         .toArray(),
 
       rideCollection.countDocuments(filter),

@@ -11,9 +11,9 @@ import { createDriverUtil } from '../../utils/drivers/create-driver.util';
 import { getDriverByIdUtil } from '../../utils/drivers/get-driver-by-id.util';
 import { runDB, stopDB } from '../../../db/mongo.db';
 import { SETTINGS_MONGO_DB } from '../../../core/settings-mongoDB/settings-mongo.db';
-import { DriverDtoTypeAttributes } from '../../../drivers/domain/driver-dto.domain';
-import { VehicleFeatureEnum } from '../../../drivers/application/output/driver-data-type.output';
+import { DriverDomainDtoAttributes } from '../../../drivers/domain/driver-dto.domain';
 import { updateDriverUtil } from '../../utils/drivers/update-driver.util';
+import { VehicleFeatureEnum } from '../../../drivers/domain/driver.domain';
 
 describe('E2E: Drivers API', () => {
   const app = express();
@@ -74,18 +74,18 @@ describe('E2E: Drivers API', () => {
   });
 
   it('DELETE: /api/drivers/:id and check after NOT FOUND - 404 and 204', async () => {
-    // * 1. створюємо драйвера
+    // * 1. создаем драйвера
     const createdDriver = await createDriverUtil(app);
 
     expect(typeof createdDriver.data.id).toBe('string');
 
-    // * 2. Видаляємо
+    // * 2. Удаляем
     await request(app)
       .delete(`${DRIVERS_PATH}/${createdDriver.data.id}`)
       .set('Authorization', adminToken)
       .expect(HTTP_STATUS_CODES.NO_CONTENT_204);
 
-    // * 3. Отримуємо відповідь
+    // * 3. Получаем ответ
     await request(app)
       .get(`${DRIVERS_PATH}/${createdDriver.data.id}`)
       .expect(HTTP_STATUS_CODES.NOT_FOUND_404);
@@ -96,7 +96,7 @@ describe('E2E: Drivers API', () => {
       name: 'Another Driver',
     });
 
-    const driverUpdateData: DriverDtoTypeAttributes = {
+    const driverUpdateData: DriverDomainDtoAttributes = {
       name: 'Updated Name',
       phoneNumber: '999-888-7777',
       email: 'updated@example.com',

@@ -6,21 +6,21 @@ import { generateBasicAuthToken } from '../generate-admin-auth-token';
 import { HTTP_STATUS_CODES } from '../../../core/utils/http-statuses';
 import { getRideDtoUtil } from './get-ride-dto.util';
 import { createDriverUtil } from '../drivers/create-driver.util';
-import { RideDtoTypeAttributes } from '../../../rides/application/dto/ride-dto-type.attributes';
-import { RideTypeOutput } from '../../../rides/application/output/ride-type.output';
-import { ResourceEnum } from '../../../core/types/resources-enum';
+import { RideOutput } from '../../../rides/application/output/ride-type.output';
+import { Resources } from '../../../core/types/resources-enum';
+import { CreateRideDtoCommand } from '../../../rides/application/commands/ride-dto-type.commands';
 
 export async function createRideUtil(
   app: Express,
-  rideDto?: Partial<RideDtoTypeAttributes>,
-): Promise<RideTypeOutput> {
+  rideDto?: Partial<CreateRideDtoCommand>,
+): Promise<RideOutput> {
   const driver = await createDriverUtil(app);
 
   const defaultRideDataDto = getRideDtoUtil(driver.data.id);
 
   const testRideData = {
     data: {
-      type: ResourceEnum.Rides,
+      type: Resources.Rides,
       attributes: { ...defaultRideDataDto, ...rideDto },
     },
   };
@@ -34,5 +34,5 @@ export async function createRideUtil(
   return createdRideResponse.body;
 }
 
-// ? rideDto? - в параметрах приймає input, який ми будемо додавати в основному тесті, при створенні нової поїздки (амперсант "?" означає можемо додавати, а можемо ні).
-// ? Partial<RideDtoTypeAttributes> - дає змогу додавати поля опційно, а не наприклад весь обʼєкт RideDtoTypeAttributes.
+// ? rideDto? — в параметрах принимает input, который мы будем добавлять в основном тесте при создании новой поездки (амперсанд «?» означает, что мы можем добавлять, а можем и нет).
+// ? Partial<CreateRideDtoCommand> — позволяет добавлять поля опционально, а не, например, весь объект CreateRideDtoCommand.

@@ -1,7 +1,7 @@
-import { DriverDtoTypeAttributes } from '../../../drivers/domain/driver-dto.domain';
-import { VehicleFeatureEnum } from '../../../drivers/application/output/driver-data-type.output';
+import { DriverDomainDtoAttributes } from '../../../drivers/domain/driver-dto.domain';
+import { VehicleFeatureEnum } from '../../../drivers/domain/driver.domain';
 
-export const getDriverDtoUtil = (): DriverDtoTypeAttributes => {
+export const getDriverDtoUtil = (): DriverDomainDtoAttributes => {
   return {
     name: 'Valentin',
     phoneNumber: '123-456-7890',

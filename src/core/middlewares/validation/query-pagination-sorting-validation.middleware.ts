@@ -6,7 +6,7 @@ import { SortDirection } from '../../types/sort-direction-enum';
 // * Дефолтные значения
 export const DEFAULT_PAGE_NUMBER = 1;
 export const DEFAULT_PAGE_SIZE = 10;
-const DEFAULT_SORT_BY = 'createdAt';
+const DEFAULT_SORT_BY = 'createdAt' as const;
 const DEFAULT_SORT_DIRECTION = SortDirection.Desc; // "desc"
 
 export const paginationAndSortingDefault: PaginationAndSorting<string> = {
@@ -17,12 +17,14 @@ export const paginationAndSortingDefault: PaginationAndSorting<string> = {
 };
 
 export function paginationAndSortingValidation<T extends string>(
-  sortFieldsEnum: Record<string, T>, // Record<string, T> - тип объекта, где ключи типа string, значения типа Т
+  sortFields: Record<string, T>, // Record<string, T> - тип объекта, где ключи типа string, значения типа Т
 ) {
   return [
     query('pageNumber')
       .customSanitizer((value) =>
-        value === undefined || value === '' ? DEFAULT_PAGE_NUMBER : value,
+        value === undefined || value === ''
+          ? DEFAULT_PAGE_NUMBER
+          : Number(value),
       )
       .isInt({ min: 1 })
       .toInt()
@@ -30,7 +32,7 @@ export function paginationAndSortingValidation<T extends string>(
 
     query('pageSize')
       .customSanitizer((value) =>
-        value === undefined || value === '' ? DEFAULT_PAGE_SIZE : value,
+        value === undefined || value === '' ? DEFAULT_PAGE_SIZE : Number(value),
       )
       .isInt({ min: 1, max: 100 })
       .toInt()
@@ -39,12 +41,12 @@ export function paginationAndSortingValidation<T extends string>(
     query('sortBy')
       .customSanitizer((value) =>
         value === undefined || value === ''
-          ? Object.values(sortFieldsEnum)[0] // Дефолтное значение - первое поле
-          : value,
+          ? Object.values(sortFields)[0] // Дефолтное значение - первое поле
+          : String(value),
       )
-      .isIn(Object.values(sortFieldsEnum))
+      .isIn(Object.values(sortFields))
       .withMessage(
-        `Allowed sort fields: ${Object.values(sortFieldsEnum).join(', ')}`,
+        `Allowed sort fields: ${Object.values(sortFields).join(', ')}`,
       ),
 
     query('sortDirection')
