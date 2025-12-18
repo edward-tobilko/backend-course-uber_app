@@ -6,6 +6,7 @@ import { setDefaultSortAndPaginationIfNotExist } from '../../../core/helpers/set
 import { DriverListRequestPayload } from '../request-payloads/driver-list-request.payload';
 import { driversQueryService } from '../../application/driver-query.service';
 import { DriverSortField } from '../request-payloads/driver-sort-field-enum';
+import { HTTP_STATUS_CODES } from '../../../core/utils/http-statuses';
 
 export async function getDriverListHandler(
   req: Request<{}, {}, {}, DriverListRequestPayload>,
@@ -24,7 +25,7 @@ export async function getDriverListHandler(
       `Drivers: ${driverListOutput.data.map((item) => item.attributes.name)}`,
     );
 
-    res.json(driverListOutput);
+    res.status(HTTP_STATUS_CODES.OK_200).json(driverListOutput);
   } catch (error: unknown) {
     errorsHandler(error, res);
   }

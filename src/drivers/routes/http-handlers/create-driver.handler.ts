@@ -7,13 +7,16 @@ import { CreateDriverRequestPayload } from '../request-payloads/create-driver-re
 import { errorsHandler } from '../../../core/errors/errors.handler';
 import { createCommand } from '../../../core/helpers/create-command';
 import { driversQueryService } from '../../application/driver-query.service';
+import { CreateDriverDtoCommand } from '../../application/commands/driver-dto-type.commands';
 
 export async function createDriverHandler(
   req: Request<{}, {}, CreateDriverRequestPayload>,
   res: Response,
 ) {
   try {
-    const command = createCommand(req.body.data.attributes);
+    const command = createCommand<CreateDriverDtoCommand>(
+      req.body.data.attributes,
+    );
 
     const result = await driversService.create(command);
 

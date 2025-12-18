@@ -29,6 +29,7 @@ driversRoute.get(
   inputValidationResultMiddleware,
   getDriverListHandler,
 );
+
 driversRoute.get(
   `/:id`,
   idParamValidation,
