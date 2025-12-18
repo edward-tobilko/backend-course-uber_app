@@ -1,6 +1,6 @@
 import { query } from 'express-validator';
 
-const searchTermQueryMiddlewareValidation = (fieldName: string) => {
+export const searchTermQueryMiddlewareValidation = (fieldName: string) => {
   return query(fieldName)
     .customSanitizer((queryValue: unknown) =>
       typeof queryValue === 'string' ? queryValue.trim() : queryValue,

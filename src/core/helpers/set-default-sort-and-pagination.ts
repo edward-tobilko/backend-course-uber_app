@@ -9,7 +9,7 @@ export function setDefaultSortAndPaginationIfNotExist<P = string>(
     ...queryParam,
     pageNumber: queryParam.pageNumber ?? paginationAndSortingDefault.pageNumber,
     pageSize: queryParam.pageSize ?? paginationAndSortingDefault.pageSize,
-    sortBy: (queryParam.sortBy ?? paginationAndSortingDefault.sortBy) as S,
+    sortBy: (queryParam.sortBy ?? paginationAndSortingDefault.sortBy) as P,
     sortDirection:
       queryParam.sortDirection ??
       (paginationAndSortingDefault.sortDirection as SortDirection),
