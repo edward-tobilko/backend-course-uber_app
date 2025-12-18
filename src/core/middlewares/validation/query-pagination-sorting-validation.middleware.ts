@@ -3,7 +3,7 @@ import { query } from 'express-validator';
 import { PaginationAndSorting } from '../../types/pagination-and-sorting-type';
 import { SortDirection } from '../../types/sort-direction-enum';
 
-// * Дефолтные значения
+// * Дэфолтные значения
 export const DEFAULT_PAGE_NUMBER = 1;
 export const DEFAULT_PAGE_SIZE = 10;
 const DEFAULT_SORT_BY = 'createdAt' as const;

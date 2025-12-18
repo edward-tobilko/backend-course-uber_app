@@ -7,16 +7,23 @@ import { DriverListRequestPayload } from '../request-payloads/driver-list-reques
 import { driversQueryService } from '../../application/driver-query.service';
 import { DriverSortField } from '../request-payloads/driver-sort-field-enum';
 import { HTTP_STATUS_CODES } from '../../../core/utils/http-statuses';
+import { matchedData } from 'express-validator';
 
 export async function getDriverListHandler(
   req: Request<{}, {}, {}, DriverListRequestPayload>,
   res: Response,
 ) {
   try {
+    const sanitizedQueryParam = matchedData<DriverListRequestPayload>(req, {
+      locations: ['query'],
+      includeOptionals: false, // в data будут только те поля, которые реально пришли в запросе и прошли валидацию
+    });
+
     // * в req.query остаются сырые параметры запроса (строки)
-    const queryInput = setDefaultSortAndPaginationIfNotExist<DriverSortField>(
-      req.query,
-    );
+    const queryInput =
+      setDefaultSortAndPaginationIfNotExist<DriverSortField>(
+        sanitizedQueryParam,
+      );
 
     const driverListOutput =
       await driversQueryService.getDriverList(queryInput);

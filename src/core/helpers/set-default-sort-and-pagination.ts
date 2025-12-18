@@ -1,13 +1,18 @@
 import { paginationAndSortingDefault } from '../middlewares/validation/query-pagination-sorting-validation.middleware';
 import { PaginationAndSorting } from '../types/pagination-and-sorting-type';
+import { SortDirection } from '../types/sort-direction-enum';
 
 export function setDefaultSortAndPaginationIfNotExist<P = string>(
-  query: PaginationAndSorting<P>,
+  queryParam: PaginationAndSorting<P>,
 ): PaginationAndSorting<P> {
   return {
-    ...paginationAndSortingDefault,
-    ...query,
-    sortBy: (query.sortBy ?? paginationAndSortingDefault.sortBy) as P,
+    ...queryParam,
+    pageNumber: queryParam.pageNumber ?? paginationAndSortingDefault.pageNumber,
+    pageSize: queryParam.pageSize ?? paginationAndSortingDefault.pageSize,
+    sortBy: (queryParam.sortBy ?? paginationAndSortingDefault.sortBy) as S,
+    sortDirection:
+      queryParam.sortDirection ??
+      (paginationAndSortingDefault.sortDirection as SortDirection),
   };
 }
 

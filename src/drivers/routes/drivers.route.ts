@@ -16,6 +16,7 @@ import { paginationAndSortingValidation } from '../../core/middlewares/validatio
 import { DriverSortField } from './request-payloads/driver-sort-field-enum';
 import { getDriverRidesListHandler } from './http-handlers/get-driver-rides-list.handler';
 import { RideSortField } from '../../rides/routes/request-type-payloads/ride-sort-field-enum';
+import { searchTermsQueryValidation } from '../../core/middlewares/validation/search-term-query.middleware-validation';
 
 export const driversRoute = Router({});
 
@@ -25,7 +26,8 @@ export const driversRoute = Router({});
 // ? method GET
 driversRoute.get(
   '',
-  paginationAndSortingValidation(DriverSortField),
+  paginationAndSortingValidation<DriverSortField>(DriverSortField),
+  searchTermsQueryValidation,
   inputValidationResultMiddleware,
   getDriverListHandler,
 );
@@ -39,7 +41,7 @@ driversRoute.get(
 driversRoute.get(
   `/:id/rides`,
   idParamValidation,
-  paginationAndSortingValidation(RideSortField),
+  paginationAndSortingValidation<RideSortField>(RideSortField),
   inputValidationResultMiddleware,
   getDriverRidesListHandler,
 );
