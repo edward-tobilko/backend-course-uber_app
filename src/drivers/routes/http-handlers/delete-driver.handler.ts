@@ -19,3 +19,5 @@ export async function deleteDriverHandler(
     errorsHandler(error, res);
   }
 }
+
+// ? Request<Params, ResBody, ReqBody, Query>

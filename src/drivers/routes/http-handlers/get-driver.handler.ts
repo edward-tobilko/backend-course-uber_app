@@ -18,3 +18,5 @@ export async function getDriverHandler(
     errorsHandler(e, res);
   }
 }
+
+// ? Request<Params, ResBody, ReqBody, Query>

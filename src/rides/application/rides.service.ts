@@ -48,7 +48,9 @@ class RidesService {
     return new ApplicationResult({ data: { id: createdRide._id!.toString() } });
   }
 
-  async finishRide(command: WithMeta<{ rideId: string }>) {
+  async finishRide(
+    command: WithMeta<{ rideId: string }>,
+  ): Promise<ApplicationResult<null>> {
     const { payload: dto, meta } = command;
 
     const ride = await this.ridesRepo.findRideByIdOrFailRepo(dto.rideId);

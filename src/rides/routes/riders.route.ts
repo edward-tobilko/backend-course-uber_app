@@ -13,11 +13,13 @@ import { RideSortField } from './request-type-payloads/ride-sort-field-enum';
 
 export const ridesRoute = Router({});
 
+// * GET
 ridesRoute.get(
   '',
-  paginationAndSortingValidation(RideSortField),
+  paginationAndSortingValidation<RideSortField>(RideSortField),
   getRidesListHandler,
 );
+
 ridesRoute.get(
   '/:id',
   idParamValidation,
@@ -25,6 +27,7 @@ ridesRoute.get(
   getRideHandler,
 );
 
+// * POST
 ridesRoute.post(
   '',
   adminGuardMiddlewareAuth,
@@ -32,6 +35,7 @@ ridesRoute.post(
   inputValidationResultMiddleware,
   createRideHandler,
 );
+
 ridesRoute.post(
   '/:id/actions/finish',
   adminGuardMiddlewareAuth,

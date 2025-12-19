@@ -1,13 +1,14 @@
 import { query } from 'express-validator';
 
-export const searchTermQueryMiddlewareValidation = (fieldName: string) => {
+const searchTermQueryMiddlewareValidation = (fieldName: string) => {
   return query(fieldName)
     .customSanitizer((queryValue: unknown) =>
       typeof queryValue === 'string' ? queryValue.trim() : queryValue,
     )
     .optional({ checkFalsy: true })
     .isString()
-    .withMessage(`${fieldName} must be a string`);
+    .matches(/^[\p{L}\s'-]+$/u)
+    .withMessage(`${fieldName} must contain only letters`);
 };
 
 export const searchTermsQueryValidation = [

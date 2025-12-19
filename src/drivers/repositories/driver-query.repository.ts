@@ -23,23 +23,41 @@ export class DriverQueryRepository {
       searchVehicleMakeTerm,
     } = queryDto;
 
-    const filter = {
-      // * встроенные операторы mongodb $regex и $options, 'i' - для игнорирования регистра
-      $or: [
-        { name: { $regex: searchDriverNameTerm ?? '', $options: 'i' } },
-        { email: { $regex: searchDriverEmailTerm ?? '', $options: 'i' } },
-      ],
-      ...(searchVehicleMakeTerm
-        ? { 'vehicle.make': { $regex: searchVehicleMakeTerm, $options: 'i' } }
-        : {}),
-    };
+    const nameTerm = searchDriverNameTerm ? searchDriverNameTerm.trim() : null;
+    const emailTerm = searchDriverEmailTerm
+      ? searchDriverEmailTerm.trim()
+      : null;
+    const vehicleMakeTerm = searchVehicleMakeTerm
+      ? searchVehicleMakeTerm.trim()
+      : null;
+
+    let filter: Record<string, unknown> = {};
+
+    // * встроенные операторы mongodb $regex и $options, 'i' - для игнорирования регистра
+    if (nameTerm) {
+      filter = {
+        name: { $regex: nameTerm, $options: 'i' },
+      };
+    }
+
+    if (emailTerm) {
+      filter = {
+        email: { $regex: emailTerm, $options: 'i' },
+      };
+    }
+
+    if (vehicleMakeTerm) {
+      filter = {
+        ['vehicle.make']: { $regex: vehicleMakeTerm, $options: 'i' },
+      };
+    }
 
     const items = await driverCollection
       .find(filter)
 
       // * "asc" (по возрастанию), то mongo используется 1
       // * "desc" — то -1 для сортировки по убыванию. - по алфавиту от Я-А, Z-A
-      .sort({ [sortBy]: sortDirection })
+      .sort({ [sortBy]: sortDirection === 'asc' ? 1 : -1 })
 
       // * пропускаем определённое количество док. перед тем, как вернуть нужный набор данных: Например, страница 3, pageSize=10 → пропускает 20 документов.
       .skip((pageNumber - 1) * pageSize)

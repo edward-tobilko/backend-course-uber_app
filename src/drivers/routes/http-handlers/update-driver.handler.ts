@@ -23,3 +23,5 @@ export async function updateDriverHandler(
     errorsHandler(error, res);
   }
 }
+
+// ? Request<Params, ResBody, ReqBody, Query>
