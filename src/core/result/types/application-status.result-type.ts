@@ -1,4 +1,4 @@
-export enum ApplicationResultStatusEnum {
+export enum ApplicationResultStatus {
   Success = 'success',
   Error = 'error',
 }

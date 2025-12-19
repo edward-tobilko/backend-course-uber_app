@@ -1,5 +1,5 @@
 import { ApplicationError } from '../errors/application.error';
-import { ApplicationResult } from './application-result';
+import { ApplicationResult } from './application.result';
 
 export function createErrorApplicationResult(
   message: string,

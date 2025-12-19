@@ -1,5 +1,5 @@
-import { ApplicationResult } from '../../core/result/application-result';
-import { createErrorApplicationResult } from '../../core/result/create-error-application-result';
+import { ApplicationResult } from '../../core/result/application.result';
+import { createErrorApplicationResult } from '../../core/result/create-error-application.result';
 import { WithMeta } from '../../core/types/with-meta-type';
 import { DriversRepository } from '../../drivers/repositories/drivers.repository';
 import { DriverErrorCode } from '../../drivers/routes/request-payloads/driver-errors-request.payload';
